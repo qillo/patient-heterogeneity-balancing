@@ -11,11 +11,9 @@ from typing import Dict, List
 # Type alias for clarity: each fold is a dict with three lists of patient IDs (str)
 Fold = Dict[str, List[str]]  # {'train': [...], 'val': [...], 'test': [...]}
 
-dataset_name = "DiaTrend"
-path_read_data = 'c:/Users/Ciro/C/_UGR_PDI/RELIEF-T1D/windows/Extra_Fields/'
-path_to_save_folds = 'c:/Users/Ciro/C/_UGR_PDI/RELIEF-T1D/windows/Extra_Fields/folds/'
-horizon_list = [2, 4, 6, 8]
-
+dataset_name = "_FILL_"
+path_read_data = path_to_save_folds = '_FILL_'
+horizon = 4
 
 
 # Functions -------------------------
@@ -250,57 +248,53 @@ def tag_folds_and_save(
 
     return df_tagged
 
+print(f"\nReading data file from {path_read_data} for horizon {horizon}...")
+df_windows = pd.read_parquet(f"{path_read_data}/windows_horizon_{dataset_name}_{horizon}.parquet")
+unique_patient_ids = df_windows['patient_id'].unique()
+num_patients = len(unique_patient_ids)
 
-for horizon in horizon_list:
-    print(f"\nReading data file from {path_read_data} for horizon {horizon}...")
-    df_windows = pd.read_parquet(f"{path_read_data}windows_horizon_{dataset_name}_{horizon}.parquet")
-    unique_patient_ids = df_windows['patient_id'].unique()
-    num_patients = len(unique_patient_ids)
+# Count the number of windows per patient and convert to a dictionary
+patient_number_windows_dict = (
+    df_windows
+    .groupby("patient_id")  # group all rows that share the same ID
+    .size()  # count rows per group
+    .astype(int)  # ensure Python int, not numpy int64
+    .to_dict()  # ==> { 'ID_1': n1, 'ID_2': n2, ... }
+)
 
-    # Count the number of windows per patient and convert to a dictionary
-    patient_number_windows_dict = (
-        df_windows
-        .groupby("patient_id")  # group all rows that share the same ID
-        .size()  # count rows per group
-        .astype(int)  # ensure Python int, not numpy int64
-        .to_dict()  # ==> { 'ID_1': n1, 'ID_2': n2, ... }
-    )
+# Create folds using the greedy split function
+folds_split = make_folds_greedy_splits_valanced_priority(patient_number_windows_dict,
+                                                            seed=42)
 
-    # Create folds using the greedy split function
-    folds_split = make_folds_greedy_splits_valanced_priority(patient_number_windows_dict,
-                                                             seed=42)
+# Print statistics of the folds created
+print(f'\n ------- Statistics of folds created for horizon: {horizon}-------')
+for i, fold in enumerate(folds_split):
+    print(f"\n---- Fold {i + 1}: -----")
+    print("-- Totals --")
+    print(
+        f"  Train: {len(fold['train'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['train'])}")
+    print(
+        f"  Val:   {len(fold['val'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['val'])}")
+    print(
+        f"  Test:  {len(fold['test'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['test'])}")
 
-    # Print statistics of the folds created
-    print(f'\n ------- Statistics of folds created for horizon: {horizon}-------')
-    for i, fold in enumerate(folds_split):
-        print(f"\n---- Fold {i + 1}: -----")
-        print("-- Totals --")
-        print(
-            f"  Train: {len(fold['train'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['train'])}")
-        print(
-            f"  Val:   {len(fold['val'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['val'])}")
-        print(
-            f"  Test:  {len(fold['test'])} patients. Total windows: {sum(patient_number_windows_dict[pid] for pid in fold['test'])}")
+    print("\n -- Percentages --")
+    print(
+        f"  Train: {(len(fold['train']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['train']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
+    print(
+        f"  Val:   {(len(fold['val']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['val']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
+    print(
+        f"  Test:  {(len(fold['test']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['test']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
 
-        print("\n -- Percentages --")
-        print(
-            f"  Train: {(len(fold['train']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['train']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
-        print(
-            f"  Val:   {(len(fold['val']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['val']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
-        print(
-            f"  Test:  {(len(fold['test']) / num_patients * 100):.2f} percentage of patients. Percentage of windows: {(sum(patient_number_windows_dict[pid] for pid in fold['test']) / sum(patient_number_windows_dict.values()) * 100):.2f}%")
+print(f'\nEnd of statistics for folds created for horizon: {horizon}')
 
-    print(f'\nEnd of statistics for folds created for horizon: {horizon}')
+# Validate the folds created
+validate_folds(folds=folds_split, patient_measurements=patient_number_windows_dict, horizon=horizon)
 
-    # Validate the folds created
-    validate_folds(folds=folds_split, patient_measurements=patient_number_windows_dict, horizon=horizon)
-
-    # save_folds_as_parquet(df_windows, folds_split, "c:/Users/Ciro/C/_UGR_PDI/RELIEF-T1D/folds/")
-
-    # Save the folds as Parquet files
-    tag_folds_and_save(df_windows=df_windows,
-                       folds=folds_split,
-                       output_path=path_to_save_folds,
-                       filename=f'windows_with_folds_{dataset_name}_PH{horizon}',
-                       horizon=horizon,
-                       column_prefix='fold_')
+# Save the folds as Parquet files
+tag_folds_and_save(df_windows=df_windows,
+                    folds=folds_split,
+                    output_path=path_to_save_folds,
+                    filename=f'windows_with_folds_{dataset_name}_PH{horizon}',
+                    horizon=horizon,
+                    column_prefix='fold_')

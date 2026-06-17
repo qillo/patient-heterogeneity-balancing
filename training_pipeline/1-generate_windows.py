@@ -4,14 +4,13 @@ import os
 
 # Windows creation parameters -----------------------
 history_length = 8  # 120 min
-horizons = [2, 4, 6, 8]  # 2 for 30 min, 4 for 60 min
-# horizons = [2]
+horizon = 4
 deduplicate_intra_patient = True  # Remove duplicated instances in a patient
 
-path_to_load_data = 'c:/Users/Ciro/C/_UGR_PDI/RELIEF-T1D/Datasets/2025-12-05/Preprocessed/diatrend/Final_versions_V4/Filtered_for_prediction/Glucose_measurements_FILTERED_2025-11-20.parquet'
-path_to_save_windows = 'c:/Users/Ciro/C/_UGR_PDI/RELIEF-T1D/windows/Extra_Fields/'
+path_to_load_data = '_FILL_'
+path_to_save_windows = '_FILL_'
 
-dataset_name = "DiaTrend"
+dataset_name = "_FILL_"
 
 # Windows creation parameters END -----------------------
 
@@ -26,25 +25,25 @@ df_data = pd.read_parquet(path_to_load_data)
 df_valid_rows = df_data[df_data['15min'].notna()]
 
 # Sort columns by 'Patient_ID' and '15min'
-df_valid_rows = df_valid_rows.sort_values(by=['Patient_ID', '15min'])
+df_valid_rows = df_valid_rows.sort_values(by=['patient_id', '15min'])
 df_valid_rows.reset_index(drop=True, inplace=True)  # Reset index after filtering
 
 # Group by 'Patient_ID' and convert 'Measurement' to numpy array
 patient_dict = {
-    pid: group['Measurement'].to_numpy()
-    for pid, group in df_valid_rows.groupby('Patient_ID')
+    pid: group['measurement'].to_numpy()
+    for pid, group in df_valid_rows.groupby('patient_id')
 }
 
 # Group by 'Patient_ID' and convert '15min' to numpy array of dates
 date_dict = {
     pid: group['15min'].dt.date.to_numpy()
-    for pid, group in df_valid_rows.groupby('Patient_ID')
+    for pid, group in df_valid_rows.groupby('patient_id')
 }
 
 # Group by 'Patient_ID' and convert '15min' to numpy array of times
 time_dict = {
     pid: group['15min'].dt.time.to_numpy()
-    for pid, group in df_valid_rows.groupby('Patient_ID')
+    for pid, group in df_valid_rows.groupby('patient_id')
 }
 
 print(f"Number of patients with valid data: {len(patient_dict)}")
@@ -105,7 +104,7 @@ def get_windows_one_step_walk_forward(bgl_measurement_dict,
         # Input: x0 a x7, Output: y, Date: x_date_{last column of x}, Time: x_time_{last column of x}. The date and time
         # columns are named with the last column of x to indicate that they correspond to the date and time of the last
         # measurement in the input window.
-        new_cols = [f"x{i}" for i in range(8)] + ["y"] + [f"x_date_{x.shape[1] - 1}"] + [f"x_time_{x.shape[1] - 1}"]
+        new_cols = [f"x{i}" for i in range(history_length)] + ["y"] + [f"x_date_{x.shape[1] - 1}"] + [f"x_time_{x.shape[1] - 1}"]
         df_set.columns = new_cols
         df_set['patient_id'] = patient_id
 
@@ -122,7 +121,7 @@ def get_windows_one_step_walk_forward(bgl_measurement_dict,
         # Search for duplicated rows within each patient_id group and mark them as duplicates but only on the input and
         # output columns (x0 to x7 and y), ignoring the date and time columns for duplication. This way, if two rows
         # have the same input and output values but different dates or times, they will be considered duplicates.
-        df_all_patient_set['is_duplicate'] = df_all_patient_set.duplicated(subset=[f"x{i}" for i in range(8)] + ["y"] + ['patient_id'],
+        df_all_patient_set['is_duplicate'] = df_all_patient_set.duplicated(subset=[f"x{i}" for i in range(history_length)] + ["y"] + ['patient_id'],
                                                                            keep='first')
         df_all_patient_set = df_all_patient_set[~df_all_patient_set['is_duplicate']]  # Keep only non-duplicate rows
         df_all_patient_set = df_all_patient_set.drop(columns=['is_duplicate'])  # Drop the helper column
@@ -132,15 +131,14 @@ def get_windows_one_step_walk_forward(bgl_measurement_dict,
     return df_all_patient_set
 
 
-for current_horizon in horizons:
-    print(f"Processing horizon: {current_horizon}")
-    df_windows = get_windows_one_step_walk_forward(bgl_measurement_dict=patient_dict,
-                                                   history_length=history_length,
-                                                   horizon=current_horizon,
-                                                   deduplicate_intra_patient=deduplicate_intra_patient)
+print(f"Processing horizon: {horizon}")
+df_windows = get_windows_one_step_walk_forward(bgl_measurement_dict=patient_dict,
+                                                history_length=history_length,
+                                                horizon=horizon,
+                                                deduplicate_intra_patient=deduplicate_intra_patient)
 
-    # NOTE: Replace with your filepath
-    df_windows.to_parquet(f'{path_to_save_windows}/windows_horizon_{dataset_name}_{current_horizon}.parquet')
-    print(f"Saved windows for horizon {current_horizon} to parquet files.")
-    print("--------------------------------------------------")
-    print()
+# NOTE: Replace with your filepath
+df_windows.to_parquet(f'{path_to_save_windows}/windows_horizon_{dataset_name}_{horizon}.parquet')
+print(f"Saved windows for horizon {horizon} to parquet files.")
+print("--------------------------------------------------")
+print()
