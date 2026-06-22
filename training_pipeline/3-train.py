@@ -80,7 +80,6 @@ maximum_sensor_reading = 401 # Diatrend and REPLACE-BG
 minimum_sensor_reading = 39 # Diatrend and REPLACE-BG
 # minimum_sensor_reading = 40 # T1DiabetesGranada
 
-experiment_context = "extra_fields_test"
 # ----------------------- End Config -----------------------
 
 # ----------------------- Console Tee Logic -----------------------
@@ -329,6 +328,20 @@ try:
     info_columns = ['patient_id', 'x_time_7', 'x_date_7']
     k_folds = 5 if do_cross_validation else 1
     
+    '''
+    datasets = ["DiaTrend", "REPLACE-BG", "T1DiabetesGranada"]
+    balancing_methods = ["random", "smoter", "smogn"]
+    balancing_levels = ["full", "semi"]
+
+    for dataset_name, balancing_method, balancing_level in product(
+        datasets,
+        balancing_methods,
+        balancing_levels
+    ):
+
+    experiment_context = f"{dataset_name}_{balancing_method}_{balancing_level}"
+    '''
+
     EXP_DIR = build_experiment_dir(algorithm, loss_function_name, horizon, history_length, experiment_context)
     exp_log_file = None
     try:
@@ -361,6 +374,17 @@ try:
 
             df_train = df[df[f'fold_{i}'] == 'train']
             patients_train_number = df_train['patient_id'].nunique()
+
+            '''
+            train_windows_before = len(df_train)
+            train_patients_before = df_train['patient_id'].nunique()
+
+            # df_train = balance(df_train)
+
+            train_windows_after = len(df_train)
+            train_patients_after = df_train['patient_id'].nunique()
+            '''
+
             df_train = df_train.reset_index(drop=True)[used_columns]
             
             df_val = df[df[f'fold_{i}'] == 'val']
