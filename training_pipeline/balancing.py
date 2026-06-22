@@ -30,11 +30,7 @@ def get_glycemic_range(y):
         return "severe_hyperglycemia"
 
 
-def balance_training_set(
-    df_train: pd.DataFrame,
-    method: str,
-    level: str
-) -> pd.DataFrame:
+def balance_training_set(df_train: pd.DataFrame, method: str, level: str) -> pd.DataFrame:
 
     if method not in ["random", "smoter", "smogn"]:
         raise ValueError("method must be: random, smoter or smogn")
@@ -47,10 +43,47 @@ def balance_training_set(
         raise ValueError("level must be: full or semi")
 
     if method == "random":
-        print("SMOTER is not implemented yet.")
+        return _random_balance(df_train, target_proportions)
 
     elif method == "smoter":
         print("SMOTER is not implemented yet.")
 
     elif method == "smogn":
         print("SMOGN is not implemented yet.")
+
+def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42) -> pd.DataFrame:
+
+    df_train = df_train.copy()
+    df_train["glycemic_range"] = df_train["y"].apply(get_glycemic_range)
+
+    total_target = len(df_train)
+    balanced_parts = []
+
+    for range_name, proportion in target_proportions.items():
+        df_range = df_train[df_train["glycemic_range"] == range_name]
+
+        current_n = len(df_range)
+        target_n = round(total_target * proportion)
+
+        if current_n == 0:
+            print(f"{range_name} has 0 samples. Skipping.")
+            continue
+
+        if current_n > target_n:
+            df_range_balanced = df_range.sample(n=target_n, replace=False, random_state=random_state)
+
+        elif current_n < target_n:
+            extra_n = target_n - current_n
+            df_extra = df_range.sample(n=extra_n, replace=True, random_state=random_state)
+            df_range_balanced = pd.concat([df_range, df_extra],ignore_index=True)
+
+        else:
+            df_range_balanced = df_range
+
+        balanced_parts.append(df_range_balanced)
+
+    df_balanced = pd.concat(balanced_parts, ignore_index=True)
+    df_balanced = df_balanced.sample(frac=1, random_state=random_state).reset_index(drop=True)
+    df_balanced = df_balanced.drop(columns=["glycemic_range"])
+
+    return df_balanced
