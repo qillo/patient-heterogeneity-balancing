@@ -221,6 +221,7 @@ def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_st
             alpha = random_generator.random()
 
             synthetic_values = row_values + alpha * (neighbor_values - row_values)
+            # ToDop: int????
             row[feature_cols] = np.rint(synthetic_values).astype(int)
 
             synthetic_rows.append(row)
