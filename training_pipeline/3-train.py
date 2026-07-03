@@ -330,9 +330,9 @@ try:
     info_columns = ['patient_id', 'x_time_7', 'x_date_7']
     k_folds = 5 if do_cross_validation else 1
     
-    datasets = ["DiaTrend"]
-    balancing_methods = ["smogn"]
-    balancing_levels = ["semi"]
+    datasets = ["DiaTrend", "REPLACE-BG", "T1DiabetesGranada"]
+    balancing_methods = ["random", "smoter", "smogn"]
+    balancing_levels = ["full", "semi"]
 
     for dataset_name, balancing_method, balancing_level in product(
         datasets,
