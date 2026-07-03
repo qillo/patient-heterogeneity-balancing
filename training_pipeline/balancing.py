@@ -19,17 +19,32 @@ FULL_TARGET_PROPORTIONS = {
 }
 
 # HELPERS
-def get_glycemic_range(y):
-    if y < 54:
-        return "severe_hypoglycemia"
-    elif y < 70:
-        return "hypoglycemia"
-    elif y < 181:
-        return "normoglycemia"
-    elif y < 251:
-        return "hyperglycemia"
-    else:
-        return "severe_hyperglycemia"
+def add_glycemic_range(df: pd.DataFrame) -> pd.DataFrame:
+    df = df.copy()
+
+    conditions = [
+        df["y"] < 54,
+        (df["y"] >= 54) & (df["y"] < 70),
+        (df["y"] >= 70) & (df["y"] < 181),
+        (df["y"] >= 181) & (df["y"] < 251),
+        df["y"] >= 251,
+    ]
+
+    choices = [
+        "severe_hypoglycemia",
+        "hypoglycemia",
+        "normoglycemia",
+        "hyperglycemia",
+        "severe_hyperglycemia",
+    ]
+
+    df["glycemic_range"] = np.select(
+        conditions,
+        choices,
+        default="unknown"
+    )
+
+    return df
 
 def get_target_counts(total: int, target_proportions: dict) -> dict:
     target_counts = {
@@ -78,8 +93,7 @@ def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_sta
 
     # Add distribution summary before balancing
 
-    df_train = df_train.copy()
-    df_train["glycemic_range"] = df_train["y"].apply(get_glycemic_range)
+    df_train = add_glycemic_range(df_train)
 
     total_target = len(df_train)
     target_counts = get_target_counts(total_target, target_proportions)
@@ -121,8 +135,7 @@ def _smoter_balance(df_train: pd.DataFrame, target_proportions: dict, random_sta
 
     # Add distribution summary before balancing
 
-    df_train = df_train.copy()
-    df_train["glycemic_range"] = df_train["y"].apply(get_glycemic_range)
+    df_train = add_glycemic_range(df_train)
 
     total_target = len(df_train)
     target_counts = get_target_counts(total_target, target_proportions)
@@ -236,8 +249,7 @@ def _smogn_balance(df_train: pd.DataFrame, target_proportions: dict, random_stat
 
     # Add distribution summary before balancing
 
-    df_train = df_train.copy()
-    df_train["glycemic_range"] = df_train["y"].apply(get_glycemic_range)
+    df_train = add_glycemic_range(df_train)
 
     total_target = len(df_train)
     target_counts = get_target_counts(total_target, target_proportions)
