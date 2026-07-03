@@ -1,0 +1,17 @@
+name: patient-heterogeneity
+channels:
+  - conda-forge
+
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - pandas
+  - pyarrow
+  - scikit-learn
+  - scipy
+  - matplotlib
+  - psutil
+  - h5py
+  - pip:
+      - "tensorflow[and-cuda]==2.15.1"
