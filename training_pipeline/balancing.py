@@ -88,8 +88,10 @@ def balance_training_set(df_train: pd.DataFrame, method: str, level: str) -> pd.
     elif method == "smogn":
         return _smogn_balance(df_train, target_proportions)
 
-# DELEGATED FUNCTIONS
-def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42) -> pd.DataFrame:
+### DELEGATED FUNCTIONS
+
+# ABSTRACT BALANCING FUNCTION
+def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversampler, random_state: int = 42, **oversampler_kwargs) -> pd.DataFrame:
 
     # Add distribution summary before balancing
 
@@ -114,7 +116,14 @@ def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_sta
 
         elif current_n < target_n:
             extra_n = target_n - current_n
-            df_extra = df_range.sample(n=extra_n, replace=True, random_state=random_state)
+
+            df_extra = oversampler(
+                df_range=df_range,
+                new_samples=extra_n,
+                random_state=random_state,
+                **oversampler_kwargs
+            )
+
             df_range_balanced = pd.concat([df_range, df_extra], ignore_index=True)
 
         else:
@@ -130,47 +139,39 @@ def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_sta
 
     return df_balanced
 
+# RANDOM
+def _random_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42) -> pd.DataFrame:
+    return _balance_by_range(
+        df_train=df_train,
+        target_proportions=target_proportions,
+        oversampler=_generate_random_samples,
+        random_state=random_state
+    )
+
 # SMOTER
-def _smoter_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42, k_neighbors: int = 5,) -> pd.DataFrame:
+def _smoter_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42, k_neighbors: int = 5) -> pd.DataFrame:
+    return _balance_by_range(
+        df_train=df_train,
+        target_proportions=target_proportions,
+        oversampler=_generate_smoter_samples,
+        random_state=random_state,
+        k_neighbors=k_neighbors
+    )
 
-    # Add distribution summary before balancing
+# SMOGN
+def _smogn_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42, k_neighbors: int = 5, noise_factor: float = 0.05) -> pd.DataFrame:
+    return _balance_by_range(
+        df_train=df_train,
+        target_proportions=target_proportions,
+        oversampler=_generate_smogn_samples,
+        random_state=random_state,
+        k_neighbors=k_neighbors,
+        noise_factor=noise_factor
+    )
 
-    df_train = add_glycemic_range(df_train)
-
-    total_target = len(df_train)
-    target_counts = get_target_counts(total_target, target_proportions)
-
-    balanced_parts = []
-
-    for range_name, target_n in target_counts.items():
-        df_range = df_train[df_train["glycemic_range"] == range_name]
-
-        current_n = len(df_range)
-
-        if current_n == 0:
-            print(f"{range_name} has 0 samples. Skipping.")
-            continue
-
-        if current_n > target_n:
-            df_range_balanced = df_range.sample(n=target_n, replace=False, random_state=random_state)
-
-        elif current_n < target_n:
-            extra_n = target_n - current_n
-            df_synthetic = _generate_smoter_samples(df_range=df_range, new_samples=extra_n, random_state=random_state, k_neighbors=k_neighbors)
-            df_range_balanced = pd.concat([df_range, df_synthetic],ignore_index=True)
-
-        else:
-            df_range_balanced = df_range
-
-        balanced_parts.append(df_range_balanced)
-
-    df_balanced = pd.concat(balanced_parts, ignore_index=True)
-    df_balanced = df_balanced.sample(frac=1,random_state=random_state).reset_index(drop=True)
-    df_balanced = df_balanced.drop(columns=["glycemic_range"])
-
-    # Add distribution summary after balancing
-
-    return df_balanced
+# SAMPLING FUNCTIONS
+def _generate_random_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42) -> pd.DataFrame:
+    return df_range.sample(n=new_samples, replace=True, random_state=random_state).reset_index(drop=True)
 
 def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10) -> pd.DataFrame:
     # Patient-aware
@@ -183,7 +184,7 @@ def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_st
 
     # If no patient has enough samples, fallback to random
     if eligible_counts.empty:
-        return df_range.sample(n=new_samples, replace=True, random_state=random_state,).reset_index(drop=True)
+        return _generate_random_samples(df_range, new_samples, random_state=random_state)
 
     # Allocate new synthetic samples proportionally to each patient's contribution
     raw_allocation = new_samples * eligible_counts / eligible_counts.sum()
@@ -244,50 +245,6 @@ def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_st
 
     return df_synthetic
 
-# SMOGN
-def _smogn_balance(df_train: pd.DataFrame, target_proportions: dict, random_state: int = 42, k_neighbors: int = 10) -> pd.DataFrame:
-
-    # Add distribution summary before balancing
-
-    df_train = add_glycemic_range(df_train)
-
-    total_target = len(df_train)
-    target_counts = get_target_counts(total_target, target_proportions)
-
-    balanced_parts = []
-
-    for range_name, target_n in target_counts.items():
-        df_range = df_train[df_train["glycemic_range"] == range_name]
-
-        current_n = len(df_range)
-
-        if current_n == 0:
-            print(f"{range_name} has 0 samples. Skipping.")
-            continue
-
-        if current_n > target_n:
-            df_range_balanced = df_range.sample(n=target_n, replace=False, random_state=random_state)
-
-        elif current_n < target_n:
-            extra_n = target_n - current_n
-            df_synthetic = _generate_smogn_samples(df_range=df_range new_samples=extra_n, random_state=random_state, k_neighbors=k_neighbors)
-
-            df_range_balanced = pd.concat([df_range, df_synthetic],ignore_index=True)
-
-        else:
-            df_range_balanced = df_range
-
-        balanced_parts.append(df_range_balanced)
-
-    df_balanced = pd.concat(balanced_parts, ignore_index=True)
-    df_balanced = df_balanced.sample(frac=1,random_state=random_state).reset_index(drop=True)
-
-    df_balanced = df_balanced.drop(columns=["glycemic_range"])
-
-    # Add distribution summary after balancing
-
-    return df_balanced
-
 def _generate_smogn_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10, noise_factor: float = 0.05) -> pd.DataFrame:
     # Patient-aware
     min_samples_per_patient = 2
@@ -298,7 +255,7 @@ def _generate_smogn_samples(df_range: pd.DataFrame, new_samples: int, random_sta
 
     # If no patient has enough samples, fallback to random
     if eligible_counts.empty:
-        return df_range.sample(n=new_samples, replace=True, random_state=random_state,).reset_index(drop=True)
+        return _generate_random_samples(df_range, new_samples, random_state=random_state)
 
     # Allocate new synthetic samples proportionally to each patient's contribution
     raw_allocation = new_samples * eligible_counts / eligible_counts.sum()
