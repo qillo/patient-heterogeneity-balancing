@@ -66,6 +66,26 @@ def _get_feature_columns(df: pd.DataFrame) -> list:
 
     return x_cols + ["y"]
 
+def _get_patient_allocation(df_range: pd.DataFrame, new_samples: int, min_samples_per_patient: int = 2) -> dict:
+    patient_counts = df_range.groupby("patient_id").size()
+    eligible_counts = patient_counts[patient_counts >= min_samples_per_patient]
+
+    if eligible_counts.empty:
+        return {}
+
+    raw_allocation = new_samples * eligible_counts / eligible_counts.sum()
+    patient_allocation = {
+        patient_id: int(value)
+        for patient_id, value in raw_allocation.items()
+    }
+
+    missing = new_samples - sum(patient_allocation.values())
+    if missing > 0:
+        main_patient = eligible_counts.idxmax()
+        patient_allocation[main_patient] += missing
+
+    return patient_allocation
+
 # MAIN FUNCTION
 def balance_training_set(df_train: pd.DataFrame, method: str, level: str) -> pd.DataFrame:
 
@@ -100,6 +120,8 @@ def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversamp
     total_target = len(df_train)
     target_counts = get_target_counts(total_target, target_proportions)
 
+    feature_cols = _get_feature_columns(df_train)
+
     balanced_parts = []
 
     for range_name, target_n in target_counts.items():
@@ -121,6 +143,7 @@ def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversamp
                 df_range=df_range,
                 new_samples=extra_n,
                 random_state=random_state,
+                feature_cols=feature_cols,
                 **oversampler_kwargs
             )
 
@@ -170,36 +193,20 @@ def _smogn_balance(df_train: pd.DataFrame, target_proportions: dict, random_stat
     )
 
 # SAMPLING FUNCTIONS
-def _generate_random_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42) -> pd.DataFrame:
+def _generate_random_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, **kwargs) -> pd.DataFrame:
     return df_range.sample(n=new_samples, replace=True, random_state=random_state).reset_index(drop=True)
 
-def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10) -> pd.DataFrame:
+def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10, feature_cols: list | None = None) -> pd.DataFrame:
     # Patient-aware
-    min_samples_per_patient = 2
     random_generator = np.random.default_rng(random_state)
+    patient_allocation = _get_patient_allocation(df_range, new_samples, min_samples_per_patient=2)
 
-    # Patients eligible for SMOTER in this specific glycemic range
-    patient_counts = df_range.groupby("patient_id").size()
-    eligible_counts = patient_counts[patient_counts >= min_samples_per_patient]
-
-    # If no patient has enough samples, fallback to random
-    if eligible_counts.empty:
+    if not patient_allocation:
         return _generate_random_samples(df_range, new_samples, random_state=random_state)
 
-    # Allocate new synthetic samples proportionally to each patient's contribution
-    raw_allocation = new_samples * eligible_counts / eligible_counts.sum()
-    patient_allocation = {
-        patient_id: int(value)
-        for patient_id, value in raw_allocation.items()
-    }
+    if feature_cols is None:
+        feature_cols = _get_feature_columns(df_range)
 
-    # Allocate rounding remainders to the patient with the most samples
-    missing = new_samples - sum(patient_allocation.values())
-    if missing > 0:
-        main_patient = eligible_counts.idxmax()
-        patient_allocation[main_patient] += missing
-
-    feature_cols = _get_feature_columns(df_range)
     synthetic_rows = []
 
     for patient_id, patient_new_samples in patient_allocation.items():
@@ -245,32 +252,17 @@ def _generate_smoter_samples(df_range: pd.DataFrame, new_samples: int, random_st
 
     return df_synthetic
 
-def _generate_smogn_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10, noise_factor: float = 0.05) -> pd.DataFrame:
+def _generate_smogn_samples(df_range: pd.DataFrame, new_samples: int, random_state: int = 42, k_neighbors: int = 10, noise_factor: float = 0.05, feature_cols: list | None = None) -> pd.DataFrame:
     # Patient-aware
-    min_samples_per_patient = 2
     random_generator = np.random.default_rng(random_state)
+    patient_allocation = _get_patient_allocation(df_range, new_samples, min_samples_per_patient=2)
 
-    patient_counts = df_range.groupby("patient_id").size()
-    eligible_counts = patient_counts[patient_counts >= min_samples_per_patient]
-
-    # If no patient has enough samples, fallback to random
-    if eligible_counts.empty:
+    if not patient_allocation:
         return _generate_random_samples(df_range, new_samples, random_state=random_state)
 
-    # Allocate new synthetic samples proportionally to each patient's contribution
-    raw_allocation = new_samples * eligible_counts / eligible_counts.sum()
-    patient_allocation = {
-        patient_id: int(value)
-        for patient_id, value in raw_allocation.items()
-    }
+    if feature_cols is None:
+        feature_cols = _get_feature_columns(df_range)
 
-    # Allocate rounding remainders to the patient with the most samples
-    missing = new_samples - sum(patient_allocation.values())
-    if missing > 0:
-        main_patient = eligible_counts.idxmax()
-        patient_allocation[main_patient] += missing
-
-    feature_cols = _get_feature_columns(df_range)
     synthetic_rows = []
 
     for patient_id, patient_new_samples in patient_allocation.items():
