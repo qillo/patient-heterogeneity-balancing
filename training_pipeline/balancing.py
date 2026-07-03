@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from sklearn.neighbors import NearestNeighbors
+import time
 
 SEMI_TARGET_PROPORTIONS = {
     "severe_hypoglycemia": 0.05,
@@ -113,7 +114,8 @@ def balance_training_set(df_train: pd.DataFrame, method: str, level: str) -> pd.
 # ABSTRACT BALANCING FUNCTION
 def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversampler, random_state: int = 42, **oversampler_kwargs) -> pd.DataFrame:
 
-    # Add distribution summary before balancing
+    start_time = time.time()
+    print(f"\n[[[BALANCE]]] Starting balance | rows_before={len(df_train)}", flush=True)
 
     df_train = add_glycemic_range(df_train)
 
@@ -129,15 +131,21 @@ def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversamp
 
         current_n = len(df_range)
 
+        print(f"[[BALANCE]] Range={range_name} | current={current_n} | target={target_n}", flush=True)
+
         if current_n == 0:
             print(f"{range_name} has 0 samples. Skipping.")
             continue
 
         if current_n > target_n:
+            print(f"[BALANCE] -> undersampling | removing={current_n - target_n}", flush=True)
+
             df_range_balanced = df_range.sample(n=target_n, replace=False, random_state=random_state)
 
         elif current_n < target_n:
             extra_n = target_n - current_n
+
+            print(f"[BALANCE] -> oversampling | generating={extra_n}", flush=True)
 
             df_extra = oversampler(
                 df_range=df_range,
@@ -150,6 +158,7 @@ def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversamp
             df_range_balanced = pd.concat([df_range, df_extra], ignore_index=True)
 
         else:
+            print(f"[BALANCE] -> unchanged", flush=True)
             df_range_balanced = df_range
 
         balanced_parts.append(df_range_balanced)
@@ -158,7 +167,8 @@ def _balance_by_range(df_train: pd.DataFrame, target_proportions: dict, oversamp
     df_balanced = df_balanced.sample(frac=1, random_state=random_state).reset_index(drop=True)
     df_balanced = df_balanced.drop(columns=["glycemic_range"])
 
-    # Add distribution summary after balancing
+    elapsed = time.time() - start_time
+    print(f"[BALANCE] Finished balance | rows_after={len(df_balanced)} | time={elapsed:.2f}s\n", flush=True)
 
     return df_balanced
 
