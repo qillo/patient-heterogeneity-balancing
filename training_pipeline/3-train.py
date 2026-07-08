@@ -210,7 +210,7 @@ def build_experiment_dir(algo: str, loss_name: str, ph_value, history_len: int, 
     date_str = RUN_TS.strftime("%Y%m%d")
     base = f"EXP-{date_str}-prediction-{safe_token(loss_name)}-{safe_token(algo)}-H{history_len}-PH{safe_token(ph_value)}-{safe_token(context)}"
     exp_dir = next_versioned_dir(base)
-    for sub in ["models", "plots/training", "results/predictions", "results/evaluation/metrics", "results/evaluation/figures", "summaries", "readmes"]:
+    for sub in ["models", "plots/training", "results/predictions", "results/evaluation/metrics", "results/evaluation/figures", "summaries", "readmes", "balanced_y_counts"]:
         os.makedirs(os.path.join(exp_dir, sub), exist_ok=True)
     return exp_dir
 # ----------------------- End experiment directory helpers -----------------------
@@ -332,7 +332,7 @@ try:
     
     datasets = ["DiaTrend", "REPLACE-BG", "T1DiabetesGranada"]
     balancing_methods = ["random", "smoter", "smogn"]
-    balancing_levels = ["full", "semi"]
+    balancing_levels = ["normalized", "full", "semi"]
 
     for dataset_name, balancing_method, balancing_level in product(
         datasets,
@@ -364,11 +364,13 @@ try:
             PLOTS_TRAIN_DIR = os.path.join(EXP_DIR, "plots", "training")
             METRICS_DIR = os.path.join(EXP_DIR, "results", "evaluation", "metrics")
             FIGURES_DIR = os.path.join(EXP_DIR, "results", "evaluation", "figures")
-            
+            BALANCED_Y_COUNTS_DIR = os.path.join(EXP_DIR, "balanced_y_counts")
+
             aggregated_results = []
             aggregated_results_performance = []
             aggregated_results_out_of_range = []
             aggregated_results_number_of_points = []
+            balanced_y_counts_all_folds = []
 
             for i in range(k_folds):
                 current_fold = i + 1
@@ -395,6 +397,10 @@ try:
                     method=balancing_method,
                     level=balancing_level
                 )
+
+                # Count y values after balancing for this fold
+                df_y_counts = (df_train["y"].astype(int).value_counts().sort_index().rename_axis("y").reset_index(name="count"))
+                balanced_y_counts_all_folds.append(df_y_counts)
 
                 train_windows_after = len(df_train)
                 train_patients_after = df_train["patient_id"].nunique()
@@ -513,6 +519,12 @@ try:
                     data_file_path=data_file_path, data_counts=data_counts
                 )
                 print(f'END prediction & saving artifacts for Fold={current_fold} (Time: {datetime.timedelta(seconds=pred_time)})\n')
+
+            # Aggregate balanced y counts across folds and save
+            df_balanced_y_counts_all_folds = pd.concat(balanced_y_counts_all_folds, ignore_index=True)
+            df_balanced_y_counts_all_folds = df_balanced_y_counts_all_folds.groupby("y", as_index=False).agg(count=("count", "sum"))
+            df_balanced_y_counts_all_folds = df_balanced_y_counts_all_folds.sort_values(by="y").reset_index(drop=True)
+            df_balanced_y_counts_all_folds.to_parquet(os.path.join(BALANCED_Y_COUNTS_DIR, f"balanced_y_counts_{experiment_context}.parquet"), index=False)
 
             #------------------ Metric-Then-Aggregate approach ------------------
 

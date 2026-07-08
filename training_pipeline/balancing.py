@@ -3,12 +3,12 @@ import numpy as np
 from sklearn.neighbors import NearestNeighbors
 import time
 
-SEMI_TARGET_PROPORTIONS = {
-    "severe_hypoglycemia": 0.05,
-    "hypoglycemia": 0.10,
-    "normoglycemia": 0.45,
-    "hyperglycemia": 0.25,
-    "severe_hyperglycemia": 0.15,
+NORMALIZED_BASELINE_TARGET_PROPORTIONS = {
+    "severe_hypoglycemia": 0.008688,
+    "hypoglycemia": 0.030699,
+    "normoglycemia": 0.590382,
+    "hyperglycemia": 0.245741,
+    "severe_hyperglycemia": 0.124490,
 }
 
 FULL_TARGET_PROPORTIONS = {
@@ -18,6 +18,19 @@ FULL_TARGET_PROPORTIONS = {
     "hyperglycemia": 0.20,
     "severe_hyperglycemia": 0.20,
 }
+
+# Half-way between FULL and NORMALIZED_BASELINE
+SEMI_TARGET_PROPORTIONS = {
+    "severe_hypoglycemia": 0.049438,
+    "hypoglycemia": 0.092934,
+    "normoglycemia": 0.407547,
+    "hyperglycemia": 0.262936,
+    "severe_hyperglycemia": 0.187145,
+}
+
+# Future work:
+#   Study asymetric approaches too
+#   Search-grid to find the best target proportions for each range, based on the model performance
 
 # HELPERS
 def add_glycemic_range(df: pd.DataFrame) -> pd.DataFrame:
@@ -95,10 +108,12 @@ def balance_training_set(df_train: pd.DataFrame, method: str, level: str) -> pd.
 
     if level == "full":
         target_proportions = FULL_TARGET_PROPORTIONS
+    elif level == "normalized":
+        target_proportions = NORMALIZED_BASELINE_TARGET_PROPORTIONS
     elif level == "semi":
         target_proportions = SEMI_TARGET_PROPORTIONS
     else:
-        raise ValueError("level must be: full or semi")
+        raise ValueError("level must be: full, normalized or semi")
 
     if method == "random":
         return _random_balance(df_train, target_proportions)
