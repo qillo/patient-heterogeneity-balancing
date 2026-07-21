@@ -1,0 +1,134 @@
+\documentclass[a4paper,11pt,openany]{book}
+
+% -------------------------------------------------
+% Language and text encoding
+% -------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,spanish]{babel}
+
+% -------------------------------------------------
+% Chapter and section title spacing
+% -------------------------------------------------
+\usepackage{titlesec}
+
+\titleformat{\chapter}[hang]
+    {\normalfont\LARGE\bfseries}
+    {\thechapter.}
+    {0.75em}
+    {}
+
+\titlespacing*{\chapter}{0pt}{-25pt}{15pt}
+\titlespacing*{\section}{0pt}{10pt}{4pt}
+\titlespacing*{\subsection}{0pt}{8pt}{3pt}
+
+% -------------------------------------------------
+% Graphics
+% -------------------------------------------------
+\usepackage{graphicx}
+\usepackage{subcaption}
+\graphicspath{{images/}}
+
+\usepackage{booktabs} 
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{amsmath}
+
+% -------------------------------------------------
+% Headers and page numbers
+% -------------------------------------------------
+\usepackage{fancyhdr}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+\fancyhead[RO,LE]{\textbf{\thepage}}
+
+\renewcommand{\chaptermark}[1]{%
+    \markboth{\textbf{#1}}{}
+}
+
+\renewcommand{\sectionmark}[1]{%
+    \markright{\textbf{\thesection.\ #1}}
+}
+
+\setlength{\headheight}{14pt}
+
+% -------------------------------------------------
+% Bibliography
+% -------------------------------------------------
+\usepackage[
+    backend=biber,
+    style=numeric,
+    sorting=none
+]{biblatex}
+
+\addbibresource{bibliography/bibliography.bib}
+
+% -------------------------------------------------
+% Internal references and links
+% -------------------------------------------------
+\usepackage[
+    pdfborder={0 0 0},
+    hidelinks
+]{hyperref}
+
+% -------------------------------------------------
+% Document
+% -------------------------------------------------
+\begin{document}
+
+% -------------------------------------------------
+% Title page
+% -------------------------------------------------
+\input{titlepage/titlepage}
+
+% -------------------------------------------------
+% Preliminary pages
+% -------------------------------------------------
+\frontmatter
+
+\input{frontmatter/preface}
+
+\selectlanguage{english}
+\tableofcontents
+\clearpage
+
+% -------------------------------------------------
+% Main chapters
+% -------------------------------------------------
+\mainmatter
+
+\input{chapters/01_Introduction}
+\input{chapters/02_State_Of_The_Art}
+\input{chapters/03_EDA}
+\input{chapters/04_Experimental_Methodology}
+\input{chapters/05_Results_Discussion}
+\input{chapters/06_Planning_And_Budget}
+
+% -------------------------------------------------
+% Appendices
+% -------------------------------------------------
+
+\appendix
+\input{appendix/source_code}
+\input{appendix/experimental_results}
+
+% -------------------------------------------------
+% Bibliography
+% -------------------------------------------------
+\printbibliography[
+    heading=bibintoc,
+    title={Bibliography}
+]
+
+% -------------------------------------------------
+% Final blank page
+% -------------------------------------------------
+\cleardoublepage
+\thispagestyle{empty}
+\null
+
+\end{document}

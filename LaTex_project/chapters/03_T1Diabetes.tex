@@ -1,0 +1,234 @@
+\section{T1DiabetesGranada Dataset}
+\label{sec:eda_t1diabetes_granada}
+
+\begin{quote}
+\small
+
+\textit{Since the subsequent analyses for REPLACE-BG are analogous to the ones performed for both Diatrend and REPLACE-BG, some of the EDA methodology has been also been omitted here.}
+
+\end{quote}
+
+
+
+\label{subsec:replacebg_dataset_description}
+
+Like Diatrend, REPLACE-BG dataset includes both a patient-level information table that provides demographic information, and a glucose measurement table with the timestamped glucose values. Tables' fields are also analogous to those described for Diatrend \ref{subsec:diatrend_dataset_description}. The main descriptive characteristics of the dataset are summarized in Table~\ref{tab:replace_bg_general_description}
+
+\subsection{Dataset Description}
+\label{subsec:t1diabetesgranada_dataset_description}
+
+In the processed version used in this thesis, only the glucose measurement table was available. Unlike DiaTrend \ref{subsec:diatrend_dataset_description} and REPLACE-BG \ref{subsec:replacebg_dataset_description}, no separate patient metadata parquet file was available for this dataset. Therefore, demographic variables such as age and sex could not be described for this cohort. In any case, measurement table's fields are also analogous to those described for Diatrend and REPLACE-BG. The main descriptive characteristics of the dataset are summarized in Table~\ref{tab:t1diabetesgranada_general_description}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{General description of the T1DiabetesGranada dataset.}
+    \label{tab:t1diabetesgranada_general_description}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Number of rows & 30,477,434 \\
+        Number of columns & 7 \\
+        Number of patients & 643 \\
+        Total number of glucose measurements & 22,233,264 \\
+        \hline
+        Start date & 2018-01-06 13:39:00 \\
+        End date & 2022-03-21 21:00:00 \\
+        Total recording span & 1,535 days \\
+        Number of days with measurements & 1,536 \\
+        \hline
+        Rows with 5-minute alignment & 0 \\
+        Rows with 15-minute alignment & 30,113,515 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Because no separate patient metadata file was available, no metadata consistency analysis was performed for this dataset. All subsequent analyses are based exclusively on the 643 patients identified from the measurement table.
+
+This initial description provides the basic context needed to interpret the following analyses.
+
+\subsection{Patient Contribution Analysis}
+\label{subsec:t1diabetesgranada_patient_contribution}
+
+For each patient, the number of glucose measurements and the number of days with at least one measurement were computed, and summarised in Table~\ref{tab:t1diabetesgranada_patient_contribution}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Patient contribution summary in T1DiabetesGranada.}
+    \label{tab:t1diabetesgranada_patient_contribution}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean measurements per patient & 34,577.39 \\
+        Median measurements per patient & 28,223 \\
+        Minimum measurements per patient & 3,058 \\
+        Maximum measurements per patient & 137,293 \\
+        \hline
+        Mean days per patient & 391.24 \\
+        Median days per patient & 322 \\
+        Minimum days per patient & 33 \\
+        Maximum days per patient & 1,463 \\
+        \hline
+        Percentage contributed by the largest patient & 0.62\% \\
+        Percentage contributed by the top 5 patients & 2.91\% \\
+        Percentage contributed by the top 10 patients & 5.48\% \\
+        Number of patients contributing 50\% of the dataset & 158 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_T1Diabetes/measurements_per_patient.png}
+    \caption{Measurements per patient in T1DiabetesGranada.}
+    \label{fig:measurements_per_patients_t1diabetesgranada}
+\end{figure}
+
+Figure~\ref{fig:measurements_per_patients_t1diabetesgranada} shows a clear imbalance in the number of measurements contributed by each patient in T1DiabetesGranada. Although no single patient dominates the dataset individually, the graph reveals a steep decline in the disbribution followed by a long tail of patients with progressively fewer measurements. This indicates that measurements availability is highly heterogeneous across the 643 patients population.
+
+Quantitatively, as shown in Table~\ref{tab:t1diabetesgranada_patient_contribution}, the largest patient contributes only 0.62\% of all measurements and the top 10 patients account for 5.48\%, which may seem low when considered in isolation by simply looking at the graph, but is actually  partly explained by the large number of patients in the dataset. The fact that 158 out 643 patients are needed to accumulate 50\% of the measurements also means that the remaining 485 patients contribute the other half, with implicitly implies those many individuals having much shorter recording histories. Therefore, while T1DiabetesGranada is not dominated by a few extreme patients – like DiaTrend, it is still very imbalanced in terms of "per-patient data availability".
+
+\subsection{Glucose Descriptive Statistics}
+\label{subsec:t1diatrend_glucose_statistics}
+
+The global distribution of glucose values was also analyzed and summarised in Table~\ref{tab:t1diabetesgranada_glucose_statistics}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Glucose descriptive statistics in T1DiabetesGranada.}
+    \label{tab:t1diabetesgranada_glucose_statistics}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Minimum glucose & 40 mg/dL \\
+        Maximum glucose & 500 mg/dL \\
+        Mean glucose & 164.48 mg/dL \\
+        Median glucose & 153 mg/dL \\
+        Standard deviation & 71.36 mg/dL \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_T1Diabetes/glucose_distribution.png}
+    \caption{Glucose distribution in T1DiabetesGranada.}
+    \label{fig:glucose_distribution_t1diabetesgranada}
+\end{figure}
+
+As shown in Figure~\ref{fig:glucose_distribution_t1diabetesgranada}, and also analogously to the findings for Diatrend and REPLACE-BG, the glucose distribution follows a typical diabetes-related pattern.
+
+Similarly to Diatrend's and REPLACE-BG's, the histogram also presents an irregular, although less exaggerated, “one peak, one drop” pattern, that may be related to the measurement resolution. Once more, it does not change the general shape of the distribution.
+
+\subsection{Glycemic-Range Distribution}
+\label{subsec:t1diabetes_ranges_distribution}
+
+The most critical focus of this study is put in glycemic ranges distribution. As for a reference, the same ranges defined in Table~\ref{tab:glycemic_range_definitions} are used. The results of T1Diabetes' glycemic ranges distribution analysis are presented summarised in Table~\ref{tab:t1diabetesgranada_glycemic_distribution}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Glycemic range distribution in T1DiabetesGranada.}
+    \label{tab:t1diabetesgranada_glycemic_distribution}
+    \begin{tabular}{lrr}
+        \hline
+        \textbf{Glycemic range or category} & \textbf{Count} & \textbf{Percentage} \\
+        \hline
+        Severe hypoglycemia & 220,610 & 0.99\% \\
+        Hypoglycemia & 840,722 & 3.78\% \\
+        Normoglycemia & 13,274,105 & 59.70\% \\
+        Hyperglycemia & 5,281,558 & 23.76\% \\
+        Severe hyperglycemia & 2,616,269 & 11.77\% \\
+        \hline
+        TBR ($<70$ mg/dL) & 1,061,332 & 4.77\% \\
+        TIR ($70$--$180$ mg/dL) & 13,274,105 & 59.70\% \\
+        TAR ($>180$ mg/dL) & 7,897,827 & 35.52\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_T1Diabetes/glycemic_range_distribution.png}
+    \caption{Glycemic range distribution}
+    \label{fig:glycemic_range_distribution_t1diabetesgranada}
+\end{figure}
+
+Figure~\ref{fig:glycemic_range_distribution_t1diabetesgranada} makes the imbalance towards clinically critical glycemic ranges clearly visible. Quantitatively, as described in Table~\ref{tab:t1diabetesgranada_glycemic_distribution}, normo-glycemia is also the dominant range representing 59.70\% of all valid glucose measurements, hyperglycemia and severe hyperglycemia are also very present -- with TAR accounting for 35.52\% of the measurements, while hypoglycemic ranges are much smaller in the graph, accounting for 4.77\% of the total, and with severy hypoglycemia only accounting for 0.99\% of the total valid values. This graph then provides visual confirmation of the expected under-representation of hypoglycemic regions compared with normoglycemia and hyperglycemia.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Imbalance ratios in T1DiabetesGranada.}
+    \label{tab:t1diabetesgranada_imbalance_ratios}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Ratio} & \textbf{Value} \\
+        \hline
+        Normoglycemia / hypoglycemia & 12.51 \\
+        Normoglycemia / severe hypoglycemia & 60.17 \\
+        Normoglycemia / severe hyperglycemia & 5.07 \\
+        Majority range / smallest minority range & 60.17 \\
+        \hline
+        TIR / TBR & 12.51 \\
+        TIR / TAR & 1.68 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+More specifically, imbalance ratios where also described in Table~\ref{tab:t1diabetesgranada_imbalance_ratios}.
+
+\subsection{Patient-Level Glycemic Distribution}
+\label{subsec:t1diabetesgranada_patient_level}
+
+Per-patient glycemic ranges distribution has also been analyzed for T1DiabetesGranada, and results are presented in Table~\ref{tab:t1diabetesgranada_patient_glycemic_statistics}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Patient-level glycemic range statistics in T1DiabetesGranada.}
+    \label{tab:t1diabetesgranada_patient_glycemic_statistics}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean patient TBR & 4.45\% \\
+        Median patient TBR & 3.32\% \\
+        Minimum patient TBR & 0.00\% \\
+        Maximum patient TBR & 28.38\% \\
+        \hline
+        Mean patient TIR & 59.25\% \\
+        Median patient TIR & 60.05\% \\
+        Minimum patient TIR & 2.18\% \\
+        Maximum patient TIR & 97.72\% \\
+        \hline
+        Mean patient TAR & 36.30\% \\
+        Median patient TAR & 35.14\% \\
+        Minimum patient TAR & 0.00\% \\
+        Maximum patient TAR & 97.54\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+As described in Table~\ref{tab:t1diabetesgranada_patient_glycemic_statistics}, once more, hypoglycemic measurements are consistently found to be rare for most patients, while TIR and TAR are the most common ranges but at the same time show much wider variability.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_T1Diabetes/patient_level_tbr_tir_tar.png}
+    \caption{Glucose distribution in T1Diabetes Granada.}
+    \label{fig:patient_boxplot_t1diabetesgranada}
+\end{figure}
+
+Patient-level variabilitiy is also presented as a box-plot in Figure~\ref{fig:patient_boxplot_t1diabetesgranada}. As in REPLACE-BG, the degree of variability between patients in this dataset, especially for TIR and TAR, is substantial: boxplots are wide-spread and several outliers are also present. This shows that, although normoglycemia is the dominant range for most individuals, the proportion of time spent in range or above varies up to ~95\% for some corner cases, reflecting considerable heterogeneity between patients.
+
+\subsection{Summary of Findings}
+\label{subsec:t1diabetesgranada_summary}
+
+T1DiabetesGranada contains 643 patients and 22,233,264 valid glucose measurements. The dataset covers the period from 2018-01-06 13:39:00 to 2022-03-21 21:00:00, with a total recording span of 1,535 days.
+
+The patient contribution analysis shows that T1DiabetesGranada is heterogeneous in terms of measurement availability, although it is not dominated by a very small group of patients: the largest patient contributes only 0.62\% of all measurements, the top 10 patients account for 5.48\%. and 158 out of 643 patients are required to accumulate 50\% of the dataset, meaning that the remaining 485 patients contribute the other half with shorter monitoring histories.
+
+The glucose distribution analysis describe the typicaly expected diabetes pattern.
+
+Glycemic ranges imbalance is quantitatively confirmed in T1DiabetesGranada. For example, normoglycemic samples appear 12.51 times more frequently than hypoglycemic samples and 60.17 times more frequently than severe hypoglycemic samples.
+
+At patient level, as expected, TBR remains consistently low across patients. However, as in REPLACE-BG, it is important to highlight the substantial variability across patients population in TIR and TAR: the minimum and maximum in both ranges can differ up to 95\% from one patient to another as shown in Figure~\ref{fig:patient_boxplot_t1diabetesgranada}

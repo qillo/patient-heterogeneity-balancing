@@ -1,0 +1,176 @@
+% =========================================================
+% CHAPTER 3 — EXPLORATORY DATA ANALYSIS
+% =========================================================
+
+\chapter{Exploratory Data Analysis}
+\label{chap:eda}
+
+This chapter presents the exploratory data analysis performed on the three CGM datasets used in this thesis: DiaTrend, REPLACE-BG, and T1DiabetesGranada. These datasets had already been standardized during preprocessing, so this chapter does not include an extensive technical inspection of column formats or data normalization. The actual purpose of this analysis is to describe the structure, scale, and distribution of the glucose measurements, in order to quantify the degree of imbalance across glycemic ranges.
+
+The chapter is organized in the following way: first, each dataset is analyzed independently using the same steps; then, a cross-dataset comparison is presented to show differences and similarities; and finally, the implications of the EDA for the data balancing methodology are summarized.
+
+\input{chapters/03_Diatrend}
+\input{chapters/03_REPLACE-BG}
+\input{chapters/03_T1Diabetes}
+
+\section{Cross-Dataset Comparison}
+\label{sec:eda_cross_dataset_comparison}
+With all the three datasets analyzed separately, this section cross-compares them with each other, in order to determine whether glycemic ranges imbalance is consistent across the three of them, and to what extent.
+
+\begin{table}[htbp]
+    \centering
+    \caption{General comparison of the three datasets.}
+    \label{tab:general_dataset_comparison}
+
+    \setlength{\tabcolsep}{5pt}
+    \renewcommand{\arraystretch}{1.15}
+
+    \begin{tabularx}{\textwidth}{Xccc}
+        \hline
+        \textbf{Metric}
+        & \textbf{DiaTrend}
+        & \textbf{REPLACE-BG}
+        & \textbf{\shortstack{T1Diabetes\\Granada}} \\
+        \hline
+
+        Number of patients
+        & 51
+        & 223
+        & 643 \\
+
+        Number of valid glucose measurements
+        & 7,667,356
+        & 10,432,408
+        & 22,233,264 \\
+
+        Recording span
+        & 2,401 days
+        & 317 days
+        & 1,535 days \\
+
+        Mean measurements per patient
+        & 150,340.31
+        & 46,782.10
+        & 34,577.39 \\
+
+        Median measurements per patient
+        & 80,488
+        & 48,688
+        & 28,223 \\
+
+        Patients contributing 50\% of the dataset
+        & 10
+        & 104
+        & 158 \\
+
+        \hline
+    \end{tabularx}
+\end{table}
+
+As shown in Table~\ref{tab:general_dataset_comparison}, the three datasets strongly differ on the number of patients, duration, and patient contribution. T1DiabetesGranada is the largest dataset in both number of patients and number of valid glucose measurements. REPLACE-BG has the most homogeneous per-patient contribution compared to the others. And DiaTrend, despite having the smallest number of patients, has the longest recording span, and as a result the highest mean number of measurements per patient.
+
+Therefore, the most important difference appears in per-patient contribution. Both DiaTrend and T1Diabetes are relatively concentrated in a small subset of patients, since approximately only 19\% and 26\%, respectively, of the patients contribute 50\% of the corresponding dataset. In contrast, REPLACE-BG requires approximately 46\% of the patients to reach 50\% of the measurements.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Cross-dataset comparison of glycemic ranges.}
+    \label{tab:cross_dataset_glycemic_comparison}
+    \begin{tabular}{lrrr}
+        \hline
+        \textbf{Metric} & \textbf{DiaTrend} & \textbf{REPLACE-BG} & \textbf{T1DiabetesGranada} \\
+        \hline
+        Severe hypoglycemia & 0.46\% & 0.91\% & 0.99\% \\
+        Hypoglycemia & 1.38\% & 2.80\% & 3.78\% \\
+        Normoglycemia & 50.88\% & 63.62\% & 59.70\% \\
+        Hyperglycemia & 28.60\% & 23.36\% & 23.76\% \\
+        Severe hyperglycemia & 18.68\% & 9.32\% & 11.77\% \\
+        \hline
+        TBR & 1.84\% & 3.70\% & 4.77\% \\
+        TIR & 50.88\% & 63.62\% & 59.70\% \\
+        TAR & 47.28\% & 32.68\% & 35.52\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Table~\ref{tab:cross_dataset_glycemic_comparison} confirms that the dominance of each of the 5 clinical glycemic ranges with respect to the others is repeated across the three datasets. Normoglycemia is always the majority range. TAR is also very present, although not as much as TIR. And TBR is consistently underrepresented in all datasets, with severe hypoglycemia also being the smallest glycemic range in all three datasets, remaining below 1\% in all of them.
+
+However, the strength of that dominance varies from one dataset to the other. REPLACE-BG has the highest TIR percentage, with 63.62\% of its measurements in range, followed by T1DiabetesGranada with 59.70\% and DiaTrend with 50.88\%. TBR is lowest in DiaTrend, where it represents only 1.84\% of measurements, followed by REPLACE-BG with 3.70\% and T1DiabetesGranada with 4.77\%. The main difference between datasets appears in the hyperglycemic region. DiaTrend has the highest TAR percentage, with 47.28\% of measurements above 180 mg/dL, including 18.68\% in severe hyperglycemia. while REPLACE-BG and T1DiabetesGranada show lower TAR percentages.
+
+An additional assessment of this imbalance is presented in Table~\ref{tab:cross_dataset_imbalance_comparison} with the imbalance ratios of each dataset
+
+\begin{table}[htbp]
+    \centering
+    \caption{Cross-dataset comparison of imbalance ratios.}
+    \label{tab:cross_dataset_imbalance_comparison}
+    \begin{tabular}{lrrr}
+        \hline
+        \textbf{Ratio} & \textbf{DiaTrend} & \textbf{REPLACE-BG} & \textbf{T1DiabetesGranada} \\
+        \hline
+        Normo / hypo & 27.68 & 17.18 & 12.51 \\
+        Normo / severe hypo & 110.54 & 70.23 & 60.17 \\
+        Normo / severe hyper & 2.72 & 6.83 & 5.07 \\
+        Majority / minority & 110.54 & 70.23 & 60.17 \\
+        \hline
+        TIR / TBR & 27.68 & 17.18 & 12.51 \\
+        TIR / TAR & 1.08 & 1.95 & 1.68 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+These results show that the imbalance problem is not symmetric: low-glucose values, especially severe hypoglycemia, are consistently rare across all datasets, whereas high-glucose values are also less frequent than normoglycemia but present in higher proportions than low ones.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Cross-dataset comparison of patient-level variability.}
+    \label{tab:cross_dataset_patient_variability}
+    \small
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabularx}{\textwidth}{Xrrr}
+        \hline
+        \textbf{Metric} &
+        \textbf{DiaTrend} &
+        \textbf{REPLACE-BG} &
+        \textbf{T1DiabetesGranada} \\
+        \hline
+        Mean patient TBR & 1.67\% & 3.70\% & 4.45\% \\
+        Median patient TBR & 1.18\% & 3.24\% & 3.32\% \\
+        Mean patient TIR & 53.97\% & 63.37\% & 59.25\% \\
+        Median patient TIR & 52.52\% & 63.18\% & 60.05\% \\
+        Mean patient TAR & 44.36\% & 32.94\% & 36.30\% \\
+        Median patient TAR & 46.50\% & 33.91\% & 35.14\% \\
+        \hline
+        Patients with zero hypoglycemia & 0 & 0 & 2 \\
+        Patients with zero severe hypoglycemia & 1 & 1 & 27 \\
+        Patients with zero severe hyperglycemia & 0 & 0 & 3 \\
+        \hline
+        Patients where TIR is the majority range & 48 & 219 & 608 \\
+        Patients where TIR is the majority range (\%) &
+        94.12\% & 98.21\% & 94.56\% \\
+        \hline
+    \end{tabularx}
+\end{table}
+
+The patient-level comparison presented in Table~\ref{tab:cross_dataset_patient_variability} confirms that the imbalance patterns found globally are also largely present across individual patients and are not caused by asymmetric contributions from patients with different glycemic profiles. Across the three datasets, TBR generally remains low at the patient level, TIR is the majority range for most patients, and TAR represents a substantial but more variable proportion of measurements. Therefore, the dominance of normoglycemia and the underrepresentation of hypoglycemia are not driven by only a few large contributors but are broadly present at the patient level.
+
+However, this is to be considered a general pattern, and does not necessarily imply that minority glycemic ranges are represented uniformly across every single individual. This is particularly evident in T1DiabetesGranada, where some patients contain no measurements in the hypoglycemic, severe hypoglycemic, or severe hyperglycemic ranges. Therefore, although the global and per-patient imbalance patterns mostly support the use of a common balancing strategy, the methodology should still remain sensitive to dataset-specific distributions and patient-level differences.
+
+In summary, the comparison shows a consistent pattern across the three datasets: normoglycemia is the majority range, hypoglycemia is the clearest minority region, and severe hyperglycemia is underrepresented but less rare than hypoglycemia; which is also mostly present at patient-level.
+
+\section{Summary and Implications for Data Balancing}
+\label{sec:eda_summary}
+
+This chapter explored the structure and glucose distributions of DiaTrend, REPLACE-BG, and T1DiabetesGranada, in order the quantify the imbalance across clinically relevant glycemic ranges.
+
+The results show that normoglycemia is the majority range in all three datasets. TIR represents 50.88\% of DiaTrend, 63.62\% of REPLACE-BG, and 59.70\% of T1DiabetesGranada. 
+
+On the contrary, hypoglycemia is consistently the most underrepresented clinically relevant region. TBR represents only 1.84\% of DiaTrend, 3.70\% of REPLACE-BG, and 4.77\% of T1DiabetesGranada. Severe hypoglycemia is even rarer, remaining below 1\% in all datasets.
+
+Severe hyperglycemia is also less frequent than normoglycemia in all datasets, but it is not as rare as hypoglycemia. It represents 18.68\% of DiaTrend, 9.32\% of REPLACE-BG, and 11.77\% of T1DiabetesGranada. This means that severe hyperglycemia should still be considered a minority region, but the imbalance against it is less extreme than the imbalance against hypoglycemia.
+
+Therefore, although the exact proportion differs between datasets, the same general pattern is observed globally: most glucose measurements are concentrated in the normoglycemic range, low-glucose values are the clearest minority region, and and hyperglycemia is also less represented than normoglycemia, but not as rare as hypoglycemia.
+
+The patient-level analysis shows that, although the specific values for each patient have some natural degree of variability, the patterns found globally are also analogously present across population. TIR is the majority range for 94.12\% of DiaTrend patients, 98.21\% of REPLACE-BG patients, and 94.56\% of T1DiabetesGranada patients. At the same time, the representation of minority ranges varies across individuals, especially in T1DiabetesGranada, where some patients have no measurements in specific minority glycemic ranges.
+
+These findings have direct implications for data balancing. \textbf{First}, a balancing strategy is clearly justified to be approachable because all three datasets clearly show the expected glycemic-range imbalance. \textbf{Second}, hypoglycemia, severe hypoglycemia and severe hyperglycemia should recieve particular attention in the balancing methodology, given their consistent rarity -- although different from each other -- and clinical importance. \textbf{Finally}, the methodology should not only be global, but also patient-aware: it should preserve individual patient distributions and glycemic profiles, and avoid generating samples for absent ranges.
+
+In summary, the EDA confirms that the selected datasets are suitable for studying glycemic-range imbalance in Type 1 Diabetes CGM prediction. The observed imbalance is not merely theoretical, but empirically present across all three datasets, both globally and a patient level. The graphical and quantitative results provide the basis for defining the data balancing methodology in the next chapter, with the objective to increase the representation of clinically critical minority glucose regions without unnecessarily distorting the patient-level structure of the original data.
