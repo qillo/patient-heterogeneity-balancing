@@ -1,0 +1,201 @@
+% =========================================================
+% CHAPTER 6 — PROJECT PLANNING AND BUDGET
+% =========================================================
+
+\chapter{Project Planning and Budget}
+\label{chap:planning_budget}
+
+This chapter presents the temporal planning and estimated economic cost for the execution of the project. The work was orginally planned over thirteen weeks, from Week~0 to Week~12, with a total student workload of approximately 300 hours. In addition, one one-hour supervision meeting was scheduled once every two weeks.
+
+\section{Project Planning}
+\label{sec:project_planning}
+
+The project was divided into six consecutive phases:
+
+\begin{itemize}
+    \item \textbf{Weeks~0--3} were dedicated to the theoretical foundations: review of the state of the art, comprehension of the clinical context of T1D, and study of clinical evaluation methods such as the Clarke Error Grid.
+    \item \textbf{Weeks~4--5} focused on studying the structure the datasets in order to quantify their imbalance across glycemic ranges.
+    \item \textbf{Weeks~6--8} were dedicated to the definition and implementation of the balancing methodology.
+    \item \textbf{Weeks~9--11} were planned for models training and results discussion
+    \item \textbf{Week~12} was reserved for completing and reviewing the memory of the thesis and preparing the final submission.
+\end{itemize} 
+
+\subsection{Initial Workload Distribution}
+\label{subsec:initial_workload}
+
+The planned hours were distributed according to the expected duration and complexity of each phase. The seven supervision meetings were included within the student's total workload.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Initial workload distribution.}
+    \label{tab:initial_workload}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{p{0.58\textwidth}cc}
+        \toprule
+        \textbf{Phase} & \textbf{Weeks} & \textbf{Planned hours} \\
+        \midrule
+        Theoretical foundations research
+            & 0--3 & 100 \\
+
+        Dataset preparation and imbalance analysis
+            & 4--5 & 50 \\
+
+        Data-balancing implementation
+            & 6--8 & 75 \\
+
+        Model training and results discussion
+            & 9--11 & 75 \\
+
+        Project closure
+            & 12 & 25 \\
+
+        Supervision meetings
+            & 0--12 & 7 \\
+        \midrule
+        \textbf{Total}
+            & \textbf{0--12} & \textbf{332} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+This distribution corresponds to an average workload of 5 hours a day, 5 days a week, which results in approximately 25 hours per week.
+
+\subsection{Initial Temporal Planning}
+\label{subsec:initial_temporal_planning}
+
+Table~\ref{tab:initial_temporal_planning} summarizes the initial temporal distribution of the project using relative week numbers. The activities were organized sequentially, with model training and result analysis grouped within the same final experimental phase. Seven supervision meetings were planned at two-week intervals throughout the project.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Initial temporal planning of the project.}
+    \label{tab:initial_temporal_planning}
+    \scriptsize
+    \resizebox{\textwidth}{!}{
+    \begin{tabular}{lccccccccccccc}
+        \toprule
+        \textbf{Activity}
+        & \textbf{W0} & \textbf{W1} & \textbf{W2} & \textbf{W3}
+        & \textbf{W4} & \textbf{W5} & \textbf{W6} & \textbf{W7}
+        & \textbf{W8} & \textbf{W9} & \textbf{W10} & \textbf{W11}
+        & \textbf{W12} \\
+        \midrule
+
+        Theoretical foundations research
+        & $\bullet$ & $\bullet$ & $\bullet$ & $\bullet$
+        & & & & & & & & & \\
+
+        Dataset preparation and imbalance analysis
+        & & & & & $\bullet$ & $\bullet$
+        & & & & & & & \\
+
+        Data-balancing implementation
+        & & & & & & & $\bullet$ & $\bullet$ & $\bullet$
+        & & & & \\
+
+        Model training and results discussion
+        & & & & & & & & & &
+        $\bullet$ & $\bullet$ & $\bullet$ & \\
+
+        Project closure
+        & & & & & & & & & & & & & $\bullet$ \\
+
+        Supervision meetings
+        & $\bullet$ &  & $\bullet$
+        &  & $\bullet$ &  & $\bullet$
+        &  & $\bullet$ &  & $\bullet$
+        &  & $\bullet$ \\
+        \bottomrule
+    \end{tabular}
+    }
+\end{table}
+
+\section{Project Budget}
+\label{sec:project_budget}
+
+This budget section estimates the economic cost of the personnel and computational resources required to complete the project.
+
+\subsection{Personnel Costs}
+\label{subsec:personnel_costs}
+
+The student workload was valued at 15~€ per hour, using a rounded reference value based on the approximately 14~€ per hour salary reported by Glassdoor for Junior Data Scientist positions in Spain \cite{glassdoor_junior_data_scientist_salary}. Applied to the planned 332 hours, this results in an estimated personnel cost of 4,980~€.
+
+Academic supervision was estimated separately. One hour of supervision was planned for each of the seven project meetings. Using a rate of 30~€ per hour, for each of the three tutors attending the meeting, the corresponding supervision cost was 630~€. The student's participation in these meetings is already included within the 332-hour workload.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Estimated personnel costs.}
+    \label{tab:personnel_costs}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{lrrr}
+        \toprule
+        \textbf{Personnel resource}
+        & \textbf{Hours}
+        & \textbf{Hourly rate}
+        & \textbf{Estimated cost} \\
+        \midrule
+        Student work
+            & 332 & 15.00~€ & 4,980.00~€ \\
+
+        Academic supervision
+            & 7 (x3) & 30.00~€ & 630.00~€ \\
+        \midrule
+        \textbf{Total personnel cost}
+            & & & \textbf{5,610.00~€} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Computational and Additional Costs}
+\label{subsec:computational_costs}
+
+No server was purchased specifically for the project. The experimental execution used computing infrastructure provided by the university. However, its economic cost was simulated from an equivalent commercial cloud instance with one GPU and 32~GB of RAM. Specifically, an Amazon EC2 \texttt{g4dn.2xlarge} instance, equipped with one NVIDIA T4 GPU and 32~GiB of RAM, has an on-demand price of approximately \$0.752 per hour \cite{vantage_g4dn_2xlarge}. Therefore, a 24-hour experimental execution to train all the models was valued at approximately \$18.05, which is ~15.65€.
+
+All programming languages, libraries, machine-learning frameworks, and document-preparation tools used in the project were freely available. No paid subscriptions, electricity, Internet, printing, or additional material costs were included.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Estimated computational and additional costs.}
+    \label{tab:computational_costs}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Cost category} & \textbf{Estimated cost} \\
+        \midrule
+        Cloud-equivalent GPU infrastructure & 15.65~€ \\
+        Software licences and subscriptions & 0.00~€ \\
+        Electricity and Internet & 0.00~€ \\
+        Travel and printing & 0.00~€ \\
+        Additional materials & 0.00~€ \\
+        \midrule
+        \textbf{Total computational and additional costs}
+            & \textbf{15.65~€} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+\subsection{Total Estimated Cost}
+\label{subsec:total_estimated_cost}
+
+The total estimated cost was obtained by adding the personnel and computational resource costs.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Total estimated project budget.}
+    \label{tab:total_project_budget}
+    \renewcommand{\arraystretch}{1.15}
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Cost category} & \textbf{Estimated cost} \\
+        \midrule
+        Student personnel & 4,980.00~€ \\
+        Academic supervision & 630.00~€ \\
+        Computational infrastructure & 15.65~€ \\
+        Software and additional costs & 0.00~€ \\
+        \midrule
+        \textbf{Total estimated project cost}
+            & \textbf{5,625.65~€} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+
+Therefore, the estimated economic value of the project was 5,625.65~€.

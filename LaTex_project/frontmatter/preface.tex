@@ -20,7 +20,7 @@
 \vspace{0.7cm}
 
 \noindent
-\textbf{Palabras clave}: diabetes tipo 1, monitorización continua de glucosa,
+\textbf{Palabras clave}: diabetes tipo 1, T1D, monitorización continua de glucosa,
 predicción de glucosa, desbalanceo de datos, balanceo de datos, SMOTER, SMOGN.
 
 \vspace{0.7cm}
@@ -30,25 +30,13 @@ predicción de glucosa, desbalanceo de datos, balanceo de datos, SMOTER, SMOGN.
 
 \vspace{0.3cm}
 
-Este Trabajo Fin de Grado estudia el efecto del balanceo de los datos de
-entrenamiento sobre el rendimiento de modelos de predicción de glucosa para
-personas con diabetes tipo 1. El análisis se realiza utilizando varios
-conjuntos de datos de monitorización continua de glucosa con diferentes
-distribuciones entre los rangos glucémicos clínicamente definidos.
+La predicción de la glucosa mediante el uso de modelos de Inteligencia Artificial puede facilitar una intervención temprana y segura ante episodios críticos de pacientes con Diabetes Tipo 1. Sin embargo, los modelos de regresión entrenados a partir de datos reales de Monitorización Continua de Glucosa tienden a favorecer los estados glucémicos más frecuentes, mientras muestran un rendimiento deficiente en regiones poco frecuentes pero clínicamente críticas, especialmente en hipoglucemia.
 
-Se evalúan tres métodos de balanceo: remuestreo aleatorio, SMOTER y SMOGN.
-Cada método se combina con distintas configuraciones de balanceo, mientras
-que la arquitectura predictiva, el procedimiento de entrenamiento y los
-conjuntos de validación y prueba permanecen sin modificaciones. Los resultados
-se analizan mediante métricas de regresión y medidas de precisión clínica,
-tanto de forma global como por rango glucémico.
+Este Trabajo de Fin de Grado estudia el efecto de balancear los diferentes rangos glucémicos de un dataset, sobre el rendimiento de modelos de predicción de glucosa para personas con Diabetes Tipo 1. Se utilizan 3 datasets de MCG: DiaTrend, REPLACE-BG, y T1DiabetesGranada. Se aplica balanceo de manera híbrida: submuestreo de los rangos sobrerrepresentados y sobremuestreo de los infrarrepresentados. Se exploran tres distribuciones: balanceo uniforme, una referencia normalizada y semi-balanceo. Cada una de estas distribuciones objetivo se combina con tres métodos de sobremuestreo: aleatorio, SMOTER y SMOGN. La arquitectura, el entrenamiento y los conjuntos de validación y test no se modifican. El rendimiento conseguido se evalúa estadísticamente usando tanto métricas de regresión como medidas clínicas derivadas de Clarke Error Grid.
 
-El objetivo principal es determinar si una representación más equilibrada de
-los rangos minoritarios durante el entrenamiento permite mejorar la predicción
-de eventos glucémicos críticos, especialmente los asociados a la hipoglucemia.
+Aplicando balanceo uniforme a todos los rangos se consiguen mejoras significativas en la proporción de predicciones que son clínicamente aceptables para la hipoglicemia severa, con aumentos de 63.75, 76.81, y 75.93 puntos porcentuales respectivamente para los 3 datasets. Aunque los errores de regresión aumentaron moderadamente a nivel global, las predicciones clínicamente aceptables permanecieron por encima del 99\%, sin que ninguna predicción adicional entrara en zonas peligrosas de la cuadrícula de Clarke. En resumen, este trabajo demuestra que, equilibrando la distribución de los rangos glucémicos, se puede mejorar sustancialmente la predicción en rangos minoritarios clínicamente críticos, manteniendo al mismo tiempo un elevado rendimiento clínico a nivel global.
 
 \end{otherlanguage}
-
 
 % =================================================
 % English abstract
@@ -70,7 +58,7 @@ de eventos glucémicos críticos, especialmente los asociados a la hipoglucemia.
 \vspace{0.7cm}
 
 \noindent
-\textbf{Keywords}: Type 1 Diabetes, continuous glucose monitoring,
+\textbf{Keywords}: Type 1 Diabetes, T1D, continuous glucose monitoring,
 glucose prediction, data imbalance, data balancing, SMOTER, SMOGN.
 
 \vspace{0.7cm}
@@ -80,23 +68,11 @@ glucose prediction, data imbalance, data balancing, SMOTER, SMOGN.
 
 \vspace{0.3cm}
 
-This Bachelor's Thesis investigates the effect of balancing the training data
-on the performance of glucose prediction models for people with Type 1
-Diabetes. The analysis is conducted using several continuous glucose
-monitoring datasets with different distributions across clinically defined
-glycemic ranges.
+Glucose prediction using AI models can support early and safe intervention of T1D critical episodes. However, regression models trained on real-world Continuous Glucose Monitoring data tend to favour the most frequent glycemic states while performing poorly in rare but clinically critical regions -- particularly hypoglycemia. This Bachelor’s Thesis investigates whether balancing the glycemic ranges proportions in training data can reduce this bias and improve the prediction of these critical events.
 
-Three balancing methods are evaluated: random resampling, SMOTER, and SMOGN.
-Each method is combined with different balancing configurations, while the
-predictive architecture, training procedure, validation sets, and test sets
-remain unchanged. The results are analysed using regression metrics and
-clinical accuracy measures, both globally and separately for each glycemic
-range.
+This Bachelor’s Thesis studies how balancing the different glycemic ranges affects glucose prediction models for T1D. It uses three CGM datasets: DiaTrend, REPLACE-BG, and T1DiabetesGranada. Balancing is approached hybridly: undersampling over-represented ranges and oversampling under-represented ones. Three distributions are explored: fully-balanced, normalized baseline, and semi-balancing. Each target distribution is combined with three oversampling methods: random resampling, SMOTER, and SMOGN. Predictive architecture, training pipeline, and validation and test sets remain unchanged. Performance is statistically assessed using both regression metrics and clinically meaningful measures derived from the Clarke Error Grid.
 
-The main objective is to determine whether a more balanced representation of
-minority ranges during training can improve the prediction of critical
-glycemic events, particularly those associated with hypoglycemia.
-
+Full balancing all the glycemic ranges significantly increased the proportion of clinically acceptable severe-hypoglycemia predictions, with mean improvements of 63.75, 76.81, and 75.93 percentage points across the three datasets. Although convential regression metrics moderately increased globally, clinical acceptability remained above 99\%, with no predictions entering dangerous Clarke zones. Overall, the study demonstrates that modifying the glycemic distribution of the training data can substantially improve prediction in clinically critical minority ranges while preserving strong global clinical performance.
 
 % =================================================
 % Repository authorization
@@ -146,14 +122,14 @@ Granada, a \textbf{[día]} de \textbf{[mes]} de 2026.
 \vspace{1cm}
 
 D. \textbf{Oresti Baños Legrán}, profesor del Área de
-\textbf{[Área de conocimiento]} del Departamento de
-\textbf{[Departamento]} de la Universidad de Granada.
+\textbf{Ingeniería de Sistemas y Automática} del Departamento de
+\textbf{Ingeniería de Sistemas y Automática} de la Universidad de Granada.
 
 \vspace{0.5cm}
 
 Dña. \textbf{Claudia Villalonga Palliser}, profesora del Área de
-\textbf{[Área de conocimiento]} del Departamento de
-\textbf{[Departamento]} de la Universidad de Granada.
+\textbf{Arquitectura y Tecnología de Computadores} del Departamento de
+\textbf{Arquitectura y Tecnología de Computadores} de la Universidad de Granada.
 
 \vspace{1cm}
 

@@ -4,13 +4,11 @@
 \begin{quote}
 \small
 
-\textit{Since the subsequent analyses for REPLACE-BG are analogous to the ones performed for both Diatrend and REPLACE-BG, some of the EDA methodology has been also been omitted here.}
+\textit{Since the subsequent analyses for REPLACE-BG are analogous to the ones performed for both Diatrend and REPLACE-BG, some of the EDA methodology has also been omitted here.}
 
 \end{quote}
 
-
-
-\label{subsec:replacebg_dataset_description}
+\label{subsec:t1diabetes_dataset_description}
 
 Like Diatrend, REPLACE-BG dataset includes both a patient-level information table that provides demographic information, and a glucose measurement table with the timestamped glucose values. Tables' fields are also analogous to those described for Diatrend \ref{subsec:diatrend_dataset_description}. The main descriptive characteristics of the dataset are summarized in Table~\ref{tab:replace_bg_general_description}
 
@@ -167,6 +165,7 @@ Figure~\ref{fig:glycemic_range_distribution_t1diabetesgranada} makes the imbalan
         \hline
         Normoglycemia / hypoglycemia & 12.51 \\
         Normoglycemia / severe hypoglycemia & 60.17 \\
+        Normoglycemia / hyperglycemia & 2.51 \\
         Normoglycemia / severe hyperglycemia & 5.07 \\
         Majority range / smallest minority range & 60.17 \\
         \hline
@@ -229,6 +228,6 @@ The patient contribution analysis shows that T1DiabetesGranada is heterogeneous 
 
 The glucose distribution analysis describe the typicaly expected diabetes pattern.
 
-Glycemic ranges imbalance is quantitatively confirmed in T1DiabetesGranada. For example, normoglycemic samples appear 12.51 times more frequently than hypoglycemic samples and 60.17 times more frequently than severe hypoglycemic samples.
+Glycemic ranges imbalance is quantitatively confirmed in T1DiabetesGranada. For example, normoglycemic samples appear 5.07 times more frequently than severy hyperglycemia sampes, 12.51 times more frequently than hypoglycemic samples, and 60.17 times more frequently than severe hypoglycemic samples. In comparison with TAR in general, TIR samples only appears 1.68 times from frequently.
 
 At patient level, as expected, TBR remains consistently low across patients. However, as in REPLACE-BG, it is important to highlight the substantial variability across patients population in TIR and TAR: the minimum and maximum in both ranges can differ up to 95\% from one patient to another as shown in Figure~\ref{fig:patient_boxplot_t1diabetesgranada}

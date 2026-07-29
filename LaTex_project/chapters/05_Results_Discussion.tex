@@ -1,8 +1,8 @@
 % =========================================================
-% CHAPTER 5 - EXPERIMENTAL RESULTS
+% CHAPTER 5 - RESULTS
 % =========================================================
 
-\chapter{Experimental Results and Discussion}
+\chapter{Results and Discussion}
 \label{chap:experimental_results}
 
 This chapter presents and discusses the results obtained from the experimental configurations described in Chapter~\ref{chap:experimental_methodology}. The analysis follows the evaluation framework established in Section~\ref{sec:statistical_analysis}, distinguishing between the primary confirmatory analysis and the secondary descriptive outcomes. The complete numerical results from all the 27 experimental configurations are provided in Appendix~\ref{app:experimental_results}
@@ -126,7 +126,7 @@ First, the difference between the fully balanced and normalized configurations w
 
 \begin{table}[htbp]
     \centering
-    \caption{DiaTrend fold-level results for the primary clinical outcome.}
+    \caption{DiaTrend fold-level prediction performance for the primary clinical outcome.}
     \label{tab:diatrend_fold_primary_effect}
     \begin{tabular}{cccc}
         \toprule
@@ -180,7 +180,7 @@ s_d
 \text{ pp}.
 \end{equation}
 
-Applying the one-sided paired Student's \(t\)-test defined in Section~\ref{subsec:statistical_test} produced the following statistic:
+Applying the one-sided paired Student's \(t\)-test defined in Section~\ref{subsec:statistical_hypotheses} produced the following statistic:
 
 \begin{equation}
 t
@@ -217,7 +217,7 @@ Therefore, the primary statistical result supports the study hypothesis for DiaT
 \subsection{Secondary Outcomes}
 \label{subsec:diatrend_secondary_outcomes}
 
-Together with the primary statistical analysis, a secondary analyses was performed to study the impact of balancing in the rest of regression and clinical metrics. A single statistical test, narrowed to a very particular although critical metric, should not considered enough to determine the full effect.
+Together with the primary statistical analysis, a secondary analyses was performed to study the impact of balancing in the rest of regression and clinical metrics. A single statistical test, narrowed to a very particular although critical metric, should not be considered enough to determine the full effect.
 
 \begin{quote}
 \small
@@ -227,8 +227,7 @@ Together with the primary statistical analysis, a secondary analyses was perform
 \subsubsection{Influence of the Balancing Method}
 \label{subsubsec:diatrend_method_influence}
 
-Table~\ref{tab:diatrend_method_influence} presents a condensed comparison between target distributions of some of the main global metrics. Each value represents the mean and
-standard deviation across \textbf{the three aggregate method results.}
+Table~\ref{tab:diatrend_method_influence} presents a condensed comparison between target distributions of some of the main global metrics. Each value represents the mean and standard deviation computed across the three method-specific aggregate results.
 
 \begin{table}[htbp]
     \centering
@@ -437,8 +436,15 @@ Overall, although some deterioration was introduced in TAR$_1$, it remained cons
 \subsubsection{Clarke Error Grid Interpretation}
 \label{subsubsec:diatrend_clarke_interpretation}
 
-Figures~\ref{fig:diatrend_clarke_semi} and \ref{fig:diatrend_clarke_full} present representative Clarke Error Grids for the semi-balanced and fully balanced random-resampling configurations.
-Having shown that the three balanding methods produce similar results, random resampling is selected for visualization because it represent the most simple approach.
+Figures~\ref{fig:diatrend_clarke_semi} and \ref{fig:diatrend_clarke_full} present representative Clarke Error Grids for the semi-balanced and fully balanced resampling configurations, while Figure~\ref{fig:diatrend_clarke_normalized} is presented as the baseline for comparison, as described in Chapter~\ref{chap:experimental_methodology}. Having shown that the three balanding methods produce similar results, random resampling is the selected method for visualization because it represent the most simple approach.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]{images/CEGA_Diatrend/DiaTrend_random_normalized.png}
+    \caption{Clarke Error Grid for DiaTrend using random resampling and
+    the normalized baseline target distribution.}
+    \label{fig:diatrend_clarke_normalized}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -490,7 +496,7 @@ The same statistical analysis defined in Section~\ref{sec:statistical_analysis} 
 
 \begin{table}[htbp]
     \centering
-    \caption{REPLACE-BG fold-level results for the primary clinical outcome.}
+    \caption{REPLACE-BG fold-level prediction performance for the primary clinical outcome.}
     \label{tab:replacebg_fold_primary_effect}
     \begin{tabular}{cccc}
         \toprule
@@ -804,7 +810,16 @@ This pattern is closely aligned with DiaTrend: severe hyperglycemia also benefit
 \subsubsection{Clarke Error Grid Interpretation}
 \label{subsubsec:replacebg_clarke_interpretation}
 
-Figures~\ref{fig:replacebg_clarke_semi} and \ref{fig:replacebg_clarke_full} present representative Clarke Error Grids for the semi-balanced and fully balanced random-resampling configurations.
+Figures~\ref{fig:replacebg_clarke_normalized}, \ref{fig:replacebg_clarke_semi}, and \ref{fig:replacebg_clarke_full} present representative Clarke Error Grids for the normalized baseline, semi-balanced, and fully balanced random-resampling configurations, respectively.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]
+    {images/CEGA_REPLACE-BG/REPLACE-BG_random_normalized.png}
+    \caption{Clarke Error Grid for REPLACE-BG using random resampling and
+    the normalized baseline target distribution.}
+    \label{fig:replacebg_clarke_normalized}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -867,8 +882,7 @@ Table~\ref{tab:t1diabetesgranada_fold_primary_effect} presents the resulting fiv
 
 \begin{table}[htbp]
     \centering
-    \caption{T1DiabetesGranada fold-level results for the primary clinical
-    outcome.}
+    \caption{T1DiabetesGranada fold-level prediction performance for the primary clinical outcome.}
     \label{tab:t1diabetesgranada_fold_primary_effect}
     \begin{tabular}{cccc}
         \toprule
@@ -924,8 +938,7 @@ s_d
 \text{ pp}.
 \end{equation}
 
-Applying the one-sided paired Student's \(t\)-test produced the following
-statistic:
+Applying the one-sided paired Student's \(t\)-test produced the following statistic:
 
 \begin{equation}
 t
@@ -1181,7 +1194,16 @@ In contrast, TAR$_2$ improved further. RMSE decreased by \(4.79\) mg/dL, MAE by 
 \subsubsection{Clarke Error Grid Interpretation}
 \label{subsubsec:t1diabetesgranadaclarke_interpretation}
 
-Figures~\ref{fig:t1diabetesgranada_clarke_semi} and \ref{fig:t1diabetesgranada_clarke_full} present representative Clarke Error Grids for the semi-balanced and fully balanced random-resampling configurations.
+Figures~\ref{fig:t1diabetesgranada_clarke_normalized}, \ref{fig:t1diabetesgranada_clarke_semi} and \ref{fig:t1diabetesgranada_clarke_full} present representative Clarke Error Grids for the normalized baseline, semi-balanced, and fully balanced random-resampling configurations.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.82\textwidth]
+    {images/CEGA_T1DiabetesGranada/T1DiabetesGranada_random_normalized.png}
+    \caption{Clarke Error Grid for T1DiabetesGranada using random
+    resampling and the normalized baseline target distribution.}
+    \label{fig:t1diabetesgranada_clarke_normalized}
+\end{figure}
 
 \begin{figure}[htbp]
     \centering
@@ -1343,49 +1365,3 @@ Despite the numerical deterioration, global A+B increased in every dataset. TIR 
 The hyperglycemic results followed the same pattern across the three datasets. Semi-balancing had a neutral or slightly positive effect in TAR$_1$, while both semi and full balancing improved numerical and clinical performance in TAR$_2$.
 
 Full balancing introduced a localized deterioration in TAR$_1$, including a small increase in Zone E. This effect was most pronounced in DiaTrend and smallest in T1DiabetesGranada. Nevertheless, it remained substantially smaller than the improvements obtained in the hypoglycemic ranges, while severe hyperglycemia consistently benefited from balancing.
-
-
-% ============================================================
-% MAIN FINDINGS
-% ============================================================
-
-\section{Main Findings}
-\label{sec:main_findings}
-
-The results provide a clear answer to the research question formulated in Chapter~2:\textbf{\textit{ modifying the glycemic ranges distribution of the training data can substantially improve glucose prediction in underrepresented clinically critical regions}}. This conclusion was reproduced in DiaTrend, REPLACE-BG, and T1DiabetesGranada, despite the particular differences between them, explored in Chapter~\ref{chap:eda}.
-
-\begin{itemize}
-    \item  The exploratory data analysis demonstrated why this intervention was necessary. Severe hypoglycemia represented less than \(1\%\) of the available glucose measurements in all three datasets, while normoglycemia appeared between 60 and 110 times -- depending on the dataset -- more frequently. Also, it showed that this imbalance was not caused only by a small group of highly represented patients. It was also observed at the patient level, confirming that the limited representation of hypoglycemia is an intrinsic characteristic of real-world CGM data. This finding directly illustrated the limitation of evaluating glucose prediction models simply through a global regression loss. Since most training windows belong to TIR or moderate hyperglycemia, the model "plays it safe" by assuming all the measurements are in the normoglycemic range, in order to reduce its average error. From a purely mathematical perspective, this behaviour may appear reasonable. But from a clinical perspective, it means that a model can obtain satisfactory global performance while almost systematically failing in the regions where an accurate prediction is much more critical.
-    \item By adjusting the glycemic ranges distribution to achieve a fully symmetrical balance, this behaviour changed enormously. The primary statistical outcome, \(A+B_{\mathrm{TBR_2}}\), increased by an average of \(63.75\) percentage points in DiaTrend, \(76.81\) percentage points in REPLACE-BG, and \(75.93\) percentage points in T1DiabetesGranada. The corresponding analogous one-sided paired Student's \(t\)-tests rejected the null hypothesis for the three datasets.
-    \item The numerical magnitude of these effects is as important as their statistical significance. ¡The aggregate TBR$_2$ A+B percentage increased from \(3.74\%\) to \(72.68\%\) in DiaTrend, from \(0.01\%\) to \(76.89\%\) in REPLACE-BG, and from \(13.24\%\) to \(88.87\%\) in T1DiabetesGranada. Similar improvements were obtained for TBR$_1$, where A+B reached \(70.35\%\), \(78.49\%\), and \(79.06\%\), respectively. These gains were mainly due to a large movement of predictions from Zone D into Zone A.
-    \item Full balancing produced an important transformation in models behaviour. The unbalanced original models were rarely capable of producing clinically acceptable predictions in hypoglycemia, whereas the fully balanced models correctly represented a large majority of them, and across three independent datasets.
-    \item Additionally, the intermediate semi-balanced configuration also provided valuable evidence. In every dataset, its results were located between those of normalized and full balancing, which suggest a progression pattern -- \textit{not proven in this study.}
-        \begin{equation}
-        AB_{\mathrm{TBR}}^{(\mathrm{normalized})}
-        <
-        AB_{\mathrm{TBR}}^{(\mathrm{semi})}
-        <
-        AB_{\mathrm{TBR}}^{(\mathrm{full})}.
-        \end{equation}
-    Nevertheless, semi-balancing approach was only investigated as an intermediate experimental condition rather than as the final preferred strategy.
-    \item Another important finding is that the balancing target had a much greater influence than the oversampling method. Random resampling, SMOTER, and SMOGN produced very similar results for the same target distribution. In some cases, even simple random resampling produced larger improvements than other more complex synthetic methods. This result was not formally demonstrated.
-    \item The improvements in hypoglycemia were accompanied by some numerical trade-offs. For example, full balancing increased global RMSE by \(3.23\) mg/dL in DiaTrend, \(4.70\) mg/dL in REPLACE-BG, and \(2.30\) mg/dL in T1DiabetesGranada. Similar deteriorations occured in TIR. However, these changes must be interpreted according to where the additional error occurred. TIR A+B remained at \(99.01\%\) in DiaTrend, \(99.46\%\) in REPLACE-BG, and \(99.39\%\) in T1DiabetesGranada. No TIR predictions entered Clarke Error Grid Zones D or E. Therefore, these deteriorations only reflect a reduction in numerical precision but within clinically acceptable regions, rather than the introduction of clinically dangerous errors.
-    \item At the global level, clinical acceptability actually improved in all three datasets despite the increase in RMSE. Global A+B increased from \(95.23\%\) to \(96.09\%\) in DiaTrend, from \(95.08\%\) to \(97.55\%\) in REPLACE-BG, and from \(94.26\%\) to \(97.53\%\) in T1DiabetesGranada. At the same time, the global proportion of Zone D predictions decreased considerably. These results demonstrate that a higher global RMSE does not necessarily indicate a clinically worse model.
-    \item The most important finding of this study, from a clinical perspective, is that glucose prediction is not an abstract regression problem in which every error has the same consequence. Behind each prediction is a person who may need act before losing the ability to respond independently. The practical difference between detecting and failing to detect a severe hypoglycemic event may actually be the difference between an early manageable intervention and a situation that leads to physical impairment, seizure, loss of consciousness, or even death. For this reason, even a small improvement in this context would be worthy of serious consideration. However, the improvements observed in the present experiments were far from modest: the proportion of clinically acceptable severe-hypoglycemia predictions increased by approximately 64 to 77 percentage points in the primary fold-level analyses, and reached between \(72.68\%\) and \(88.87\%\) in the aggregate fully balanced results.
-
-\end{itemize}
-
-These results should not be interpreted as direct evidence that the evaluated models would actually perform satisfactorily in the real world. Such a conclusion would require ..., which is definitely not the aim of this study. However, the experiments clearly demonstrate that data balancing approaches can substantially reduce the type of predictive failures that would prevent a model from recognizing critical hypoglycemia events.
-
-The broader conclusion is that glucose prediction models should not be optimized solely according to aggregate RMSE. When clinical impact is treated as a main priority, models can be substantially more useful and safer, even if they are slightly less accurate on average.  Consequently, future glucose prediction systems should evaluate both the magnitude and the clinical location of their errors, and should explicitly consider the training-data glycemic ranges distribution as a fundamental decision.
-
-\section{Future Work}
-\label{sec:future_work}
-
-The results obtained in this thesis also open some possible directions for future research.
-
-\textbf{First}, the target distribution could be extended beyond symmetrical full balancing. Equal representation of the five glycemic ranges was used in this study as a clear and naive approach, but it is not necessarily the optimal distribution. Future experiments could explore asymmetric targets that assign even greater presence to severe hypoglycemia. This would make it possible to identify the most clinically efficient distribution.
-
-\textbf{Second}, the methodology should be evaluated with alternative predictive architectures: history lengths, prediction horizons, learning algorythms, etc.
-
-\textbf{Finally}, data balancing could be combined with clinically aware loss functions that assign greater penalties to dangerous prediction errors. This would allow evaluating whether data-balancing and optimized loss functions are complementary to produce improvements in critical glycemic ranges.

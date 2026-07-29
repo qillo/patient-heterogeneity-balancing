@@ -49,9 +49,9 @@ With all the three datasets analyzed separately, this section cross-compares the
         & 1,535 days \\
 
         Mean measurements per patient
-        & 150,340.31
-        & 46,782.10
-        & 34,577.39 \\
+        & 150,340
+        & 46,782
+        & 34,577 \\
 
         Median measurements per patient
         & 80,488
@@ -108,6 +108,7 @@ An additional assessment of this imbalance is presented in Table~\ref{tab:cross_
         \hline
         Normo / hypo & 27.68 & 17.18 & 12.51 \\
         Normo / severe hypo & 110.54 & 70.23 & 60.17 \\
+        Normo / hyper & 1.78 & 2.72 & 2.51 \\
         Normo / severe hyper & 2.72 & 6.83 & 5.07 \\
         Majority / minority & 110.54 & 70.23 & 60.17 \\
         \hline
@@ -171,6 +172,6 @@ Therefore, although the exact proportion differs between datasets, the same gene
 
 The patient-level analysis shows that, although the specific values for each patient have some natural degree of variability, the patterns found globally are also analogously present across population. TIR is the majority range for 94.12\% of DiaTrend patients, 98.21\% of REPLACE-BG patients, and 94.56\% of T1DiabetesGranada patients. At the same time, the representation of minority ranges varies across individuals, especially in T1DiabetesGranada, where some patients have no measurements in specific minority glycemic ranges.
 
-These findings have direct implications for data balancing. \textbf{First}, a balancing strategy is clearly justified to be approachable because all three datasets clearly show the expected glycemic-range imbalance. \textbf{Second}, hypoglycemia, severe hypoglycemia and severe hyperglycemia should recieve particular attention in the balancing methodology, given their consistent rarity -- although different from each other -- and clinical importance. \textbf{Finally}, the methodology should not only be global, but also patient-aware: it should preserve individual patient distributions and glycemic profiles, and avoid generating samples for absent ranges.
+These findings have direct implications for data balancing. First, a balancing strategy is clearly justified to be approachable because all three datasets clearly show the expected glycemic-range imbalance. Second, hypoglycemia, severe hypoglycemia and severe hyperglycemia should recieve particular attention in the balancing methodology, given their consistent rarity -- although different from each other -- and clinical importance. Finally, the methodology should not only be global, but also patient-aware: it should preserve individual patient distributions and glycemic profiles, and avoid generating samples for absent ranges.
 
-In summary, the EDA confirms that the selected datasets are suitable for studying glycemic-range imbalance in Type 1 Diabetes CGM prediction. The observed imbalance is not merely theoretical, but empirically present across all three datasets, both globally and a patient level. The graphical and quantitative results provide the basis for defining the data balancing methodology in the next chapter, with the objective to increase the representation of clinically critical minority glucose regions without unnecessarily distorting the patient-level structure of the original data.
+In summary, the EDA confirms that the selected datasets are suitable for studying glycemic-range imbalance in T1D CGM prediction. The observed imbalance is not merely theoretical, but empirically present across all three datasets, both globally and a patient level. The graphical and quantitative results provide the basis for defining the data balancing methodology in the next chapter, with the objective to increase the representation of clinically critical minority glucose regions without unnecessarily distorting the patient-level structure of the original data.

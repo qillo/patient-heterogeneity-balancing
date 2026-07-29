@@ -6,36 +6,13 @@
 \label{chap:SoA}
 
 \section{Scope and Methodology}
-\label{chap:soa_scope_and_metholodogy}
+\label{sec:soa_scope_and_metholodogy}
 
-The aim of this chapter is to review the current literature carried out in the field of T1-Diabetes glycemic prediction. Additionally, different data-balancing techniques proposed for time-series prediction are studied in this section
+The aim of this chapter is to review the current literature carried out in the field of T1-Diabetes glycemic prediction. In order to build a solid review, particular attention is given to three separate -- while closely related -- areas: T1-Diabetes prediction using CGM data, data balancing techniques applied to generic machine learning problems and time-series forecasting, and data balancing approaches for T1D prediction.
 
-\subsection{Main Research Areas}
-\label{subsec:soa_research_areas}
+To perform this review, several academic repositories and scientific databases were consulted, including Google Scholar~\cite{google_scholar}, PubMed~\cite{pubmed}, IEEE Xplore~\cite{ieee_xplore}, ScienceDirect~\cite{sciencedirect}, and SpringerLink~\cite{springerlink}. Searches combined terms related to T1D and glucose forecasting with terms such as \textit{data balancing}, \textit{imbalanced regression}, \textit{SMOTER}, and \textit{SMOGN}. The selection of literature was then filtered by its relevance to the scope of this study.
 
-In order to build a solid state-of-the-art review, this chapter distinguishes between, at least, the following three overlapping but non-equivalent research areas:
-\begin{itemize}
-    \item T1-Diabetes prediction using CGM data
-    \item Data balancing techniques applied to generic machine learning problems and time-series forecasting.
-    \item Data balancing approaches for T1 Diabetes prediction
-\end{itemize}
-
-\subsection{Literature Search and Selection}
-\label{subsec:soa_literature_search}
-
-To perform this review, several academic repositories and scientific databases were consulted, including \textit{Google Scholar \cite{google_scholar}, PubMed \cite{pubmed}, IEEE Xplore \cite{ieee_xplore}, ScienceDirect \cite{sciencedirect}, and SpringerLink \cite{springerlink}.} The search process utilized keywords such as:
-\begin{itemize}
-    \item \textit{"Type 1 Diabetes}
-    \item \textit{"CGM forecasting”}
-    \item \textit{"Glycemic prediction”}
-    \item \textit{"Data balancing”}
-    \item \textit{"Imbalanced regression"}
-    \item \textit{"SMOTER"}
-    \item \textit{"SMOGN”}
-\end{itemize}
-The selection of literature was then filtered by its relevance to the scope of this study.
-
-\section{Glycemic Prediction in Type 1 Diabetes}
+\section{Glycemic Prediction in T1D}
 \label{sec:soa_glycemic_prediction}
 
 \subsection{Evolution of Predictive Architectures}
@@ -50,18 +27,16 @@ Furthermore, literature reviews \cite{info:doi/10.2196/34699} state the field ha
 \subsection{Prediction Horizons and History Length}
 \label{subsec:soa_prediction_horizons_and_history}
 
-The scientific literature \cite{WOLDAREGAY2019109, info:doi/10.2196/34699, s26092675, 10.1371/journal.pone.0253125} converges on the idea that short-medium horizons -- 30 min to 1 hour -- are the most realistic and clinically useful. This range (30 to 60 min horizon) appears consistently in reviews of the T1D prediction literature. Also, evidence shows how the error increases rapidly as this horizon lengthens.
+The prediction horizon defines how far into the future the glucose level is predicted. The scientific literature \cite{WOLDAREGAY2019109, info:doi/10.2196/34699, s26092675, 10.1371/journal.pone.0253125} converges on the idea that short-medium horizons -- 30 min to 1 hour -- are the most realistic and clinically useful. While longer horizons provide more time for preventive action, they also increase the degree uncertainty introduced by other external future factors: meals, insulin doses, physical activity, or any other that may alter the glucose level. Additionally, prediction errors also increase as this horizon lengthens.
 
-Regarding the length of history window, literature also converges on the idea that most reusable evidence for decision support is concentrated in windows of at least up to one hour before  \cite{WOLDAREGAY2019109, info:doi/10.2196/34699, s26092675, 10.1371/journal.pone.0253125}.
+The history window determines how much previous CGM information is provided to the model. Literature also converges on the idea that most reusable evidence for decision support is concentrated in windows of at least up to one hour before \cite{WOLDAREGAY2019109, info:doi/10.2196/34699, s26092675, 10.1371/journal.pone.0253125}. Although no "universally optimal" length has been established, these minimum 1 hour size windoes are commonly used, since they help the model identify the current glucose level, trend, rate of change, and variability.
 
 \subsection{Evaluation Metrics and Clinical Taxonomy}
 \label{subsec:soa_clinical_metrics}
 
-The evaluation of glycemic prediction requires both statistical and clinical metrics.
-
 Most studies \cite{WOLDAREGAY2019109} in the field use the typical regression problems measures: RMSE, MAE, MSE, etc; since they provide the most direct and uncomplicated numerical estimation of the difference between the predicted and the real values, and allow comparing models in terms of "average numerical accuracy".
 
-However, for problems like this, average error metrics may not be sufficient: a model can obtain a low RMSE while still failing to detect rare but clinically dangerous events. Therefore, these models' evaluation must also consider where the error occurs, not only how large the average error is. For this reason, glucose predicition studies always include additional clinically-oriented metrics. As described in \ref{TIR-explanation}, the standard consensus amongst all literature is "glycemic ranges", often referred as \textbf{Time In Range} \cite{10.2337/dci19-0028}. These metrics are specially relevant for this thesis because they clearly define separate ranges according to their actual clinical relevance, which will allow us to directly quantify the imbalance of the glucose distribution.
+However, for problems like this, average error metrics may not be sufficient: a model can obtain a low RMSE while still failing to detect rare but clinically dangerous events. For this reason, the evaluation of glycemic prediction requires both statistical and clinical metrics: these models' evaluation must also consider where the error occurs, not only how large the average error is. As described in \ref{TIR-explanation}, the standard consensus amongst all literature is "glycemic ranges", often referred as Time In Range \cite{10.2337/dci19-0028}. These metrics are specially relevant for this thesis because they clearly define separate ranges according to their actual clinical relevance, which will allow us to directly quantify the imbalance of the glucose distribution.
 
 Another widely used clinical evaluation tool is the Clarke Error Grid Analysis (CEGA) \cite{10.2337/diacare.10.5.622}. Unlike other generic regression metrics, CEGA not only reflects the numerical difference between the predicted and the real values, but it also classifies those predictions into 5 different categories according to their potential clinical consequences. From safe to critical:
 \begin{itemize}
@@ -75,7 +50,7 @@ Another widely used clinical evaluation tool is the Clarke Error Grid Analysis (
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.75\textwidth]{images/CEGA.jpeg}
-    \caption{Clarke Error Grid, classifies glucose predictions according to their clinical risk.}
+    \caption{Clarke Error Grid, classifies glucose predictions according to their clinical risk. Source: \cite{ceg_graph}}
     \label{fig:clarke-error-grid}
 \end{figure}
 
@@ -123,7 +98,7 @@ In regression, the situation is more complex because discrete boundaries do not 
 
 \vspace{1em}
 
-Recent works has arisen other -- while much less adopted in the literature -- data balancing techniques such as: \textbf{SERA} \cite{5178874}, which evaluates regression error by giving greater importance to rare or highly relevant target values; \textbf{Balanced MSE} \cite{Ren_2022_CVPR}, which extends MSE to reduce of highly-frequent target values during training; and \textbf{Geometric variants} \cite{CAMACHO2022116387}, which redefine the synthetic samples generation to consider the geometric distribution of the local area instead of simple interpolation.
+Recent works have arisen other -- while much less adopted in the literature -- data balancing techniques such as: \textbf{SERA} \cite{5178874}, which evaluates regression error by giving greater importance to rare or highly relevant target values; \textbf{Balanced MSE} \cite{Ren_2022_CVPR}, which extends MSE to reduce of highly-frequent target values during training; and \textbf{Geometric variants} \cite{CAMACHO2022116387}, which redefine the synthetic samples generation to consider the geometric distribution of the local area instead of simple interpolation.
 
 \section{Data Balancing Applied to Glycemic Prediction}
 \label{sec:soa_data_balanding_glycemic_prediction}
@@ -144,7 +119,7 @@ Mayo et al. use Random Oversampling, SMOTE, and ADASYN, to generate synthetic sa
 \subsection{Synthetic Data Using Generative Models}
 \label{subsec:soa_over_sampling_gnn}
 
-In this other work by Nogher et. al \cite{s22134944}, they explore the possibility of using generative deep learning-based architectures to generate synthetic data. This idea arises from the conception that traditional mathematical generators often fail to accurately replicate the complex, individualized physiological behaviors of real patients.
+In this other work by Nogher et al. \cite{s22134944}, they explore the possibility of using generative deep learning-based architectures to generate synthetic data. This idea arises from the conception that traditional mathematical generators often fail to accurately replicate the complex, individualized physiological behaviors of real patients.
 
 In their results, they demonstrate that training models with datasets that have been synthetically oversampled with the mentioned mechanisms, achieves a general improvement across all evaluated metrics. This work sets the precedent in the use of generative machine learning techniques to train glucose prediction model.
 

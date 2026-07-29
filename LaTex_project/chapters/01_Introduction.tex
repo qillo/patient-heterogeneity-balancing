@@ -10,7 +10,7 @@
 \subsection{Clinical Burden of Type 1 Diabetes}
 \label{subsec:clinical_burden_t1d}
 
-Type 1 Diabetes is a chronic, metabolic disorder defined by the near-total -- or even absolute -- absence of endogenous insulin production due to the autoimmune destruction of pancreatic beta-cells. As a result, in the abscence of enough insulin in the system, glucose cannot be used properly for its corresponding primary functions.
+Type 1 Diabetes -- hereafter referred to as T1D -- is a chronic, metabolic disorder defined by the near-total -- or even absolute -- absence of endogenous insulin production due to the autoimmune destruction of pancreatic beta-cells. As a result, in the abscence of enough insulin in the system, glucose cannot be used properly for its corresponding primary functions.
 Unlike Type 2 Diabetes, which primarily involves resistance to insulin and progressive beta-cell dysfunction, T1D typically manifests with a rapid set of symptoms and an immediate risks if untreated.
 This physiological deficit requires lifelong, intensive exogenous insulin replacement therapy in order to maintain metabolic homeostasis. Considering that every daily decision directly influences the precarious balance of blood glucose levels of a person, the clinical burden placed upon those individuals with T1D is exceptionally high, as they must continously act as an "external controller" for such complex and highly sensitive regulatory system. The failure to “externally” achieve this balance leads to the following two distinct categories of clinical risk:
 \begin{itemize}
@@ -28,44 +28,77 @@ The introduction of Continuous Glucose Monitoring (CGM) systems has provided the
 \label{TIR-explanation}
 With the widespread of CGM, it was also necessary to establish more nuanced standard glycemic ranges, instead of relying on simple means. As a result, the International Consensus on Time In Range (TIR) \cite{10.2337/dci19-0028} defined metrics that describe the actual reality of T1D clinical management:
 
-\begin{itemize}
-    \item  Time Below Range (TBR) -> The percentage of time a patient's glycemic level is below 70 mg/dL. It can be divided into:
-    \begin{itemize}
-        \item Level 1 -> 54–69 mg/dL
-        \item Level 2 -> <54 mg/dL
-    \end{itemize}
-    \textit{Minimizing TBR is actually the highest priority for clinical safety, since Level 2 hypoglycemia represents an immediate critical medical emergency, as previously described.}
-    \item Time In Range (TIR) -> The percentage of time a patient's glycemic level is between 70 and 180 mg/dL.
-    \item  Time Above Range (TAR) -> The percentage of time a patient's glycemic level is above 180 mg/dL. It can also be divided into:
-    \begin{itemize}
-        \item Level 1 -> 181–250 mg/dL
-        \item Level 2 -> >250 mg/dL
-    \end{itemize}
-\end{itemize}
+\begin{table}[htbp]
+    \centering
+    \caption{Clinical glycemic-range metrics and their corresponding thresholds.}
+    \label{tab:glycemic_range_metrics}
+    
+    \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{1.4cm}
+        >{\raggedright\arraybackslash}p{1.5cm}
+        >{\centering\arraybackslash}p{2.3cm}
+        >{\raggedright\arraybackslash}X
+    }
+        \hline
+        \textbf{Metric} &
+        \textbf{Level} &
+        \textbf{Glycemic range} &
+        \textbf{Definition} \\
+        \hline
+        
+        TBR &
+        Level 2 &
+        $<54$ mg/dL &
+        Percentage of time spent in severe hypoglycemia. \\
+        
+        TBR &
+        Level 1 &
+        $54$--$69$ mg/dL &
+        Percentage of time spent in hypoglycemia. \\
+        
+        TIR &
+        --- &
+        $70$--$180$ mg/dL &
+        Percentage of time spent within the target glycemic range. \\
+        
+        TAR &
+        Level 1 &
+        $181$--$250$ mg/dL &
+        Percentage of time spent in hyperglycemia. \\
+        
+        TAR &
+        Level 2 &
+        $>250$ mg/dL &
+        Percentage of time spent in severe hyperglycemia. \\
+        
+        \hline
+    \end{tabularx}
+    
+    \vspace{0.2cm}
+    
+    \begin{minipage}{\textwidth}
+        \footnotesize
+        \textit{Note:} Minimizing TBR is the highest priority for clinical
+        safety, since Level~2 hypoglycemia represents an immediate critical
+        medical emergency, as previously described.
+    \end{minipage}
+\end{table}
 
 This ranges establish the necessary essential consensus for evaluating treatments efficacy and patient's safety.
 
 \subsection{From Glucose Monitoring to Glucose Prediction}
 \label{subsec:monitorging_evolution}
 
-Even to this day, the most common approach in the daily management of T1D remains reactive: a glucose level is detected, and an insulin dose is subsequently adjusted from that only measurement. However, the widespread adoption of Continuous Glucose Monitoring (CGM) is enabling a conceptual paradigm shift: using AI to predict critical glycemic values in advance.
-
-While reactive management relies on correcting "dys-glycemia" after it has already occurred, proactive AI aims to forecast glycemic trends 30 to 60 minutes into the future-seeking in order to act before the problem has already materialized.
+Even to this day, the most common approach in the daily management of T1D remains reactive: a glucose level is detected, and an insulin dose is subsequently adjusted from that only measurement. However, the widespread adoption of Continuous Glucose Monitoring (CGM) is enabling a conceptual paradigm shift: using AI to predict critical glycemic values in advance. While reactive management relies on correcting "dys-glycemia" after it has already occurred, proactive AI aims to forecast glycemic trends 30 to 60 minutes into the future-seeking in order to act before the problem has already materialized.
 
 This "early warning system" holds immense clinical value: by anticipating these critical up-coming values toward either hypoglycemia or hyperglycemia, with a window of several minutes, patients can intervene earlier, with less aggressiveness and with less potential risk. In summary, this transition from "detecting" to "predicting" not only improves glucose stability but also significantly reduces the physical and emotional impact on the patient, allowing for a more seamless and less stressful management experience.
 
 \section{Problem Statement}
 \label{sec:problem_statement}
 
-Despite the high availability of glycemic data thanks to CGM and the rapid development of AI these days, the development of robust glycemic forecasting models is still plagued by the "Lazy AI" phenomenon. This term refers to: \textit{models that achieve high global accuracy by essentially "playing it safe" – optimizing for the most common states while failing to predict the critical, low-frequency events that actually represent the greatest risk to the patient.}
+Despite the high availability of glycemic data thanks to CGM and the rapid development of AI these days, the development of robust glycemic forecasting models is still challenging: \textit{regression models can achieve high global accuracy by essentially "playing it safe" – optimizing for the most common states while failing to predict the critical, low-frequency events that actually represent the greatest risk to the patient}. More specifically, in T1D glucose prediction, this phenomenon occurs due to the inherent imbalance of real-world glycemic data. In a typical well-controlled -- or even moderately-controlled -- patient, the vast majority of measurements fall within the normoglycemic (70-180 mg/dL) or Level 1 hyperglycemic (181-250 mg/dL) ranges. In contrast, hypoglycemic events (< 70 mg/dL) often represent 4\% or less of the total historical data points of a patient.
 
-In T1D glucose prediction, this phenomenon occurs due to the inherent imbalance of real-world glycemic data.
-
-In a typical well-controlled -- or even moderately-controlled -- patient, the vast majority of measurements fall within the normoglycemic (70-180 mg/dL) or Level 1 hyperglycemic (181-250 mg/dL) ranges. In contrast, hypoglycemic events (< 70 mg/dL) often represent 4\% or less of the total historical data points of a patient.
-
-Most machine learning algorithms are designed to minimize a global error metric, such as MSE, RMSE, or similar, which implicitly gives equal importance to all the points. This makes the model "play it safe" in the training by assuming that the patient will remain within the normoglycemic range, which actually gets an "excellent" error rate.
-
-This is the essence of Lazy-AI: the model avoids predicting rare values of the spectrum in order to minimize the risk of large error penalties. This mean-seeking behavior, specifically in T1D glucose prediction, creates a "majority bias" that makes it fail to trigger the corresponding necessary life-saving alarms for the most critical values.
+Most machine learning algorithms are designed to minimize a global error metric, such as MSE, RMSE, or similar, which implicitly gives equal importance to all the points. This makes the model "play it safe" in the training by assuming that the patient will remain within the normoglycemic range, which actually gets an "excellent" error rate. As a result, the model avoids predicting rare values of the spectrum in order to minimize the risk of large error penalties, which, specifically in T1D glucose prediction, creates a dangerous "majority bias" that makes it fail to trigger the corresponding necessary life-saving alarms for the most critical values.
 
 \section{Objectives}
 \label{objetives}
@@ -75,24 +108,14 @@ The aim of this thesis is to investigate the impact of data balancing techniques
 To achieve this general objective, the following specific objectives are defined:
 
 \begin{itemize}
-    \item OE0. Review the State of the Art on data balancing for glucose predictions.
+    \item \textbf{OE0. Review the State of the Art on data balancing for glucose predictions.} First, a preliminary review of the scientific literature is conducted to identify existing data balancing methodologies for glucose prediction using machine learning. If the available literature is found to be limited on this matter, the review will focus separately on: machine learning algorithms for glucose prediction, and data-balancing techniques in related time-series regression or healthcare prediction problems.
 
-    First, a preliminary review of the scientific literature is conducted to identify existing data balancing methodologies for glucose prediction using machine learning. If the available literature is found to be limited on this matter, the review will focus separately on: machine learning algorithms for glucose prediction, and data-balancing techniques in related time-series regression or healthcare prediction problems.
+    \item \textbf{OE1. Analyze the distribution of glycemic ranges in the selected datasets.} This thesis works with three different CGM datasets: DiaTrend, REPLACE-BG and T1DiabetesGranada. They will be thoroughly examined and analyzed to quantify the degree of imbalance in real-world glycemic data, by clearly identifying TIR, TBR and TAR proportions.
 
-    \item OE1. Analyze the distribution of glycemic ranges in the selected datasets.
+    \item \textbf{OE2. Apply data balancing techniques to the training data.} Balancing strategies such as SMOTER \cite{10.1007/978-3-642-40669-0_33}, SMOGN \cite{pmlr-v74-branco17a}, or similar over-sampling techniques will be studied, implemented, and applied to generate alternative training sets with improved representation of previously under-represented glycemic regions.
 
-    This thesis works with three different CGM datasets: DiaTrend, REPLACE-BG and T1DiabetesGranada. They will be thoroughly examined and analyzed to quantify the degree of imbalance in real-world glycemic data, by clearly identifying TIR, TBR and TAR proportions.
+    \item \textbf{OE3. Train existing glucose prediction models with the balanced data.} The same pre-existing models -- inherited by the research team tutoring the thesis -- will be trained under the same fixed experimental conditions using the different balanced versions.
 
-    \item OE2. Apply data balancing techniques to the training data.
-
-    Balancing strategies such as SMOTER \cite{10.1007/978-3-642-40669-0_33}, SMOGN \cite{pmlr-v74-branco17a}, or similar over-sampling techniques will be studied, implemented, and applied to generate alternative training sets with improved representation of previously under-represented glycemic regions.
-
-    \item OE3. Train existing glucose prediction models under fixed experimental conditions.
-    
-    The same pre-existing models -- inherited by the research team tutoring the thesis -- will be trained using the original imbalanced datasets and the different balanced versions, ensuring that any observed differences in performance can then be attributed to the data balancing process carried out.
-
-    \item OE4. Evaluate the statistical and clinical impact of balancing glucose datasets.
-    
-    Model performance will be assessed using both conventional reggression metrics -- RMSE, MSE, etc -- and clinically meaningful indicators -- such TIR, Clarke Error Grid, etc. This will allow to distinguish between numerical accuracy and clinical impact.
+    \item \textbf{OE4. Evaluate the statistical and clinical impact of balancing glucose datasets.} Model performance will be assessed using both conventional reggression metrics -- RMSE, MSE, etc -- and clinically meaningful indicators -- such TIR, Clarke Error Grid, etc. This will allow to distinguish between numerical accuracy and clinical impact. A common unbalanced baseline will be used to compare the results.
     
 \end{itemize}

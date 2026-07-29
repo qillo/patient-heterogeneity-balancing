@@ -2,33 +2,44 @@
 % CHAPTER 4 — EXPERIMENTAL METHODOLOGY
 % =========================================================
 
-\chapter{Experimental Methodology}
+\chapter{Methodology}
 \label{chap:experimental_methodology}
 
-This chapter defines the experimental methodology used to address the glycemic-range imbalance identified in Chapter~\ref{chap:eda}
+The exploratory data analysis presented in Chapter~\ref{chap:eda} revealed a consistent imbalance across the three datasets under study. In all cases, the normoglycemic range represented the majority of the available measurements, while hypoglycemia, and particularly severe hypoglycemia, appeared only in a small fraction of the records. Severe hyperglycemia (>250 mg/dL) was also underrepresented compared to the normoglycemic range, although to a lesser extent. This imbalance was observed both at the global dataset level and at the patient level, suggesting that predictive models trained on these data may be biased towards the most frequently observed glycemic states. This chapter defines the experimental methodology used to address the glycemic-range imbalance identified in Chapter~\ref{chap:eda}
 
-\section{Experimental Methodology Proposal}
+\section{Experimental Design}
 \label{sec:experimental_methodology_proposal}
-
-\subsection{Motivation from the Exploratory Data Analysis}
-\label{subsec:experimental_methodology_motivation}
-
-The exploratory data analysis presented in Chapter~\ref{chap:eda} revealed a consistent imbalance across the three datasets under study. In all cases, the normoglycemic range represented the majority of the available measurements, while hypoglycemia, and particularly severe hypoglycemia, appeared only in a small fraction of the records. Severe hyperglycemia (>250 mg/dL) was also underrepresented compared to the normoglycemic range, although to a lesser extent. This imbalance was observed both at the global dataset level and at the patient level, suggesting that predictive models trained on these data may be biased towards the most frequently observed glycemic states.
 
 \subsection{Scope of the Balancing Process}
 \label{subsec:experimental_methodology_scope}
 
-First, it is important to note that, although the imbalance has been identified in the original CGM individual measurements, the balancing process will not be applied directly to these raw timestamped records. These measurements form actual patient-specific \textbf{time series} in which each glucose value is linked to previous and subsequent observations through a temporal dependency structure. Inserting, deleting, or duplicating individual records into this structure would create artificial trajectories that do not correspond to real physiological glycemic and introduce strong biases unrelated to the actual imbalance problem being studied. For this reason, balancing will be applied only after the original timestamped measurements have been transformed into the supervised \textbf{data windows} used by the predictive models. At this stage, each instance is represented as an input-output pair derived from the original CGM sequence, which makes it possible to apply resampling techniques without directly modifying the underlying timestamped measurements structure. This preserves the temporal consistency of the raw data while allowing the learning algorithm to be exposed to a less imbalanced distribution of glycemic ranges during model fitting.
+First, it is important to note that, although the imbalance has been identified in the original CGM individual measurements, the balancing process will not be applied directly to these raw timestamped records. These measurements form actual patient-specific \textbf{time series} in which each glucose value is linked to previous and subsequent observations through a temporal dependency structure. Inserting, deleting, or duplicating individual records into this structure would create artificial measurements that do not correspond to real physiological glycemic profiles, and introduce strong biases unrelated to the actual imbalance problem being studied. For this reason, balancing will be applied only after the original timestamped measurements have been transformed into the supervised \textbf{data windows} used by the predictive models. At this stage, each instance is represented as an input-output pair derived from the original CGM sequence, which makes it possible to apply resampling techniques without directly modifying the underlying timestamped measurements structure. This preserves the temporal consistency of the raw data while allowing the learning algorithm to be exposed to a less imbalanced distribution of glycemic ranges during model fitting.
 
 Additionally, \textbf{balancing is applied only to the training data} because the purpose of these techniques is to modify the distribution of examples seen by the model during training, so that underrepresented glycemic ranges have a greater influence on parameter estimation. Therefore, validation and test sets must remain unchanged, since they are intended to preserve the original data distribution in order to provide an unbiased estimate of how the model behaves under realistic conditions. This decision is based on the standard methodological practice found in the imbalanced learning literature explored in Chapter~\ref{chap:SoA}. Throughout the state of the art reviewed in said chapter, resampling methods are consistently applied to the training data, while validation and test subsets are kept unmodified. Also, an additional specific review of methodological recommendations for this decision did not identify evidence suggesting that validation or test sets should be balanced. On the contrary, official documentation \cite{imbalanced_learn} explicitly warns that resampling the whole dataset before splitting, or equivalently resampling both training and test partitions, leads to data leakage and to evaluation on a distribution that no longer reflects the real use case. Similarly, the scikit-learn documentation \cite{scikit_learn_common_pitfalls} states that preprocessing operations must be learned only from the training data, and that test data should not be involved in fitting procedures.
 
-\subsection{Proposed Hybrid Balancing Strategy}
+\subsection{Fixed Experimental Configuration}
+\label{subsec:experimental_methodology_fixed_configuration}
+
+In order to isolate the effect of the balancing strategies, several experimental conditions will remain fixed throughout all experiments in order to provide a stable baseline for comparison. These decisions have been chosen because they represent common standard settings in glucose prediction studies, as studied in Chapter~\ref{chap:SoA} and because the objective of this thesis is not to compare different predictive architectures, prediction horizons, or window configurations, but to evaluate how modifying the training-data distribution affects glucose prediction performance under equivalent experimental conditions.
+
+For this reason, all experiments will use the same predictive algorithm, namely a \textbf{Long Short-Term Memory} network. LSTM models are appropriate for this task because they are designed to process sequential data and can exploit temporal dependencies between previous CGM measurements.
+
+The prediction horizon will be fixed at \textbf{one hour} into the future. Since the supervised windows are generated from 15-minute CGM samples, this corresponds to \textbf{predicting four samples ahead}. The input history length will be fixed at \textbf{eight previous measurements}, equivalent to \textbf{two hours of past glucose information}.
+
+Model training is performed using five-fold cross-validation. 
+
+Finally, \textbf{Root Mean Squared Error} will be used as the main loss and evaluation metric.
+
+\section{Data-Balancing Methodology}
+\label{sec:data-balancing methodology}
+
+\subsection{Hybrid Balancing Strategy}
 \label{subsec:experimental_methodology_hybrid_strategy}
 
 To address the numerical imbalance limitation identified in Chapter~\ref{chap:eda}, this study proposes a hybrid balancing strategy that combines synthetic oversampling of minority glycemic ranges, with controlled undersampling of the majority ranges. This approach preserves the total number of measurements in each dataset while redistributing them across glycemic ranges to achieve the desired proportions. This strategy will expose predictive models to a more representative set of clinically relevant glycemic events while preserving the overall characteristics of the original datasets.
 
 \subsection{Target Distributions}
-\label{target_distributions_chapter}
+\label{subsec:target_distributions}
 
 The exact proportions in which the hybrid approach described previously will change each dataset distribution are explored through three different target distributions: normalized baseline balancing, semi-balancing, and full balancing.
 
@@ -177,7 +188,7 @@ A positive value indicates the number of samples that must be added through over
     }
 \end{table}
 
-These values represent the theoretical redistribution of the complete datasets. There is some small residual differences caused by conversion to integer. These rounding differences will also be addressed in the implemenation. By applying this re-distribution all the three datasets will share common proportions amongst the glycemic ranges, regardless of their total size.
+These values represent the theoretical redistribution of the complete datasets. By applying this re-distribution all the three datasets will share common proportions amongst the glycemic ranges, regardless of their total size. There is some small residual differences caused by conversion to integer. These rounding differences will also be addressed in the implementation. 
 
 \subsubsection{Fully Balanced Distribution}
 \label{subsubsec:full_balancing_distribution}
@@ -188,9 +199,7 @@ Full balancing consists of forcing all glycemic ranges to contain the same numbe
 p(r)=\frac{1}{5}=20\%.
 \]
 
-Thus, if (N) denotes the total number of training windows, each range is resampled to contain approximately (N/5) samples. Ranges below this target are oversampled, whereas ranges above it are undersampled.
-
-\textbf{\textit{This approach is considered the main strategy against which the study premise will be evaluated.}}
+Thus, if (N) denotes the total number of training windows, each range is resampled to contain approximately (N/5) samples. Ranges below this target are oversampled, whereas ranges above it are undersampled. \textbf{\textit{This approach is considered the main strategy against which the study premise will be evaluated.}}
 
 \subsubsection{Semi-Balanced Distribution}
 \label{subsubsec:semi_balancing_distribution}
@@ -269,56 +278,25 @@ In addition to SMOTER \cite{10.1007/978-3-642-40669-0_33} and SMOGN \cite{pmlr-v
 
 An additional methodological decision concerns whether balancing should be performed globally or independently for each patient. Since the EDA showed that patients do not share identical TBR, TIR, and TAR proportions, each individual presents a distinct glycemic profile shaped by their own physiological dynamics. Forcing every patient to reach the same balanced distribution would remove part of this heterogeneity and could generate patient profiles that do not reflect the original data.
 
-For this reason, the proposed methodology will not apply strict per-patient balancing. Instead, the target distribution will be defined globally for each training set as defined in Chapter~\ref{target_distributions_chapter}, while the resampling operations used to approach that target will be constrained by patient-level information. In other words, the objective is to balance the training set as a whole, not to force every patient to contain the same proportion of each glycemic range.
+For this reason, the proposed methodology will not apply strict per-patient balancing. Instead, the target distribution will be defined globally for each training set as defined in Chapter~\ref{subsec:target_distributions} while the resampling operations used to approach that target will be constrained by patient-level information. In other words, the objective is to balance the training set as a whole, not to force every patient to contain the same proportion of each glycemic range.
 
 In practical terms, for each glycemic range, the number of samples to be added or removed will first be computed at global training-set level. When oversampling is required, only patients who already contain a minimum required ammount of 2 samples in the corresponding range will be considered eligible. The required additional samples will then be distributed across these eligible patients, and in proportion to their original contribution to that range.
-
-\subsection{Fixed Experimental Configuration}
-\label{subsec:experimental_methodology_fixed_configuration}
-
-In order to isolate the effect of the previously proposed balancing strategies, several experimental conditions will remain fixed throughout all experiments in order to provide a stable baseline for comparison. These decisions have been chosen because they represent common standard settings in glucose prediction studies and because the objective of this thesis is not to compare different predictive architectures, prediction horizons, or window configurations, but to evaluate how modifying the training-data distribution affects glucose prediction performance under equivalent modelling conditions.
-
-For this reason, all experiments will use the same predictive algorithm, namely a \textbf{Long Short-Term Memory} network. LSTM models are appropriate for this task because they are designed to process sequential data and can exploit temporal dependencies between previous CGM measurements.
-
-The prediction horizon will be fixed at \textbf{one hour} into the future. Since the supervised windows are generated from 15-minute CGM samples, this corresponds to \textbf{predicting four samples ahead}. The input history length will be fixed at \textbf{eight previous measurements}, equivalent to \textbf{two hours of past glucose information}.
-
-Model training is performed using five-fold cross-validation. 
-
-Finally, \textbf{Root Mean Squared Error} will be used as the main loss and evaluation metric.
-
-\subsection{Experimental Workflow}
-\label{subsec:experimental_methodology_workflow}
-
-The experimental procedure is structured as a sequence of stages designed to isolate the effects of each methodological decision on glucose prediction performance. The workflow evaluates three balancing targets and the three balancing methods, while implementing patient-aware mechanisms and keeping the validation and test sets unchanged in all cases.
-
-\textbf{First}, for each dataset, three training-set versions will be generated according to the normalized baseline target distribution, using each of the three proposed methods: random, SMOTER and SMOGN. The same fixed training configuration described in Section~\ref{subsec:experimental_methodology_fixed_configuration} will be used across all balanced training-set versions. Comparing the three methods under the same target distribution makes it possible to determine whether regression-aware synthetic oversampling provides benefits beyond basic random resampling. 
-
-\textbf{Second}, following the same procedure used for the normalized baseline, the three same balancing methods will be applied using the semi-balanced target distribution, in order to evaluate the effects of this intermediate balancing strategy.
-
-\textbf{Third}, analogously to the previous steps, the same methods be applied using the fully balanced target distribution, in which all five glycemic ranges receive equal representation. This stage evaluates the effects of the most intensive balancing configuration and determines whether its potential improvements in clinically relevant minority ranges compensate for any degradation in overall predictive performance.
-
-\textbf{Finally}, each resulting model will be evaluated using the same unmodified validation and test data. Performance will then be analysed using both numerical and clinical metrics, with particular to the minority regions identified during the EDA.
 
 \section{Statistical Analysis and Evaluation}
 \label{sec:statistical_analysis}
 
 The results of the experimentation will be statistically analysed in order to evaluate the study premise on a rigorous mathematical basis.
 
-The general hypothesis states that \textbf{increasing the representation of rare glycemic ranges during training has a positive effect on predictive performance in clinically critical regions}. However, this formulation is too broad, since it englobes the full cohort of the problem. For the scope of this analysis, and in order to perform the evaluation through a single statistical test, the hypothesis is simplified to one primary clinical outcome. More specifically, the statistical analysis focuses on severe hypoglycemia, represented by TBR$_2$, because it is the most clinically critical range as stated in the previous chapters. 
-
-\subsection{Primary Clinical Outcome}
+\subsection{Primary Clinical Outcome And Effect Measure}
 \label{subsec:primary_clinical_outcome}
 
-Formally, the selected outcome for the statistical analysis is the global proportion of severe-hypoglycemia predictions located in Clarke Error Grid Zones A and B, denoted as:
+The general hypothesis states that \textbf{increasing the representation of rare glycemic ranges during training has a positive effect on predictive performance in clinically critical regions}. However, this formulation is too broad, since it englobes the full cohort of the problem. For the scope of this analysis, and in order to perform the evaluation through a single statistical test, the hypothesis is simplified to one primary clinical outcome. More specifically, the statistical analysis focuses on severe hypoglycemia, represented by TBR$_2$, because it is the most clinically critical range as stated in the previous chapters. Formally, the selected outcome for the statistical analysis is the global proportion of severe-hypoglycemia predictions located in Clarke Error Grid Zones A and B, denoted as:
 
 \begin{equation}
 AB_{\mathrm{TBR_2}}.
 \end{equation}
 
 Zone A contains predictions considered clinically accurate, whereas Zone B contains predictions that deviate from the reference glucose value but would not normally lead to an inappropriate clinical decision. Therefore, combined, they represent the percentage of predictions that remain \textbf{clinically acceptable}.
-
-\subsection{Primary Effect Measure}
-\label{subsec:primary_effect_measure}
 
 The reference baseline for all datasets is defined by the results of the corresponding \texttt{NORMALIZED BASELINE} experiment, since it uses a common targets distribution for the three of them. Then, the fully balanced configuration is compared with the corresponding normalized configuration.
 
@@ -370,7 +348,7 @@ The three method-specific differences are subsequently averaged within each fold
 The resulting five fold-level differences constitute the five observations used in
 the statistical test.
 
-\subsection{Statistical Hypothesis}
+\subsection{Statistical Hypothesis And Test}
 \label{subsec:statistical_hypotheses}
 
 Let \(\mu_{\Delta}\) denote the mean paired difference in \(AB_{\mathrm{TBR_2}}\) between the fully balanced and normalized configurations across the five cross-validation folds, after averaging the corresponding differences across the three balancing methods.
@@ -392,9 +370,6 @@ H_1:
 \end{equation}
 
 Rejecting ($H_0$) with a ($p$)-value below the selected significance level would provide enough evidence for our research premise: that full balancing improves \(AB_{\mathrm{TBR_2}}\) relative to the normalized baseline across all the evaluated balancing methods. If proven, this statistical evidence will then have to be evaluated together with any possible deterioration in other clincal metrics, and with the actual magnitude of \(\mu_{\Delta}\). This is to determine whether the observed change is practically meaningful -- \textit{satisfying Equation~\ref{eq:alternative_hypothesis_tbr2} does not necessarily imply that the observed improvement is clinically relevant enough.}
-
-\subsection{Statistical Test}
-\label{subsec:statistical_test}
 
 The primary hypothesis is evaluated using a one-sided paired Student's \(t\)-test. The paired design is appropriate because every fully balanced result is compared with the normalized result obtained using the same dataset and experimental configuration.
 
@@ -475,8 +450,8 @@ The semi-balanced configuration is retained as an intermediate approach and will
 Additionally, other regression and Clarke Error Grid metrics are also considered as secondary outcomes. These include:
 
 \begin{itemize}
-    \item TBR RMSE and MAE;
     \item global RMSE, MAE, and A+B;
+    \item TBR numerical and clinical performance (\textit{althouh TBR2 clinical performance will be addressed as the primary outcome};
     \item TIR numerical and clinical performance;
     \item TAR numerical and clinical performance; and
     \item the individual proportions of predictions located in Clarke Error Grid Zones.
@@ -484,18 +459,21 @@ Additionally, other regression and Clarke Error Grid metrics are also considered
 
 These secondary outcomes will be used to determine the impact of the primary clinical improvement -- if proven -- on other numerical prediction error metrics and on the movement of observations from clinically dangerous into acceptable ones. They are not treated as additional confirmatory hypotheses. They will mainly be interpreted through their numerical changes relative to the normalized baseline, and their consistency across balancing methods and datasets.
 
-\section{Balancing Implementation}
-\label{sec:balancing_implementation}
+\section{Implementation and Experimental Execution}
+\label{sec:experimental_execution}
+
+\subsection{Balancing Module And Pipeline Integration}
+\label{subsec:balancing_implementation}
 
 The original training, validation, prediction, and evaluation pipelines had already been developed by the research team leading this thesis. Therefore, the objective is not to create a new prediction framework from scratch, but to incrust a new data-balancing mechanism into the existing framework so that the effect of different training-data distributions can be evaluated using the same training pipeline.
 
-For this reason, the main contribution developed in this thesis is the BALANCING module. This module receives the training subset of each fold and generates a new version according to the selected balancing method and target distribution. Three methods were implemented: Random resampling, SMOTER and SMOGN. Each method can be combined with the normalized, semi-balanced, and fully balanced target distribution configurations described in Section~\ref{target_distributions_chapter}.
+For this reason, the main contribution developed in this thesis is the BALANCING module. This module receives the training subset of each fold and generates a new version according to the selected balancing method and target distribution. Three methods were implemented: Random resampling, SMOTER and SMOGN. Each method can be combined with the normalized, semi-balanced, and fully balanced target distribution configurations described in Section~\ref{subsec:target_distributions}
 
 The balancing process operates equivalently on the five clinically defined glycemic ranges. For each range, the number of required samples is calculated from the selected target distribution. Ranges containing more samples than required are undersampled, whereas minority ranges are oversampled: Random resampling generates additional observations by duplicating existing windows, while SMOTER and SMOGN generate synthetic windows from similar observations.
 
 Additionally, for the synthetic approach (SMOTER and SMOGN), sample generation is patient-aware. The number of synthetic observations assigned to each patient is proportional to the number of eligible real observations available for that patient, and new windows are created using observations belonging to the same patient and glycemic range, rather than combining data from different patients.
 
-Additionally, the inherited training pipeline was refactored to integrate this module. In each cross-validation fold, balancing is applied exclusively to the training subset before model fitting. The validation and test subsets remain unchanged so that model selection and final evaluation are performed using the original data distribution. The pipeline was also adapted to automatically execute the combinations of dataset, balancing method, and balancing level, while maintaining separate output directories and experiment records for every configuration.
+Moreover, the inherited training pipeline was refactored to integrate this module. In each cross-validation fold, balancing is applied exclusively to the training subset before model fitting. The validation and test subsets remain unchanged so that model selection and final evaluation are performed using the original data distribution. The pipeline was also adapted to automatically execute the combinations of dataset, balancing method, and balancing level, while maintaining separate output directories and experiment records for every configuration.
 
 All experiments use the same predictive model and training configuration. The model is a Long Short-Term Memory network with 128 recurrent units followed by a dense output layer that predicts a single future glucose value. It receives eight previous CGM measurements, representing two hours of glucose history, and predicts glucose four samples ahead, corresponding to a one-hour prediction horizon. The model is trained using the RMSE loss function and the Adam optimizer. Early stopping and model checkpointing are also used to retain the model with the best validation performance and avoid unnecessarily extending the training process.
 
@@ -503,9 +481,24 @@ A five-fold cross-validation procedure is also used for every experimental confi
 
 Specific implementation can be checked in Appendix~\ref{app:source_code}.
 
-\section{Model Training}
+\subsection{Experimental Workflow}
+\label{subsec:experimental_workflow}
+
+For each of the three datasets, the three target distributions described in Section~\ref{subsec:target_distributions} are combined with the three balancing methods presented in Section~\ref{subsec:experimental_methodology_methods}. This results in nine different experimental configurations per dataset, and 27 configurations in total:
+
+\[
+3\ \text{datasets}
+\times
+3\ \text{target distributions}
+\times
+3\ \text{balancing methods}
+=
+27\ \text{configurations}.
+\]
+
+Each configuration is evaluated using five-fold cross-validation. Within each fold, the selected balancing strategy is applied exclusively to the training subset, while the validation and test subsets remain untouched. The same fixed training configuration is used in every experiment. The resulting predictions are evaluated statistically as defined in Section~\ref{sec:statistical_analysis}.
+
+\subsection{Model Training}
 \label{sec:model_training}
 
-The complete experimental execution are run on the Calculus computing server. Training runs are submitted as batch jobs through \textbf{SLURM}.
-
-This server-based workflow is necessary because of the large number of glucose windows and the computational cost of training all 27 -- 3 datasets x 3 methods x 3 targets -- balancing configurations across the different folds.
+The complete experimental execution are run on the Calculus computing server. Training runs are submitted as batch jobs through \textbf{SLURM} \cite{slurm_documentation}. This server-based workflow is necessary because of the large number of glucose windows and the computational cost of training all 27 -- 3 datasets x 3 methods x 3 targets -- balancing configurations across the different folds.
