@@ -1,0 +1,251 @@
+\section{REPLACE-BG Dataset}
+\label{sec:eda_replacebg}
+
+\begin{quote}
+\small
+
+\textit{Since the subsequent analyses for REPLACE-BG are analogous to the ones performed for Diatrend, some of the EDA methodology has been omitted.}
+
+\end{quote}
+
+\subsection{Dataset Description}
+\label{subsec:replacebg_dataset_description}
+
+Like Diatrend, REPLACE-BG dataset includes both a patient-level information table that provides demographic information, and a glucose measurement table with the timestamped glucose values. Tables' fields are also analogous to those described for Diatrend \ref{subsec:diatrend_dataset_description}. The main descriptive characteristics of the dataset are summarized in Table~\ref{tab:replace_bg_general_description}
+
+\begin{table}[htbp]
+    \centering
+    \caption{General characteristics of the REPLACE-BG dataset.}
+    \label{tab:replace_bg_general_description}
+    \begin{tabular}{ll}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Number of patients & 223 \\
+        Total number of glucose measurements & 10,432,408 \\
+        \hline
+        Start date & 2000-01-13 00:01:53 \\
+        End date & 2000-11-25 14:39:43 \\
+        Total recording span & 317 days \\
+        Number of days with measurements & 318 \\
+        \hline
+        Rows with 5-minute alignment & 11,528,724 \\
+        Rows with 15-minute alignment & 3,842,908 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+A consistency check was also performed for REPLACE-BG between the patient metadata table and the measurements table. The metadata file contains information for 223 patients, and all 223 patients are also present in the measurement dataset. Therefore, since no patients appear in one table but not in the other, all subsequent analyses for REPLACE-BG are based on the full set of 223 patients. Table~\ref{tab:replace_bg_general_description} summarises their demographic characteristics.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Patient information summary for REPLACE-BG.}
+    \label{tab:replace_bg_patient_summary}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean age & 44.17 \\
+        Median age & 43 \\
+        Minimum age & 19 \\
+        Maximum age & 78 \\
+        \hline
+        Male patients & 111 \\
+        Female patients & 112 \\
+        \hline
+        Mean days with measurements per patient & 173 \\
+        Median days with measurements per patient & 178 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+This generic structural description provides the basic context needed for the following analyses.
+
+\subsection{Patient Contribution Analysis}
+\label{subsec:replacebg_patient_contribution}
+
+For each patient, the number of glucose measurements and the number of days with at least one measurement were computed, and summarised in Table~\ref{tab:replace_bg_patient_contribution}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Patient contribution summary in REPLACE-BG.}
+    \label{tab:replace_bg_patient_contribution}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean measurements per patient & 46,782 \\
+        Median measurements per patient & 48,688 \\
+        Minimum measurements per patient & 10,013 \\
+        Maximum measurements per patient & 54,932 \\
+        \hline
+        Mean days per patient & 173 \\
+        Median days per patient & 178 \\
+        Minimum days per patient & 38 \\
+        Maximum days per patient & 200 \\
+        \hline
+        Percentage contributed by the largest patient & 0.53\% \\
+        Percentage contributed by the top 5 patients & 2.56\% \\
+        Percentage contributed by the top 10 patients & 5.08\% \\
+        Number of patients contributing 50\% of the dataset & 104 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_REPLACE/measurements_per_patient.png}
+    \caption{Measurements per patient in REPLACE-BG.}
+    \label{fig:measurements_per_patients_replace}
+\end{figure}
+
+Figure~\ref{fig:measurements_per_patients_replace} shows that REPLACE-BG has a much more homogeneous patient contribution than DiaTrend: bars decrease gradually rather than showing a sharp drop.
+
+Quantitatively, as shown in Table~\ref{tab:replace_bg_patient_contribution}, the largest patient contributes only 0.53\% of all measurements, the top 10 patients contribute 5.08\%, and 104 out of the 223 patients are required to account for 50\% of the dataset. Compared with DiaTrend, where the top 10 patients accounted for more than half of all measurements, REPLACE-BG is much less dominated by a small subset of individuals. Therefore, from a patient-contribution perspective, REPLACE-BG is much more balanced.
+
+\subsection{Glucose Descriptive Statistics}
+\label{subsec:replacebg_glucose_statistics}
+
+The global distribution of glucose values was also analyzed and summarised in Table~\ref{tab:replace_bg_glucose_statistics}.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Glucose descriptive statistics in REPLACE-BG.}
+    \label{tab:replace_bg_glucose_statistics}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Minimum glucose & 39 mg/dL \\
+        Maximum glucose & 401 mg/dL \\
+        Mean glucose & 159.89 mg/dL \\
+        Median glucose & 150 mg/dL \\
+        Standard deviation & 64.13 mg/dL \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_REPLACE/glucose_distribution.png}
+    \caption{Glucose distribution in REPLACE-BG.}
+    \label{fig:glucose_distribution_replace}
+\end{figure}
+
+As shown in Figure~\ref{fig:glucose_distribution_replace}, the glucose distribution follows a typical diabetes-related pattern: the highest concentration of measurements appears around the central normoglycemic and early hyperglycemic regions, while the frequency gradually decreases towards the more extreme hypoglycemic and severe hyperglycemic values.
+
+The histogram also presents an irregular “one peak, one drop” pattern, that may be related to the measurement resolution. However, it does not change the general shape of the distribution.
+
+\subsection{Glycemic-Range Distribution}
+\label{subsec:replacebg_ranges_distribution}
+
+As the central part of the EDA for this thesis, glycemic ranges (see Table~\ref{tab:glycemic_range_metrics}) distribution of REPLACE-BG dataset was also studied. Results are presented summarised in Table~\ref{tab:replace_bg_glycemic_distribution}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Glycemic range distribution in REPLACE-BG.}
+    \label{tab:replace_bg_glycemic_distribution}
+    \begin{tabular}{lrr}
+        \hline
+        \textbf{Glycemic range or category} & \textbf{Count} & \textbf{Percentage} \\
+        \hline
+        Severe hypoglycemia & 94,499 & 0.91\% \\
+        Hypoglycemia & 291,856 & 2.80\% \\
+        Normoglycemia & 6,636,660 & 63.62\% \\
+        Hyperglycemia & 2,437,218 & 23.36\% \\
+        Severe hyperglycemia & 972,175 & 9.32\% \\
+        \hline
+        TBR ($<70$ mg/dL) & 386,355 & 3.70\% \\
+        TIR ($70$--$180$ mg/dL) & 6,636,660 & 63.62\% \\
+        TAR ($>180$ mg/dL) & 3,409,393 & 32.68\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_REPLACE/glycemic_range_distribution.png}
+    \caption{Glycemic range distribution}
+    \label{fig:glycemic_range_distribution_replace}
+\end{figure}
+
+Figure~\ref{fig:glycemic_range_distribution_replace} makes the imbalance towards clinically critical glycemic ranges clearly visible. Quantitatively, as described in Table~\ref{tab:replace_bg_glycemic_distribution}, normo-glycemia is the dominant range representing 63.62\% of all valid glucose measurements, hyperglycemia and severe hyperglycemia are also very present -- with TAR accounting for 32.68\% of the measurements, while hypoglycemic ranges are much smaller in the graph, accounting for 3.70\% of the total. This graph then provides visual confirmation of the under-representation of hypoglycemic regions compared with normoglycemia and hyperglycemia.
+
+\begin{table}[htbp]
+    \centering
+    \caption{Imbalance ratios in REPLACE-BG.}
+    \label{tab:replace_bg_imbalance_ratios}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Ratio} & \textbf{Value} \\
+        \hline
+        Normoglycemia / hypoglycemia & 17.18 \\
+        Normoglycemia / severe hypoglycemia & 70.23 \\
+        Normoglycemia / hyperglycemia & 2.72 \\
+        Normoglycemia / severe hyperglycemia & 6.83 \\
+        Majority range / smallest minority range & 70.23 \\
+        \hline
+        TIR / TBR & 17.18 \\
+        TIR / TAR & 1.95 \\
+        \hline
+    \end{tabular}
+\end{table}
+
+Moreover, the concrete imbalance ratios where also quantified in Table~\ref{tab:replace_bg_imbalance_ratios}. For example normoglycemic samples appear 17.18 times more frequently than hypoglycemic samples and 70.23 times more frequently than severe hypoglycemic samples.
+
+\subsection{Patient-Level Glycemic Distribution}
+\label{subsec:replacebg_patient_level}
+
+The glycemic ranges distribution was also computed independently for each patient in order to make a more horizontally representative analysis. A summarized version of the results is presented in Table~\ref{tab:replace_bg_patient_glycemic_statistics}
+
+\begin{table}[htbp]
+    \centering
+    \caption{Patient-level glycemic range statistics in REPLACE-BG.}
+    \label{tab:replace_bg_patient_glycemic_statistics}
+    \begin{tabular}{lr}
+        \hline
+        \textbf{Metric} & \textbf{Value} \\
+        \hline
+        Mean patient TBR & 3.70\% \\
+        Median patient TBR & 3.24\% \\
+        Minimum patient TBR & 0.01\% \\
+        Maximum patient TBR & 14.20\% \\
+        \hline
+        Mean patient TIR & 63.37\% \\
+        Median patient TIR & 63.18\% \\
+        Minimum patient TIR & 16.94\% \\
+        Maximum patient TIR & 96.77\% \\
+        \hline
+        Mean patient TAR & 32.94\% \\
+        Median patient TAR & 33.91\% \\
+        Minimum patient TAR & 0.51\% \\
+        Maximum patient TAR & 82.00\% \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\textwidth]{images/EDA_REPLACE/patient_level_tbr_tir_tar.png}
+    \caption{Glucose distribution in REPLACE-BG.}
+    \label{fig:patient_boxplot_replace}
+\end{figure}
+
+Patient-level variabilitiy is also presented in the form of a box-plot in Figure~\ref{fig:patient_boxplot_replace}.
+
+TBR boxplot is also concentrated very close to zero, with a median of 3.24\% and a maximum value of 14.20\%. This indicates that hypoglycemic measurements are mostly consistently rare for most patients. On the other hand, TIR and TAR show much wider variability: TIR has a median of 63.18\%, but ranges from 16.94\% to 96.77\%, while TAR has a median of 33.91\% and ranges from 0.51\% to 82\%. In any case, the plot confirms the consistent under-representation of hypoglycemic values across patients in this dataset too.
+
+In this case, it is important to highlight the substantial degree of variability between patients, especially for TIR and TAR. The wide spread of the boxplots and the presence of several outliers indicate that, although normoglycemia is still the dominant range for most individuals, the proportion of time spent in range or above range differs considerably across the population. In practical terms, this means that REPLACE-BG shows a consistent global imbalance against hypoglycemia, but patient glycemic profiles present a high degree of  heterogeneity with respect to TIR and TAR.
+
+\subsection{Summary of Findings}
+\label{subsec:replacebg_summary}
+
+REPLACE-BG contains 223 patients and 10,432,408 valid glucose measurements. The dataset covers the period from 2000-01-13 00:01:53 to 2000-11-25 14:39:43, with a total recording span of 317 days.
+
+It shows a very homogeneous patient contribution: the largest patient contributes only 0.53\% of all measurements, the top 10 patients account only for 5.08\% of the total, and 104 out of 223 patients are required to accumulate 50\% of the dataset. This indicates that the global glucose distribution is less likely to be dominated by a small subset of patients.
+
+The glucose distribution analysis shows a normo-diabetes pattern.
+
+The imbalance ratios quantitatively connfirms the glycemic ranges imbalance. They show that normoglycemic samples appear 17.18 times more frequently than hypoglycemic samples and 70.23 times more frequently than severe hypoglycemic samples.
+
+At patient level, as expected, TBR remains consistently low across patients. However, it is important to highlight the substantial variability across patients population in TIR and TAR: the minimum and maximum in both ranges can differ up to 80\% from one patient to another.

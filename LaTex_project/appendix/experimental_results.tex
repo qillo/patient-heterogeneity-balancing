@@ -1,9 +1,1090 @@
-\chapter{Experimental Results Repository}
+\chapter{Experimental Results}
 \label{app:experimental_results}
 
-The complete experimental outputs generated during this project require approximately 8~GB of storage and are therefore hosted separately from the source-code repository.
+This appendix collects the aggregated results obtained from all the different 27 experiments performed for this project, together with the original unbalanced reference results. They are presented in order to complement the analysis performed in the main body of the thesis.
 
-The files are available at:
+\section{Metrics tables}
+% ============================================================
+% DIATREND - ORIGINAL UNBALANCED BASELINE
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using the original unbalanced training distribution.}
+    \label{tab:diatrend_baseline}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 65.21 & 30.34 & 0.36 & 4.04 & 0.04 & 95.55 & 44.99 & 2024.50 & 33.10 & 0.19 \\
+        TBR\_2  & 0.02  & 0.00  & 0.00 & 97.59 & 2.39 & 0.02  & 70.99 & 5040.13 & 66.70 & 1.48 \\
+        TBR\_1  & 0.14  & 0.00  & 0.00 & 97.47 & 2.39 & 0.14  & 57.79 & 3339.65 & 52.95 & 0.85 \\
+        TIR     & 67.14 & 32.24 & 0.62 & 0.00  & 0.00 & 99.38 & 30.34 & 920.78  & 22.30 & 0.18 \\
+        TAR\_1  & 70.50 & 27.21 & 0.14 & 2.15  & 0.00 & 97.71 & 42.61 & 1816.02 & 33.29 & 0.16 \\
+        TAR\_2  & 58.08 & 32.96 & 0.00 & 8.96  & 0.00 & 91.04 & 72.48 & 5253.84 & 60.60 & 0.20 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - RANDOM - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using random sampling with the normalized distribution.}
+    \label{tab:diatrend_random_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 64.33 & 30.92 & 0.28 & 4.44 & 0.04 & 95.25 & 46.61 & 2172.86 & 34.17 & 0.19 \\
+        TBR\_2  & 5.33  & 0.00  & 0.00 & 92.68 & 1.99 & 5.33  & 63.69 & 4056.30 & 58.00 & 1.29 \\
+        TBR\_1  & 2.15  & 0.00  & 0.00 & 95.86 & 1.99 & 2.15  & 51.80 & 2683.20 & 45.95 & 0.74 \\
+        TIR     & 69.45 & 30.06 & 0.49 & 0.00  & 0.00 & 99.51 & 29.09 & 846.22  & 21.32 & 0.17 \\
+        TAR\_1  & 66.72 & 30.65 & 0.09 & 2.54  & 0.00 & 97.37 & 45.48 & 2068.58 & 36.15 & 0.17 \\
+        TAR\_2  & 52.45 & 36.80 & 0.00 & 10.75 & 0.00 & 89.25 & 77.10 & 5944.71 & 65.39 & 0.21 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - RANDOM - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using random sampling with the semi-balanced distribution.}
+    \label{tab:diatrend_random_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 65.50 & 30.49 & 0.38 & 3.51 & 0.12 & 95.99 & 46.58 & 2169.52 & 33.66 & 0.19 \\
+        TBR\_2  & 34.81 & 0.00  & 0.00 & 62.82 & 2.36 & 34.81 & 51.34 & 2636.30 & 39.48 & 0.87 \\
+        TBR\_1  & 27.40 & 0.00  & 0.00 & 70.27 & 2.32 & 27.40 & 42.85 & 1836.39 & 31.05 & 0.50 \\
+        TIR     & 67.15 & 32.18 & 0.67 & 0.00  & 0.00 & 99.33 & 32.51 & 1056.84 & 23.31 & 0.18 \\
+        TAR\_1  & 69.84 & 27.68 & 0.12 & 2.13  & 0.24 & 97.52 & 45.97 & 2113.20 & 34.84 & 0.16 \\
+        TAR\_2  & 57.75 & 33.22 & 0.00 & 8.99  & 0.05 & 90.97 & 73.27 & 5368.07 & 60.70 & 0.20 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - RANDOM - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using random sampling with the fully balanced distribution.}
+    \label{tab:diatrend_random_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 61.97 & 34.15 & 0.53 & 2.66 & 0.68 & 96.12 & 49.84 & 2484.01 & 36.10 & 0.20 \\
+        TBR\_2  & 73.13 & 0.00  & 0.00 & 24.87 & 1.99 & 73.13 & 40.42 & 1633.84 & 24.22 & 0.54 \\
+        TBR\_1  & 70.65 & 0.00  & 0.00 & 27.19 & 2.16 & 70.65 & 34.70 & 1204.39 & 18.86 & 0.30 \\
+        TIR     & 58.18 & 40.85 & 0.97 & 0.00  & 0.00 & 99.03 & 38.11 & 1452.18 & 28.08 & 0.22 \\
+        TAR\_1  & 69.11 & 26.77 & 0.11 & 2.01  & 2.00 & 95.88 & 50.49 & 2548.86 & 36.61 & 0.17 \\
+        TAR\_2  & 60.43 & 30.45 & 0.00 & 8.72  & 0.39 & 90.88 & 73.29 & 5370.73 & 59.23 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOTER - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOTER with the normalized distribution.}
+    \label{tab:diatrend_smoter_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 64.18 & 31.05 & 0.28 & 4.45 & 0.04 & 95.23 & 46.63 & 2174.05 & 34.23 & 0.19 \\
+        TBR\_2  & 4.69  & 0.00  & 0.00 & 93.30 & 2.00 & 4.69  & 63.87 & 4079.37 & 58.19 & 1.29 \\
+        TBR\_1  & 1.70  & 0.00  & 0.00 & 96.26 & 2.04 & 1.70  & 52.04 & 2708.28 & 46.15 & 0.74 \\
+        TIR     & 69.24 & 30.27 & 0.49 & 0.00  & 0.00 & 99.51 & 29.12 & 848.26  & 21.36 & 0.17 \\
+        TAR\_1  & 66.82 & 30.54 & 0.09 & 2.55  & 0.00 & 97.36 & 45.37 & 2058.71 & 36.12 & 0.17 \\
+        TAR\_2  & 52.12 & 37.09 & 0.00 & 10.80 & 0.00 & 89.21 & 77.19 & 5958.46 & 65.63 & 0.21 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOTER - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOTER with the semi-balanced distribution.}
+    \label{tab:diatrend_smoter_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 65.90 & 30.14 & 0.37 & 3.47 & 0.12 & 96.04 & 46.23 & 2137.36 & 33.45 & 0.19 \\
+        TBR\_2  & 34.45 & 0.00  & 0.00 & 63.29 & 2.25 & 34.45 & 52.03 & 2707.53 & 40.12 & 0.89 \\
+        TBR\_1  & 28.90 & 0.00  & 0.00 & 68.81 & 2.29 & 28.90 & 43.16 & 1862.55 & 31.40 & 0.50 \\
+        TIR     & 67.24 & 32.10 & 0.66 & 0.00  & 0.00 & 99.34 & 32.26 & 1040.91 & 23.16 & 0.18 \\
+        TAR\_1  & 70.19 & 27.32 & 0.13 & 2.12  & 0.24 & 97.51 & 45.55 & 2074.51 & 34.57 & 0.16 \\
+        TAR\_2  & 59.00 & 32.06 & 0.00 & 8.90  & 0.04 & 91.06 & 72.76 & 5294.11 & 60.37 & 0.20 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOTER - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOTER with the fully balanced distribution.}
+    \label{tab:diatrend_smoter_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 61.63 & 34.47 & 0.56 & 2.64 & 0.69 & 96.10 & 49.76 & 2476.02 & 36.22 & 0.20 \\
+        TBR\_2  & 72.27 & 0.00  & 0.00 & 25.33 & 2.40 & 72.27 & 42.27 & 1786.55 & 25.40 & 0.57 \\
+        TBR\_1  & 70.38 & 0.00  & 0.00 & 27.21 & 2.41 & 70.38 & 35.92 & 1290.43 & 19.39 & 0.31 \\
+        TIR     & 57.35 & 41.62 & 1.03 & 0.00  & 0.00 & 98.97 & 38.43 & 1477.12 & 28.43 & 0.22 \\
+        TAR\_1  & 68.60 & 27.23 & 0.13 & 2.02  & 2.02 & 95.83 & 50.55 & 2555.57 & 36.87 & 0.17 \\
+        TAR\_2  & 61.72 & 29.33 & 0.00 & 8.56  & 0.38 & 91.05 & 72.37 & 5237.25 & 58.43 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOGN - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOGN with the normalized distribution.}
+    \label{tab:diatrend_smogn_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 63.84 & 31.38 & 0.28 & 4.46 & 0.04 & 95.22 & 46.82 & 2191.70 & 34.37 & 0.19 \\
+        TBR\_2  & 1.21  & 0.00  & 0.00 & 96.63 & 2.16 & 1.21  & 65.83 & 4334.09 & 61.02 & 1.35 \\
+        TBR\_1  & 0.96  & 0.00  & 0.00 & 96.88 & 2.16 & 0.96  & 52.77 & 2784.15 & 47.34 & 0.76 \\
+        TIR     & 69.04 & 30.45 & 0.50 & 0.00  & 0.00 & 99.49 & 29.18 & 851.64  & 21.39 & 0.17 \\
+        TAR\_1  & 66.88 & 30.51 & 0.07 & 2.54  & 0.00 & 97.39 & 45.38 & 2059.33 & 36.12 & 0.17 \\
+        TAR\_2  & 50.82 & 38.43 & 0.00 & 10.74 & 0.00 & 89.25 & 77.67 & 6032.46 & 66.13 & 0.22 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOGN - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOGN with the semi-balanced distribution.}
+    \label{tab:diatrend_smogn_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 65.78 & 30.25 & 0.38 & 3.45 & 0.14 & 96.03 & 46.42 & 2154.43 & 33.53 & 0.19 \\
+        TBR\_2  & 37.93 & 0.00  & 0.00 & 59.84 & 2.23 & 37.93 & 50.62 & 2562.11 & 38.27 & 0.85 \\
+        TBR\_1  & 30.68 & 0.00  & 0.00 & 67.05 & 2.27 & 30.68 & 42.36 & 1794.75 & 30.37 & 0.49 \\
+        TIR     & 66.97 & 32.35 & 0.67 & 0.00  & 0.00 & 99.32 & 32.52 & 1057.67 & 23.35 & 0.18 \\
+        TAR\_1  & 69.81 & 27.62 & 0.14 & 2.14  & 0.30 & 97.43 & 45.99 & 2114.98 & 34.76 & 0.16 \\
+        TAR\_2  & 59.45 & 31.51 & 0.00 & 8.99  & 0.05 & 90.96 & 72.70 & 5285.70 & 60.08 & 0.20 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% DIATREND - SMOGN - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{DiaTrend results using SMOGN with the fully balanced distribution.}
+    \label{tab:diatrend_smogn_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 61.75 & 34.31 & 0.53 & 2.71 & 0.70 & 96.06 & 50.16 & 2516.00 & 36.37 & 0.20 \\
+        TBR\_2  & 72.63 & 0.00  & 0.00 & 25.28 & 2.09 & 72.63 & 40.51 & 1641.02 & 24.36 & 0.54 \\
+        TBR\_1  & 70.03 & 0.00  & 0.00 & 27.77 & 2.19 & 70.03 & 34.79 & 1210.26 & 18.95 & 0.30 \\
+        TIR     & 58.15 & 40.88 & 0.97 & 0.00  & 0.00 & 99.03 & 38.16 & 1456.05 & 28.11 & 0.22 \\
+        TAR\_1  & 68.85 & 26.95 & 0.12 & 2.04  & 2.04 & 95.80 & 50.87 & 2587.26 & 36.97 & 0.17 \\
+        TAR\_2  & 59.78 & 30.95 & 0.00 & 8.88  & 0.39 & 90.73 & 73.98 & 5473.50 & 60.00 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - ORIGINAL UNBALANCED BASELINE
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using the original unbalanced training distribution.}
+    \label{tab:replacebg_baseline}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.40 & 27.59 & 0.11 & 4.88 & 0.02 & 94.99 & 37.02 & 1370.82 & 27.15 & 0.18 \\
+        TBR\_2  & 0.04  & 0.00  & 0.00 & 99.35 & 0.61 & 0.04  & 56.53 & 3195.24 & 53.68 & 1.18 \\
+        TBR\_1  & 0.46  & 0.00  & 0.00 & 99.03 & 0.50 & 0.46  & 41.19 & 1696.74 & 37.69 & 0.61 \\
+        TIR     & 72.02 & 27.82 & 0.17 & 0.00  & 0.00 & 99.84 & 25.84 & 667.54  & 19.12 & 0.16 \\
+        TAR\_1  & 68.95 & 29.18 & 0.04 & 1.83  & 0.00 & 98.13 & 43.52 & 1894.13 & 34.71 & 0.16 \\
+        TAR\_2  & 57.74 & 32.92 & 0.00 & 9.34  & 0.00 & 90.66 & 68.50 & 4692.69 & 58.35 & 0.20 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - RANDOM - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using random sampling with the normalized distribution.}
+    \label{tab:replacebg_random_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.65 & 27.42 & 0.14 & 4.77 & 0.02 & 95.07 & 36.58 & 1338.18 & 26.85 & 0.18 \\
+        TBR\_2  & 0.04  & 0.00  & 0.00 & 99.28 & 0.68 & 0.04  & 57.52 & 3308.06 & 54.62 & 1.20 \\
+        TBR\_1  & 0.26  & 0.00  & 0.00 & 99.13 & 0.62 & 0.26  & 42.36 & 1794.54 & 38.84 & 0.63 \\
+        TIR     & 71.42 & 28.38 & 0.21 & 0.00  & 0.00 & 99.80 & 26.21 & 687.06  & 19.37 & 0.16 \\
+        TAR\_1  & 70.21 & 28.06 & 0.04 & 1.69  & 0.00 & 98.27 & 42.60 & 1814.75 & 33.72 & 0.16 \\
+        TAR\_2  & 61.52 & 29.96 & 0.00 & 8.52  & 0.00 & 91.48 & 66.03 & 4360.46 & 55.50 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - RANDOM - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using random sampling with the semi-balanced distribution.}
+    \label{tab:replacebg_random_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 68.70 & 27.70 & 0.20 & 3.31 & 0.08 & 96.40 & 37.02 & 1370.60 & 26.60 & 0.18 \\
+        TBR\_2  & 27.21 & 0.00  & 0.00 & 71.95 & 0.83 & 27.21 & 43.44 & 1887.00 & 36.04 & 0.80 \\
+        TBR\_1  & 36.30 & 0.00  & 0.00 & 62.92 & 0.78 & 36.30 & 32.08 & 1028.92 & 23.31 & 0.38 \\
+        TIR     & 69.03 & 30.68 & 0.29 & 0.00  & 0.00 & 99.71 & 29.53 & 871.86  & 21.25 & 0.17 \\
+        TAR\_1  & 73.65 & 24.71 & 0.05 & 1.38  & 0.20 & 98.36 & 42.32 & 1790.64 & 31.83 & 0.15 \\
+        TAR\_2  & 67.53 & 25.53 & 0.00 & 6.90  & 0.03 & 93.06 & 62.04 & 3848.67 & 50.82 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - RANDOM - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using random sampling with the fully balanced distribution.}
+    \label{tab:replacebg_random_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 62.35 & 35.21 & 0.36 & 1.63 & 0.45 & 97.56 & 41.23 & 1699.88 & 30.07 & 0.20 \\
+        TBR\_2  & 77.86 & 0.00  & 0.00 & 21.28 & 0.86 & 77.86 & 31.83 & 1012.96 & 20.01 & 0.45 \\
+        TBR\_1  & 79.11 & 0.00  & 0.00 & 20.12 & 0.77 & 79.11 & 24.46 & 598.37  & 13.27 & 0.21 \\
+        TIR     & 56.39 & 43.07 & 0.54 & 0.00  & 0.00 & 99.46 & 35.97 & 1294.16 & 27.05 & 0.22 \\
+        TAR\_1  & 72.86 & 24.12 & 0.05 & 1.28  & 1.69 & 96.98 & 46.37 & 2150.33 & 33.27 & 0.16 \\
+        TAR\_2  & 70.76 & 22.48 & 0.00 & 6.45  & 0.31 & 93.24 & 61.58 & 3792.46 & 49.12 & 0.16 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOTER - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOTER with the normalized distribution.}
+    \label{tab:replacebg_smoter_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 68.10 & 27.01 & 0.14 & 4.72 & 0.02 & 95.11 & 36.35 & 1321.22 & 26.55 & 0.18 \\
+        TBR\_2  & 0.00  & 0.00  & 0.00 & 99.31 & 0.68 & 0.00  & 56.63 & 3207.18 & 53.44 & 1.18 \\
+        TBR\_1  & 0.56  & 0.00  & 0.00 & 98.82 & 0.62 & 0.56  & 41.51 & 1723.16 & 37.57 & 0.61 \\
+        TIR     & 71.67 & 28.13 & 0.20 & 0.00  & 0.00 & 99.80 & 26.25 & 689.30  & 19.29 & 0.16 \\
+        TAR\_1  & 71.37 & 26.96 & 0.04 & 1.63  & 0.00 & 98.33 & 41.98 & 1762.59 & 32.89 & 0.16 \\
+        TAR\_2  & 61.72 & 30.06 & 0.00 & 8.22  & 0.00 & 91.78 & 65.75 & 4323.24 & 55.30 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOTER - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOTER with the semi-balanced distribution.}
+    \label{tab:replacebg_smoter_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 68.79 & 27.68 & 0.20 & 3.25 & 0.08 & 96.47 & 36.92 & 1363.41 & 26.54 & 0.18 \\
+        TBR\_2  & 27.54 & 0.00  & 0.00 & 71.62 & 0.84 & 27.54 & 43.95 & 1931.56 & 36.32 & 0.80 \\
+        TBR\_1  & 38.11 & 0.00  & 0.00 & 61.12 & 0.76 & 38.11 & 32.19 & 1036.29 & 23.23 & 0.38 \\
+        TIR     & 68.88 & 30.83 & 0.29 & 0.00  & 0.00 & 99.71 & 29.58 & 875.22  & 21.33 & 0.17 \\
+        TAR\_1  & 73.84 & 24.53 & 0.06 & 1.37  & 0.20 & 98.37 & 42.10 & 1772.63 & 31.59 & 0.15 \\
+        TAR\_2  & 68.48 & 24.69 & 0.00 & 6.80  & 0.03 & 93.17 & 61.53 & 3785.94 & 50.26 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOTER - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOTER with the fully balanced distribution.}
+    \label{tab:replacebg_smoter_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 61.65 & 35.93 & 0.37 & 1.62 & 0.43 & 97.58 & 41.18 & 1695.86 & 30.26 & 0.20 \\
+        TBR\_2  & 76.58 & 0.00  & 0.00 & 22.48 & 0.94 & 76.58 & 33.27 & 1107.10 & 21.15 & 0.47 \\
+        TBR\_1  & 78.54 & 0.00  & 0.00 & 20.57 & 0.89 & 78.54 & 25.37 & 643.83  & 13.63 & 0.22 \\
+        TIR     & 55.22 & 44.22 & 0.56 & 0.00  & 0.00 & 99.44 & 36.21 & 1311.43 & 27.47 & 0.22 \\
+        TAR\_1  & 73.10 & 24.02 & 0.05 & 1.25  & 1.58 & 97.12 & 45.86 & 2103.30 & 33.02 & 0.16 \\
+        TAR\_2  & 70.93 & 22.56 & 0.00 & 6.24  & 0.27 & 93.49 & 61.03 & 3724.85 & 48.69 & 0.16 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOGN - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOGN with the normalized distribution.}
+    \label{tab:replacebg_smogn_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.75 & 27.32 & 0.14 & 4.76 & 0.02 & 95.07 & 36.52 & 1333.62 & 26.74 & 0.18 \\
+        TBR\_2  & 0.00  & 0.00  & 0.00 & 99.28 & 0.72 & 0.00  & 56.83 & 3230.07 & 53.81 & 1.19 \\
+        TBR\_1  & 0.18  & 0.00  & 0.00 & 99.19 & 0.63 & 0.18  & 41.80 & 1747.62 & 38.13 & 0.61 \\
+        TIR     & 71.37 & 28.42 & 0.21 & 0.00  & 0.00 & 99.79 & 26.35 & 694.55  & 19.42 & 0.16 \\
+        TAR\_1  & 70.61 & 27.67 & 0.05 & 1.67  & 0.00 & 98.28 & 42.48 & 1804.50 & 33.44 & 0.16 \\
+        TAR\_2  & 62.04 & 29.56 & 0.00 & 8.41  & 0.00 & 91.60 & 65.62 & 4305.70 & 55.00 & 0.19 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOGN - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOGN with the semi-balanced distribution.}
+    \label{tab:replacebg_smogn_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 68.74 & 27.66 & 0.21 & 3.31 & 0.08 & 96.40 & 36.98 & 1367.22 & 26.56 & 0.18 \\
+        TBR\_2  & 26.48 & 0.00  & 0.00 & 72.67 & 0.85 & 26.48 & 43.44 & 1887.03 & 36.02 & 0.80 \\
+        TBR\_1  & 36.28 & 0.00  & 0.00 & 62.92 & 0.81 & 36.28 & 32.01 & 1024.58 & 23.28 & 0.38 \\
+        TIR     & 68.97 & 30.73 & 0.30 & 0.00  & 0.00 & 99.70 & 29.61 & 876.84  & 21.32 & 0.17 \\
+        TAR\_1  & 73.54 & 24.84 & 0.06 & 1.37  & 0.20 & 98.38 & 42.37 & 1795.28 & 31.79 & 0.15 \\
+        TAR\_2  & 68.75 & 24.42 & 0.00 & 6.80  & 0.03 & 93.17 & 61.37 & 3766.12 & 50.03 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% REPLACE-BG - SMOGN - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{REPLACE-BG results using SMOGN with the fully balanced distribution.}
+    \label{tab:replacebg_smogn_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 62.65 & 34.86 & 0.34 & 1.72 & 0.43 & 97.51 & 41.13 & 1691.86 & 29.99 & 0.20 \\
+        TBR\_2  & 76.24 & 0.00  & 0.00 & 22.91 & 0.85 & 76.24 & 32.61 & 1063.47 & 20.90 & 0.46 \\
+        TBR\_1  & 77.82 & 0.00  & 0.00 & 21.38 & 0.81 & 77.82 & 24.94 & 621.89  & 13.56 & 0.22 \\
+        TIR     & 57.41 & 42.07 & 0.52 & 0.00  & 0.00 & 99.48 & 35.48 & 1259.09 & 26.62 & 0.21 \\
+        TAR\_1  & 72.22 & 24.81 & 0.04 & 1.34  & 1.60 & 97.03 & 46.41 & 2153.97 & 33.61 & 0.16 \\
+        TAR\_2  & 69.01 & 23.89 & 0.00 & 6.82  & 0.29 & 92.90 & 62.68 & 3929.24 & 50.27 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - ORIGINAL UNBALANCED BASELINE
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using the original unbalanced training distribution.}
+    \label{tab:t1dg_baseline}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.22 & 26.99 & 0.17 & 5.59 & 0.03 & 94.21 & 37.91 & 1437.05 & 27.58 & 0.18 \\
+        TBR\_2  & 12.49 & 0.00  & 0.00 & 87.15 & 0.36 & 12.49 & 39.91 & 1592.90 & 36.08 & 0.75 \\
+        TBR\_1  & 8.14  & 0.00  & 0.00 & 91.32 & 0.53 & 8.14  & 36.15 & 1306.99 & 31.19 & 0.51 \\
+        TIR     & 71.56 & 28.20 & 0.25 & 0.00  & 0.00 & 99.76 & 26.78 & 717.07  & 19.50 & 0.16 \\
+        TAR\_1  & 70.38 & 27.73 & 0.07 & 1.81  & 0.02 & 98.11 & 43.20 & 1866.09 & 33.81 & 0.16 \\
+        TAR\_2  & 62.09 & 30.29 & 0.03 & 7.59  & 0.00 & 92.38 & 66.20 & 4381.92 & 55.44 & 0.18 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - RANDOM - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using random sampling with the normalized distribution.}
+    \label{tab:t1dg_random_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.27 & 26.94 & 0.16 & 5.60 & 0.03 & 94.21 & 37.79 & 1428.44 & 27.55 & 0.18 \\
+        TBR\_2  & 12.84 & 0.00  & 0.00 & 86.80 & 0.35 & 12.84 & 41.14 & 1692.61 & 37.33 & 0.78 \\
+        TBR\_1  & 7.02  & 0.00  & 0.00 & 92.44 & 0.54 & 7.02  & 37.11 & 1377.51 & 32.35 & 0.53 \\
+        TIR     & 71.49 & 28.26 & 0.24 & 0.00  & 0.00 & 99.75 & 26.69 & 712.37  & 19.45 & 0.16 \\
+        TAR\_1  & 71.02 & 27.13 & 0.06 & 1.76  & 0.02 & 98.15 & 42.67 & 1820.68 & 33.34 & 0.16 \\
+        TAR\_2  & 61.84 & 30.76 & 0.03 & 7.38  & 0.00 & 92.60 & 66.28 & 4393.51 & 55.88 & 0.18 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - RANDOM - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using random sampling with the semi-balanced distribution.}
+    \label{tab:t1dg_random_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 69.57 & 26.91 & 0.25 & 3.14 & 0.12 & 96.48 & 37.68 & 1419.53 & 26.86 & 0.17 \\
+        TBR\_2  & 68.01 & 0.00  & 0.00 & 31.52 & 0.47 & 68.01 & 27.97 & 782.13  & 18.77 & 0.39 \\
+        TBR\_1  & 50.94 & 0.00  & 0.00 & 48.35 & 0.71 & 50.94 & 29.23 & 854.34  & 19.60 & 0.32 \\
+        TIR     & 69.13 & 30.48 & 0.39 & 0.00  & 0.00 & 99.61 & 29.68 & 881.10  & 21.18 & 0.17 \\
+        TAR\_1  & 74.46 & 23.66 & 0.07 & 1.43  & 0.38 & 98.12 & 41.87 & 1752.97 & 31.24 & 0.15 \\
+        TAR\_2  & 68.08 & 26.03 & 0.03 & 5.83  & 0.03 & 94.11 & 61.76 & 3814.49 & 50.86 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - RANDOM - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using random sampling with the fully balanced distribution.}
+    \label{tab:t1dg_random_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 66.93 & 30.58 & 0.40 & 1.75 & 0.34 & 97.51 & 40.27 & 1621.39 & 28.51 & 0.18 \\
+        TBR\_2  & 89.07 & 0.00  & 0.00 & 10.43 & 0.51 & 89.07 & 21.55 & 464.26  & 10.73 & 0.22 \\
+        TBR\_1  & 79.05 & 0.00  & 0.00 & 20.16 & 0.79 & 79.05 & 24.37 & 593.86  & 13.24 & 0.21 \\
+        TIR     & 61.80 & 37.58 & 0.62 & 0.00  & 0.00 & 99.38 & 34.19 & 1168.73 & 24.85 & 0.20 \\
+        TAR\_1  & 75.30 & 22.14 & 0.07 & 1.25  & 1.24 & 97.44 & 43.74 & 1913.15 & 31.11 & 0.15 \\
+        TAR\_2  & 70.84 & 23.84 & 0.02 & 5.18  & 0.12 & 94.68 & 62.03 & 3847.11 & 49.05 & 0.16 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOTER - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOTER with the normalized distribution.}
+    \label{tab:t1dg_smoter_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.42 & 26.84 & 0.16 & 5.55 & 0.03 & 94.26 & 37.80 & 1429.10 & 27.52 & 0.18 \\
+        TBR\_2  & 12.18 & 0.00  & 0.00 & 87.48 & 0.34 & 12.18 & 40.46 & 1637.09 & 36.51 & 0.76 \\
+        TBR\_1  & 8.83  & 0.00  & 0.00 & 90.63 & 0.54 & 8.83  & 36.42 & 1326.49 & 31.40 & 0.51 \\
+        TIR     & 71.70 & 28.05 & 0.24 & 0.00  & 0.00 & 99.75 & 26.70 & 713.00  & 19.43 & 0.16 \\
+        TAR\_1  & 70.70 & 27.44 & 0.06 & 1.78  & 0.02 & 98.14 & 42.95 & 1844.92 & 33.62 & 0.16 \\
+        TAR\_2  & 62.13 & 30.41 & 0.03 & 7.43  & 0.00 & 92.54 & 66.09 & 4367.43 & 55.57 & 0.18 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOTER - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOTER with the semi-balanced distribution.}
+    \label{tab:t1dg_smoter_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 69.59 & 26.87 & 0.26 & 3.17 & 0.12 & 96.46 & 37.60 & 1413.73 & 26.82 & 0.17 \\
+        TBR\_2  & 66.12 & 0.00  & 0.00 & 33.42 & 0.46 & 66.12 & 28.43 & 808.00  & 19.20 & 0.40 \\
+        TBR\_1  & 50.81 & 0.00  & 0.00 & 48.48 & 0.71 & 50.81 & 29.38 & 863.42  & 19.72 & 0.32 \\
+        TIR     & 69.22 & 30.39 & 0.39 & 0.00  & 0.00 & 99.61 & 29.63 & 878.20  & 21.16 & 0.17 \\
+        TAR\_1  & 74.21 & 23.92 & 0.08 & 1.43  & 0.36 & 98.13 & 41.93 & 1757.74 & 31.34 & 0.15 \\
+        TAR\_2  & 68.54 & 25.56 & 0.03 & 5.84  & 0.03 & 94.10 & 61.35 & 3763.81 & 50.32 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOTER - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOTER with the fully balanced distribution.}
+    \label{tab:t1dg_smoter_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 66.88 & 30.63 & 0.39 & 1.78 & 0.32 & 97.51 & 40.22 & 1617.37 & 28.55 & 0.18 \\
+        TBR\_2  & 88.30 & 0.00  & 0.00 & 11.18 & 0.52 & 88.30 & 22.06 & 486.84  & 11.15 & 0.23 \\
+        TBR\_1  & 78.47 & 0.00  & 0.00 & 20.72 & 0.81 & 78.47 & 24.70 & 610.27  & 13.44 & 0.22 \\
+        TIR     & 61.93 & 37.46 & 0.61 & 0.00  & 0.00 & 99.39 & 34.06 & 1159.86 & 24.79 & 0.20 \\
+        TAR\_1  & 75.07 & 22.44 & 0.07 & 1.26  & 1.16 & 97.51 & 43.59 & 1900.29 & 31.20 & 0.15 \\
+        TAR\_2  & 70.44 & 24.24 & 0.02 & 5.19  & 0.11 & 94.68 & 62.27 & 3878.03 & 49.38 & 0.16 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOGN - NORMALIZED
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOGN with the normalized distribution.}
+    \label{tab:t1dg_smogn_normalized}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.39 & 26.93 & 0.17 & 5.48 & 0.03 & 94.32 & 37.80 & 1428.52 & 27.58 & 0.18 \\
+        TBR\_2  & 14.71 & 0.00  & 0.00 & 84.94 & 0.35 & 14.71 & 40.90 & 1672.47 & 36.76 & 0.77 \\
+        TBR\_1  & 9.57  & 0.00  & 0.00 & 89.88 & 0.55 & 9.57  & 36.93 & 1363.57 & 31.84 & 0.52 \\
+        TIR     & 71.54 & 28.22 & 0.25 & 0.00  & 0.00 & 99.76 & 26.72 & 713.73  & 19.46 & 0.16 \\
+        TAR\_1  & 71.00 & 27.16 & 0.06 & 1.76  & 0.02 & 98.16 & 42.67 & 1820.98 & 33.50 & 0.16 \\
+        TAR\_2  & 61.74 & 30.89 & 0.03 & 7.35  & 0.00 & 92.63 & 66.28 & 4392.73 & 55.98 & 0.18 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOGN - SEMI
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOGN with the semi-balanced distribution.}
+    \label{tab:t1dg_smogn_semi}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 69.51 & 26.90 & 0.26 & 3.20 & 0.12 & 96.41 & 37.76 & 1425.72 & 26.92 & 0.17 \\
+        TBR\_2  & 66.74 & 0.00  & 0.00 & 32.80 & 0.47 & 66.74 & 28.55 & 814.99  & 19.36 & 0.40 \\
+        TBR\_1  & 49.83 & 0.00  & 0.00 & 49.46 & 0.71 & 49.83 & 29.59 & 875.57  & 20.01 & 0.32 \\
+        TIR     & 69.27 & 30.34 & 0.39 & 0.00  & 0.00 & 99.61 & 29.65 & 879.23  & 21.16 & 0.17 \\
+        TAR\_1  & 74.18 & 23.93 & 0.08 & 1.44  & 0.38 & 98.11 & 42.03 & 1766.19 & 31.37 & 0.15 \\
+        TAR\_2  & 67.92 & 26.13 & 0.03 & 5.88  & 0.03 & 94.05 & 61.98 & 3841.46 & 51.06 & 0.17 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SMOGN - FULL
+% ============================================================
+
+\begin{table}[htbp]
+    \centering
+    \caption{T1DiabetesGranada results using SMOGN with the fully balanced distribution.}
+    \label{tab:t1dg_smogn_full}
+    \resizebox{\textwidth}{!}{%
+    \begin{tabular}{lrrrrrrrrrr}
+        \hline
+        \textbf{Range} & \textbf{A} & \textbf{B} & \textbf{C} & \textbf{D} & \textbf{E} &
+        \textbf{A+B} & \textbf{RMSE} & \textbf{MSE} & \textbf{MAE} & \textbf{MAPE} \\
+        \hline
+        ENTIRE & 67.12 & 30.44 & 0.38 & 1.71 & 0.35 & 97.56 & 39.81 & 1584.82 & 28.37 & 0.18 \\
+        TBR\_2  & 89.25 & 0.00  & 0.00 & 10.25 & 0.50 & 89.25 & 21.49 & 461.72  & 10.88 & 0.23 \\
+        TBR\_1  & 79.66 & 0.00  & 0.00 & 19.55 & 0.80 & 79.66 & 24.32 & 591.30  & 13.16 & 0.21 \\
+        TIR     & 61.79 & 37.61 & 0.60 & 0.00  & 0.00 & 99.40 & 34.14 & 1165.36 & 24.82 & 0.20 \\
+        TAR\_1  & 75.76 & 21.66 & 0.08 & 1.23  & 1.27 & 97.42 & 43.44 & 1887.12 & 30.87 & 0.15 \\
+        TAR\_2  & 71.35 & 23.45 & 0.03 & 5.06  & 0.12 & 94.80 & 59.99 & 3599.13 & 48.49 & 0.16 \\
+        \hline
+    \end{tabular}%
+    }
+\end{table}
+
+\clearpage
+\section{Clarke Error Grids}
+
+% ============================================================
+% DIATREND - NORMALIZED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_random_normalized.png}
+        \caption{Random}
+        \label{fig:cega_diatrend_normalized_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smoter_normalized.png}
+        \caption{SMOTER}
+        \label{fig:cega_diatrend_normalized_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smogn_normalized.png}
+        \caption{SMOGN}
+        \label{fig:cega_diatrend_normalized_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for DiaTrend under the normalized target distribution.}
+    \label{fig:cega_diatrend_normalized}
+\end{figure}
+
+
+% ============================================================
+% DIATREND - SEMI-BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_random_semi.png}
+        \caption{Random}
+        \label{fig:cega_diatrend_semi_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smoter_semi.png}
+        \caption{SMOTER}
+        \label{fig:cega_diatrend_semi_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smogn_semi.png}
+        \caption{SMOGN}
+        \label{fig:cega_diatrend_semi_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for DiaTrend under the semi-balanced target distribution.}
+    \label{fig:cega_diatrend_semi}
+\end{figure}
+
+
+% ============================================================
+% DIATREND - FULLY BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_random_full.png}
+        \caption{Random}
+        \label{fig:cega_diatrend_full_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smoter_full.png}
+        \caption{SMOTER}
+        \label{fig:cega_diatrend_full_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_Diatrend/DiaTrend_smogn_full.png}
+        \caption{SMOGN}
+        \label{fig:cega_diatrend_full_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for DiaTrend under the fully balanced target distribution.}
+    \label{fig:cega_diatrend_full}
+\end{figure}
+
+
+% ============================================================
+% REPLACE-BG - NORMALIZED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_random_normalized.png}
+        \caption{Random}
+        \label{fig:cega_replacebg_normalized_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smoter_normalized.png}
+        \caption{SMOTER}
+        \label{fig:cega_replacebg_normalized_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smogn_normalized.png}
+        \caption{SMOGN}
+        \label{fig:cega_replacebg_normalized_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for REPLACE-BG under the normalized target distribution.}
+    \label{fig:cega_replacebg_normalized}
+\end{figure}
+
+
+% ============================================================
+% REPLACE-BG - SEMI-BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_random_semi.png}
+        \caption{Random}
+        \label{fig:cega_replacebg_semi_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smoter_semi.png}
+        \caption{SMOTER}
+        \label{fig:cega_replacebg_semi_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smogn_semi.png}
+        \caption{SMOGN}
+        \label{fig:cega_replacebg_semi_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for REPLACE-BG under the semi-balanced target distribution.}
+    \label{fig:cega_replacebg_semi}
+\end{figure}
+
+
+% ============================================================
+% REPLACE-BG - FULLY BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_random_full.png}
+        \caption{Random}
+        \label{fig:cega_replacebg_full_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smoter_full.png}
+        \caption{SMOTER}
+        \label{fig:cega_replacebg_full_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_REPLACE-BG/REPLACE-BG_smogn_full.png}
+        \caption{SMOGN}
+        \label{fig:cega_replacebg_full_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for REPLACE-BG under the fully balanced target distribution.}
+    \label{fig:cega_replacebg_full}
+\end{figure}
+
+
+% ============================================================
+% T1DIABETESGRANADA - NORMALIZED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_random_normalized.png}
+        \caption{Random}
+        \label{fig:cega_t1dg_normalized_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smoter_normalized.png}
+        \caption{SMOTER}
+        \label{fig:cega_t1dg_normalized_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smogn_normalized.png}
+        \caption{SMOGN}
+        \label{fig:cega_t1dg_normalized_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for T1DiabetesGranada under the normalized target distribution.}
+    \label{fig:cega_t1dg_normalized}
+\end{figure}
+
+
+% ============================================================
+% T1DIABETESGRANADA - SEMI-BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_random_semi.png}
+        \caption{Random}
+        \label{fig:cega_t1dg_semi_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smoter_semi.png}
+        \caption{SMOTER}
+        \label{fig:cega_t1dg_semi_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smogn_semi.png}
+        \caption{SMOGN}
+        \label{fig:cega_t1dg_semi_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for T1DiabetesGranada under the semi-balanced target distribution.}
+    \label{fig:cega_t1dg_semi}
+\end{figure}
+
+
+% ============================================================
+% T1DIABETESGRANADA - FULLY BALANCED
+% ============================================================
+
+\begin{figure}[htbp]
+    \centering
+
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_random_full.png}
+        \caption{Random}
+        \label{fig:cega_t1dg_full_random}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smoter_full.png}
+        \caption{SMOTER}
+        \label{fig:cega_t1dg_full_smoter}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/CEGA_T1DiabetesGranada/T1DiabetesGranada_smogn_full.png}
+        \caption{SMOGN}
+        \label{fig:cega_t1dg_full_smogn}
+    \end{subfigure}
+
+    \caption{Clarke Error Grid results for T1DiabetesGranada under the fully balanced target distribution.}
+    \label{fig:cega_t1dg_full}
+\end{figure}
+
+\clearpage
+
+For clarity, these numerical results represent the weighted aggregate results obtained after combining the predictions from all folds. The rest of experimental outputs generated during this project require approximately 8~GB of storage and are therefore hosted separately from the source-code repository. They are available at:
 
 \begin{center}
     \url{https://drive.google.com/drive/folders/1_8X2dCzbucMPxhzlpLq1J-ztBNfmjLwQ?usp=sharing}

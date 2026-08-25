@@ -26,7 +26,7 @@ The introduction of Continuous Glucose Monitoring (CGM) systems has provided the
 
 \subsection{Clinical Targets and the Shift towards Time in Range}
 \label{TIR-explanation}
-With the widespread of CGM, it was also necessary to establish more nuanced standard glycemic ranges, instead of relying on simple means. As a result, the International Consensus on Time In Range (TIR) \cite{10.2337/dci19-0028} defined metrics that describe the actual reality of T1D clinical management:
+With the widespread of CGM, it was also necessary to establish more nuanced standard glycemic ranges, instead of relying on simple means. As a result, the International Consensus on Time In Range (TIR) \cite{10.2337/dci19-0028} defined metrics that describe the actual reality of T1D clinical management (see Table~\ref{tab:glycemic_range_metrics}):
 
 \begin{table}[htbp]
     \centering
@@ -34,7 +34,7 @@ With the widespread of CGM, it was also necessary to establish more nuanced stan
     \label{tab:glycemic_range_metrics}
     
     \begin{tabularx}{\textwidth}{
-        >{\raggedright\arraybackslash}p{1.4cm}
+        >{\raggedright\arraybackslash}p{2.4cm}
         >{\raggedright\arraybackslash}p{1.5cm}
         >{\centering\arraybackslash}p{2.3cm}
         >{\raggedright\arraybackslash}X
@@ -46,27 +46,27 @@ With the widespread of CGM, it was also necessary to establish more nuanced stan
         \textbf{Definition} \\
         \hline
         
-        TBR &
+        Time Below Range &
         Level 2 &
         $<54$ mg/dL &
         Percentage of time spent in severe hypoglycemia. \\
         
-        TBR &
+        Time Below Range &
         Level 1 &
         $54$--$69$ mg/dL &
         Percentage of time spent in hypoglycemia. \\
         
-        TIR &
+        Time In Range &
         --- &
         $70$--$180$ mg/dL &
         Percentage of time spent within the target glycemic range. \\
         
-        TAR &
+        Time Above Range &
         Level 1 &
         $181$--$250$ mg/dL &
         Percentage of time spent in hyperglycemia. \\
         
-        TAR &
+        Time Above Range &
         Level 2 &
         $>250$ mg/dL &
         Percentage of time spent in severe hyperglycemia. \\
@@ -108,14 +108,14 @@ The aim of this thesis is to investigate the impact of data balancing techniques
 To achieve this general objective, the following specific objectives are defined:
 
 \begin{itemize}
-    \item \textbf{OE0. Review the State of the Art on data balancing for glucose predictions.} First, a preliminary review of the scientific literature is conducted to identify existing data balancing methodologies for glucose prediction using machine learning. If the available literature is found to be limited on this matter, the review will focus separately on: machine learning algorithms for glucose prediction, and data-balancing techniques in related time-series regression or healthcare prediction problems.
+    \item \textbf{O1. Review the State of the Art on data balancing for glucose predictions.} First, a preliminary review of the scientific literature is conducted to identify existing data balancing methodologies for glucose prediction using machine learning. If the available literature is found to be limited on this matter, the review will focus separately on: machine learning algorithms for glucose prediction, and data-balancing techniques in related time-series regression or healthcare prediction problems.
 
-    \item \textbf{OE1. Analyze the distribution of glycemic ranges in the selected datasets.} This thesis works with three different CGM datasets: DiaTrend, REPLACE-BG and T1DiabetesGranada. They will be thoroughly examined and analyzed to quantify the degree of imbalance in real-world glycemic data, by clearly identifying TIR, TBR and TAR proportions.
+    \item \textbf{O2. Analyze the distribution of glycemic ranges in the selected datasets.} This thesis works with three different CGM datasets: DiaTrend, REPLACE-BG and T1DiabetesGranada. They will be thoroughly examined and analyzed to quantify the degree of imbalance in real-world glycemic data, by clearly identifying TIR, TBR and TAR proportions.
 
-    \item \textbf{OE2. Apply data balancing techniques to the training data.} Balancing strategies such as SMOTER \cite{10.1007/978-3-642-40669-0_33}, SMOGN \cite{pmlr-v74-branco17a}, or similar over-sampling techniques will be studied, implemented, and applied to generate alternative training sets with improved representation of previously under-represented glycemic regions.
+    \item \textbf{O3. Apply data balancing techniques to the training data.} Balancing strategies such as SMOTER \cite{10.1007/978-3-642-40669-0_33}, SMOGN \cite{pmlr-v74-branco17a}, or similar over-sampling techniques will be studied, implemented, and applied to generate alternative training sets with improved representation of previously under-represented glycemic regions.
 
-    \item \textbf{OE3. Train existing glucose prediction models with the balanced data.} The same pre-existing models -- inherited by the research team tutoring the thesis -- will be trained under the same fixed experimental conditions using the different balanced versions.
+    \item \textbf{O4. Train existing glucose prediction models with the balanced data.} The same pre-existing models -- inherited by the research team tutoring the thesis -- will be trained under the same fixed experimental conditions using the different balanced versions.
 
-    \item \textbf{OE4. Evaluate the statistical and clinical impact of balancing glucose datasets.} Model performance will be assessed using both conventional reggression metrics -- RMSE, MSE, etc -- and clinically meaningful indicators -- such TIR, Clarke Error Grid, etc. This will allow to distinguish between numerical accuracy and clinical impact. A common unbalanced baseline will be used to compare the results.
+    \item \textbf{O5. Evaluate the statistical and clinical impact of balancing glucose datasets.} Model performance will be assessed using both conventional reggression metrics -- RMSE, MSE, etc -- and clinically meaningful indicators -- such TIR, Clarke Error Grid, etc. This will allow to distinguish between numerical accuracy and clinical impact. A common normalized, but still imbalanced, baseline will be used to compare the results.
     
 \end{itemize}

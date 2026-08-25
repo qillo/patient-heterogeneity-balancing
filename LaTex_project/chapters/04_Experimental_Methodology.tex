@@ -271,7 +271,7 @@ For these reasons, the three different strategies are experimentally explored: t
 
 The main balancing process will be performed using SMOTER \cite{10.1007/978-3-642-40669-0_33} and SMOGN \cite{pmlr-v74-branco17a} because they are among the most established data-level methods specifically proposed for imbalanced regression problems, as stated in Chapter~\ref{chap:SoA}. While other imbalance-aware regression approaches exist, such as SERA \cite{5178874}, Balanced MSE \cite{Ren_2022_CVPR}, or geometric variants \cite{CAMACHO2022116387}, they either focus mainly on modifying the evaluation or loss function, or are less directly aligned with the objective of this thesis, which is to generate alternative balanced training sets while keeping the predictive models unchanged.
 
-In addition to SMOTER \cite{10.1007/978-3-642-40669-0_33} and SMOGN \cite{pmlr-v74-branco17a}, a random resampling baseline will also be included in order to study a more naive approach. This method applies the same full-balancing and semi-balancing targets defined previously, but reaches them only through random duplication of minority-range windows and random removal of majority-range windows. Therefore it does not generate new synthetic glucose windows.
+In addition to SMOTER \cite{10.1007/978-3-642-40669-0_33} and SMOGN \cite{pmlr-v74-branco17a}, a random resampling baseline will also be included in order to study a more naive approach. This method applies the same normalized, full-balancing and semi-balancing targets defined previously, but reaches them only through random duplication of minority-range windows and random removal of majority-range windows. Therefore it does not generate new synthetic glucose windows.
 
 \subsection{Patient-Aware Balancing}
 \label{subsec:experimental_methodology_patient_aware}
@@ -287,32 +287,46 @@ In practical terms, for each glycemic range, the number of samples to be added o
 
 The results of the experimentation will be statistically analysed in order to evaluate the study premise on a rigorous mathematical basis.
 
-\subsection{Primary Clinical Outcome And Effect Measure}
+\subsection{Primary Clinical Outcomes And Effect Measure}
 \label{subsec:primary_clinical_outcome}
 
-The general hypothesis states that \textbf{increasing the representation of rare glycemic ranges during training has a positive effect on predictive performance in clinically critical regions}. However, this formulation is too broad, since it englobes the full cohort of the problem. For the scope of this analysis, and in order to perform the evaluation through a single statistical test, the hypothesis is simplified to one primary clinical outcome. More specifically, the statistical analysis focuses on severe hypoglycemia, represented by TBR$_2$, because it is the most clinically critical range as stated in the previous chapters. Formally, the selected outcome for the statistical analysis is the global proportion of severe-hypoglycemia predictions located in Clarke Error Grid Zones A and B, denoted as:
+The general hypothesis states that \textbf{increasing the representation of rare glycemic ranges during training has a positive effect on predictive performance in clinically critical regions}. However, this formulation is too broad, since it englobes the full cohort of the problem. For the scope of the statistical analysis, the hypothesis is therefore narrowed to the two hypoglycemic ranges, TBR$_2$ and TBR$_1$.
+
+TBR$_2$ represents severe hypoglycemia and remains particularly relevant because it actually is the most clinically critical glycemic range -- as discussed in the previous chapters. However, it also contains a very small proportion of the available observations. Therefore, TBR$_1$ is also included as part of the statistical analysis in order to determine whether the effect of balancing is consistently observed in the broader hypoglycemic region.
+
+Formally, for both ranges, the selected clinical outcome is the proportion of predictions located in Clarke Error Grid Zones A and B, denoted as:
 
 \begin{equation}
-AB_{\mathrm{TBR_2}}.
+AB_{\mathrm{TBR_2}},
 \end{equation}
 
-Zone A contains predictions considered clinically accurate, whereas Zone B contains predictions that deviate from the reference glucose value but would not normally lead to an inappropriate clinical decision. Therefore, combined, they represent the percentage of predictions that remain \textbf{clinically acceptable}.
+and
 
-The reference baseline for all datasets is defined by the results of the corresponding \texttt{NORMALIZED BASELINE} experiment, since it uses a common targets distribution for the three of them. Then, the fully balanced configuration is compared with the corresponding normalized configuration.
+\begin{equation}
+AB_{\mathrm{TBR_1}}.
+\end{equation}
 
-For each balancing method \(m\) and cross-validation fold \(f\), the effect
+Zone A contains predictions considered clinically accurate, whereas Zone B contains predictions that deviate from the reference glucose value but would not normally lead to an inappropriate clinical decision. Therefore, combined, A+B represent the percentage of predictions that remain \textbf{clinically acceptable}.
+
+The reference baseline for all datasets is defined by the results of the corresponding \texttt{NORMALIZED BASELINE} experiment, since it uses a common targets distribution for the three of them. Then, the fully balanced configuration is compared with the corresponding normalized configuration independently for both TBR$_2$ and TBR$_1$.
+
+For each hypoglycemic range \(r\), balancing method \(m\) and cross-validation fold \(f\), the effect
 is defined as:
 
 \begin{equation}
-\Delta AB_{\mathrm{TBR_2}}^{(m,f)}
+\Delta AB_{r}^{(m,f)}
 =
-AB_{\mathrm{TBR_2}}^{(m,f,\mathrm{full})}
+AB_{r}^{(m,f,\mathrm{full})}
 -
-AB_{\mathrm{TBR_2}}^{(m,f,\mathrm{normalized})},
-\label{eq:delta_ab_tbr2}
+AB_{r}^{(m,f,\mathrm{normalized})},
+\label{eq:delta_ab_hypo}
 \end{equation}
 
 where:
+
+\begin{equation}
+r \in \{\mathrm{TBR_2}, \mathrm{TBR_1}\},
+\end{equation}
 
 \begin{equation}
 m
@@ -321,7 +335,7 @@ m
 \mathrm{Random},
 \mathrm{SMOTER},
 \mathrm{SMOGN}
-\}.
+\},
 \end{equation}
 
 and:
@@ -330,19 +344,19 @@ and:
 f \in \{1,2,3,4,5\}.
 \end{equation}
 
-A positive value of \(\Delta AB_{\mathrm{TBR_2}}^{(m,f)}\) indicates that full balancing increases the proportion of clinically acceptable severe-hypoglycemia predictions relative to the normalized baseline for the corresponding method and fold. A negative value indicates the opposite.
+A positive value of \(\Delta AB_{\mathrm{r}}^{(m,f)}\) indicates that full balancing increases the proportion of clinically acceptable hypoglycemia predictions relative to the normalized baseline for the corresponding hypoglycemic range, method and fold. A negative value indicates the opposite.
 
 The comparison is paired by balancing method and cross-validation fold: each fully balanced result is compared with its normalized counterpart obtained using the same method and fold.
 
 The three method-specific differences are subsequently averaged within each fold to minimize the impact of the balancing method on the analysis:
 
 \begin{equation}
-\Delta AB_{\mathrm{TBR_2}}^{(f)}
+\Delta AB_{\mathrm{r}}^{(f)}
 =
 \frac{1}{3}
 \sum_{m=1}^{3}
-\Delta AB_{\mathrm{TBR_2}}^{(m,f)}.
-\label{eq:fold_mean_delta_ab_tbr2}
+\Delta AB_{\mathrm{r}}^{(m,f)}.
+\label{eq:fold_mean_delta_ab_hypo}
 \end{equation}
 
 The resulting five fold-level differences constitute the five observations used in
@@ -351,35 +365,39 @@ the statistical test.
 \subsection{Statistical Hypothesis And Test}
 \label{subsec:statistical_hypotheses}
 
-Let \(\mu_{\Delta}\) denote the mean paired difference in \(AB_{\mathrm{TBR_2}}\) between the fully balanced and normalized configurations across the five cross-validation folds, after averaging the corresponding differences across the three balancing methods.
+Let \(\mu_{\Delta,r}\) denote the mean paired difference in \(AB_r\) between the fully balanced and normalized configurations across the five cross-validation folds, after averaging the corresponding differences across the three balancing methods, where:
+
+\begin{equation}
+r \in \{\mathrm{TBR_2},\mathrm{TBR_1}\}.
+\end{equation}
 
 Then, the null hypothesis states that full balancing does not produce a positive mean improvement relative to the normalized baseline:
 
 \begin{equation}
-H_0:
-\mu_{\Delta} \leq 0.
-\label{eq:null_hypothesis_tbr2}
+H_{0,r}:
+\mu_{\Delta,r} \leq 0.
+\label{eq:null_hypothesis_hypo}
 \end{equation}
 
-The alternative hypothesis states that full balancing produces a positive mean improvement in severe-hypoglycemia predictions clinical acceptability:
+The alternative hypothesis states that full balancing produces a positive mean improvement in hypoglycemia predictions clinical acceptability:
 
 \begin{equation}
-H_1:
-\mu_{\Delta} > 0.
-\label{eq:alternative_hypothesis_tbr2}
+H_{1,r}:
+\mu_{\Delta,r} > 0.
+\label{eq:alternative_hypothesis_hypo}
 \end{equation}
 
-Rejecting ($H_0$) with a ($p$)-value below the selected significance level would provide enough evidence for our research premise: that full balancing improves \(AB_{\mathrm{TBR_2}}\) relative to the normalized baseline across all the evaluated balancing methods. If proven, this statistical evidence will then have to be evaluated together with any possible deterioration in other clincal metrics, and with the actual magnitude of \(\mu_{\Delta}\). This is to determine whether the observed change is practically meaningful -- \textit{satisfying Equation~\ref{eq:alternative_hypothesis_tbr2} does not necessarily imply that the observed improvement is clinically relevant enough.}
+Rejecting ($H_{0,r}$) with a ($p$)-value below the selected significance level would provide enough evidence for our research premise: that full balancing improves \(AB_r\) relative to the normalized baseline after averaging across the evaluated balancing methods. If proven, this statistical evidence will then have to be evaluated together with any possible deterioration in other clincal metrics, and with the actual magnitude of \(\mu_{\Delta,r}\). This is to determine whether the observed change is practically meaningful -- \textit{satisfying Equation~\ref{eq:alternative_hypothesis_hypo} does not necessarily imply that the observed improvement is clinically relevant enough.}
 
-The primary hypothesis is evaluated using a one-sided paired Student's \(t\)-test. The paired design is appropriate because every fully balanced result is compared with the normalized result obtained using the same dataset and experimental configuration.
+Each hypothesis is evaluated independently using a one-sided paired Student's \(t\)-test. The paired design is appropriate because every fully balanced result is compared with the normalized result obtained using the same dataset and experimental configuration.
 
-Let $d_f$ denote the paired difference for each of the five folds as defined in Equation~\ref{eq:fold_mean_delta_ab_tbr2}. The mean paired difference is then calculated as:
+Let $d_{f,r}$ denote the paired difference for hypoglycemic range $r$ in each of the five folds, as defined in Equation~\ref{eq:fold_mean_delta_ab_hypo}. The mean paired difference is then calculated as:
 
 \begin{equation}
-\overline{d}
+\overline{d}_r
 =
 \frac{1}{n}
-\sum_{f=1}^{n} d_f,
+\sum_{f=1}^{n} d_{f,r},
 \label{eq:mean_paired_difference}
 \end{equation}
 
@@ -388,13 +406,13 @@ where \(n=5\) represents the five cross-validation folds.
 The standard deviation of the paired differences is calculated as:
 
 \begin{equation}
-s_d
+s_{d,r}
 =
 \sqrt{
 \frac{
 \sum_{f=1}^{n}
 \left(
-d_f-\overline{d}
+d_{f,r}-\overline{d}_r
 \right)^2
 }{
 n-1
@@ -406,12 +424,12 @@ n-1
 The paired Student's \(t\)-statistic is then defined as:
 
 \begin{equation}
-t
+t_r
 =
 \frac{
-\overline{d}
+\overline{d}_r
 }{
-s_d/\sqrt{n}
+s_{d,r}/\sqrt{n}
 }.
 \label{eq:paired_t_statistic}
 \end{equation}
@@ -436,14 +454,14 @@ The null hypothesis will be rejected when:
 p<\alpha.
 \end{equation}
 
-The paired \(t\)-test assumes that the fold-level paired differences are approximately normally distributed. However, in this case, this assumption cannot be formally assesed, since only five fold-level differences are available for each dataset.
+The paired \(t\)-test assumes that the fold-level paired differences are approximately normally distributed. However, in this case, this assumption cannot be formally assesed, since only five fold-level differences are available for each dataset and hypoglycemic range.
 
-Additionally, since the same primary hypothesis is tested independently for DiaTrend, REPLACE-BG, and T1DiabetesGranada, the resulting \(p\)-values will also be studied using the Holm procedure \cite{enwiki:1352765388} in order to also assess the probability of obtaining false-positive conclusions across the three dataset-specific tests.
+Additionally, since the same primary hypothesis is tested independently for both TBR$_2$ and TBR$_1$ across DiaTrend, REPLACE-BG, and T1DiabetesGranada, the resulting \(p\)-values will also be studied using the Holm procedure \cite{enwiki:1352765388} in order to also assess the probability of obtaining false-positive conclusions across the six dataset-specific tests.
 
 \subsection{Secondary Outcomes}
 \label{subsec:secondary_statistical_outcomes}
 
-The primary confirmatory analysis focuses exclusively on the difference in \(AB_{\mathrm{TBR_2}}\) between full balancing and the normalized baseline. However, this outcome alone cannot describe the complete effect of modifying the training-data distribution.
+The primary confirmatory analysis focuses exclusively on the differences in \(AB_{\mathrm{TBR_2}}\) and \(AB_{\mathrm{TBR_1}}\) between full balancing and the normalized baseline. However, these outcomes alone cannot describe the complete effect of modifying the training-data distribution.
 
 The semi-balanced configuration is retained as an intermediate approach and will be presented descriptively.
 
@@ -451,13 +469,13 @@ Additionally, other regression and Clarke Error Grid metrics are also considered
 
 \begin{itemize}
     \item global RMSE, MAE, and A+B;
-    \item TBR numerical and clinical performance (\textit{althouh TBR2 clinical performance will be addressed as the primary outcome};
+    \item TBR numerical performance and additional clinical metrics not included in the confirmatory analysis;
     \item TIR numerical and clinical performance;
     \item TAR numerical and clinical performance; and
     \item the individual proportions of predictions located in Clarke Error Grid Zones.
 \end{itemize}
 
-These secondary outcomes will be used to determine the impact of the primary clinical improvement -- if proven -- on other numerical prediction error metrics and on the movement of observations from clinically dangerous into acceptable ones. They are not treated as additional confirmatory hypotheses. They will mainly be interpreted through their numerical changes relative to the normalized baseline, and their consistency across balancing methods and datasets.
+These secondary outcomes will be used to determine the impact of the primary clinical improvements -- if proven -- on other numerical prediction error metrics and on the movement of observations from clinically dangerous into acceptable ones. They are not treated as additional confirmatory hypotheses. They will mainly be interpreted through their numerical changes relative to the normalized baseline, and their consistency across balancing methods and datasets.
 
 \section{Implementation and Experimental Execution}
 \label{sec:experimental_execution}

@@ -72,7 +72,7 @@ Figure~\ref{fig:balanced_normalized_methods_comparison} presents the normalized 
         \includegraphics[width=\textwidth]{images/balanced_distribution/REPLACE-BG_smogn_semi.png}
     \end{subfigure}
 
-    \caption{Balanced distribution on normalized target, methods comparison.}
+    \caption{Balanced distribution on semi-balanced target, methods comparison.}
     \label{fig:balanced_semi_methods_comparison}
 \end{figure}
 
@@ -100,7 +100,7 @@ Figure~\ref{fig:balanced_semi_methods_comparison} presents the semi-balanced con
         \includegraphics[width=\textwidth]{images/balanced_distribution/REPLACE-BG_smogn_full.png}
     \end{subfigure}
 
-    \caption{Balanced distribution on normalized target, methods comparison.}
+    \caption{Balanced distribution on fully-balanced target, methods comparison.}
     \label{fig:balanced_full_methods_comparison}
 \end{figure}
 
@@ -109,6 +109,129 @@ Figure~\ref{fig:balanced_full_methods_comparison} presents the fully balanced co
 Abrupt changes can also be observed at ranges limits: 54, 70, 181, and 251 mg/dL. These discontinuities are expected because each glycemic range is processed independently and receives a different sampling factor.
 
 Overall, the verification confirmed that all balanced subsets matched their intended target counts. Also, it showed that the overall redistribution across the five glycemic ranges remains consistent, confirming that the balancing level determines the quantity of samples assigned to each range, while suggesting that the chosen balancing method hardly -- does not almost -- affects their internal distribution.
+
+\clearpage
+
+% ============================================================
+% RESULTS FIRST OVERVIEW
+% ============================================================
+\section{General Results}
+\label{sec:general_results}
+
+This section presents a general overview of the results obtained from all the different 27 experimental configuration described previously. The purpose here is not to reproduce these results statistically -- as presented later in Sections~\ref{sec:diatrend_results}--
+\ref{sec:t1diabetesgranadaresults}, but to identify the principal patterns that are common to the three datasets. The complete numerical results for each of the 27 experiments performed in this thesis can be found in Appendix~\ref{app:experimental_results}.
+
+% ============================================================
+% TARGET DISTRIBUTION VS BALANCING METHOD
+% ============================================================
+
+\subsection{Influence of Target Distribution and Balancing Method}
+\label{subsec:general_target_method}
+
+An initial reasonable question is whether predictive behaviour is primarily determined by the selected target distribution or by the oversampling algorithm. To answer this question, the figures below present a visual comparison between the maximum variation observed across the different target distributions and the maximum variation observed across the different resampling methods, for each of the glycemic ranges.
+
+% ------------------------------------------------------------
+% DIATREND TARGET VS METHOD
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/DiaTrend_method_vs_target_effect.png}
+    \caption{Comparison between the variation associated with the target
+    distribution and the maximum variation across balancing methods in
+    DiaTrend.}
+    \label{fig:diatrend_method_vs_target}
+\end{figure}
+
+
+% ------------------------------------------------------------
+% REPLACE-BG TARGET VS METHOD
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/REPLACE-BG_method_vs_target_effect.png}
+    \caption{Comparison between the variation associated with the target
+    distribution and the maximum variation across balancing methods in
+    REPLACE-BG.}
+    \label{fig:replacebg_method_vs_target}
+\end{figure}
+
+
+% ------------------------------------------------------------
+% T1DIABETESGRANADA TARGET VS METHOD
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/T1DiabetesGranada_method_vs_target_effect.png}
+    \caption{Comparison between the variation associated with the target
+    distribution and the maximum variation across balancing methods in
+    T1DiabetesGranada.}
+    \label{fig:t1diabetesgranada_method_vs_target}
+\end{figure}
+
+
+Figures~\ref{fig:diatrend_method_vs_target}--\ref{fig:t1diabetesgranada_method_vs_target} show a common pattern between the three datasets: the differences associated to the target distribution are considerably larger than the differences associated to the particular
+oversampling method. This is also common across the different glycemic ranges, and especially evident in the hypoglycemic ranges. Therefore, the most influential experimental factor seems to be the \textit{balancing target}, rather than the mechanism used to produce the additional samples. However, this result does not imply that the three balancing methods are statistically equivalent, since formal equivalence between them was not tested.
+
+% ============================================================
+% GENERAL PREDICTIVE PERFORMANCE
+% ============================================================
+
+\subsection{Overall Effect of the Target Distribution}
+\label{subsec:general_target_effect}
+
+Figures~\ref{fig:diatrend_general_results}--\ref{fig:t1diabetesgranada_general_results} summarize the two most critical dimensions used in this thesis: clinical acceptability (A+B), and numerical prediction accuracy (RMSE). The results of the different resampling methods are represented by their mean. This aggregation is used only as a descriptive summary, and error bars representing standard deviation across the three methods are also presented.
+
+% ------------------------------------------------------------
+% DIATREND GENERAL RESULTS
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/DiaTrend_general_results.png}
+    \caption{General prediction performance for DiaTrend across the three
+    target distributions. Bars represent the mean across random resampling,
+    SMOTER, and SMOGN, while error bars represent $\pm 1$ descriptive
+    standard deviation across methods.}
+    \label{fig:diatrend_general_results}
+\end{figure}
+
+
+% ------------------------------------------------------------
+% REPLACE-BG GENERAL RESULTS
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/REPLACE-BG_general_results.png}
+    \caption{General prediction performance for REPLACE-BG across the three
+    target distributions. Bars represent the mean across random resampling,
+    SMOTER, and SMOGN, while error bars represent $\pm 1$ descriptive
+    standard deviation across methods.}
+    \label{fig:replacebg_general_results}
+\end{figure}
+
+
+% ------------------------------------------------------------
+% T1DIABETESGRANADA GENERAL RESULTS
+% ------------------------------------------------------------
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=\textwidth]{general_results/T1DiabetesGranada_general_results.png}
+    \caption{General prediction performance for T1DiabetesGranada across
+    the three target distributions. Bars represent the mean across random
+    resampling, SMOTER, and SMOGN, while error bars represent $\pm 1$
+    descriptive standard deviation across methods.}
+    \label{fig:t1diabetesgranada_general_results}
+\end{figure}
+
+
+Overall, the three datasets show common patterns. The clearest effect always appears in the hypoglycemic ranges. Under the normalized baseline, both TBR$_2$ and TBR$_1$ showed very low clinical acceptability across the three datasets, despite the acceptable global performance. Increasing balancing intensity improved both ranges, with full balancing producing the strongest results and substantial RMSE reductions. This improvement comes with some trade-offs in the numerical accuracy of the model. Full balancing increases global RMSE, mainly due to reduced precision in TIR. However, both TIR and global clinical acceptability (A+B) increase under full balancing, showing that a higher numerical error does not necessarily imply worse clinical performance. The hyperglycemic ranges follow a similar although more moderate pattern. TAR$_2$ generally improves with stronger balancing, while TAR$_1$ shows only a small localized deterioration under full balancing. In summary, these summarized results show that the strongest balancing target produces very considerable improvements in the hypoglycemic ranges, while introducing only comparatively small limitations in the rest of ranges and evaluation metrics.
+
+\clearpage
 
 % ============================================================
 % DIATREND
@@ -120,14 +243,18 @@ Overall, the verification confirmed that all balanced subsets matched their inte
 \subsection{Primary Statistical Test}
 \label{subsec:diatrend_primary_analysis}
 
-As defined in Section~\ref{sec:statistical_analysis}, the statistical analysis evaluates whether full balancing improves the proportion of clinically acceptable predictions in severe hypoglycemia, \(AB_{\mathrm{TBR_2}}\), relative to the corresponding \texttt{NORMALIZED\_BASELINE} configuration.
+As defined in Section~\ref{sec:statistical_analysis}, the statistical analysis evaluates whether full balancing improves the proportion of clinically acceptable predictions both in hypoglycemia and severe hypoglycemia -- denoted as \(AB_{\mathrm{TBR_1}}\) and \(AB_{\mathrm{TBR_2}}\) -- relative to the corresponding \texttt{NORMALIZED\_BASELINE} configuration.
 
-First, the difference between the fully balanced and normalized configurations was first calculated independently for each of the methods and cross-validation folds. Then, the three method-specific differences were averaged within each fold according to Equation~\ref{eq:fold_mean_delta_ab_tbr2}. The resulting values, presented in Table~\ref{tab:diatrend_fold_primary_effect} in percentage points, constitue the five fold-level observations used in the Student's \(t\)-test.
+For each hypoglycemic range, the difference between the fully balanced and normalized configurations was first calculated independently for each of the methods and cross-validation folds. Then, the three method-specific differences were averaged within each fold according to Equation~\ref{eq:fold_mean_delta_ab_hypo}.
+
+\paragraph{TBR$_2$ analysis.}
+
+Table~\ref{tab:diatrend_fold_tbr2_effect} presents the fold-level results for severe hypoglycemia.
 
 \begin{table}[htbp]
     \centering
-    \caption{DiaTrend fold-level prediction performance for the primary clinical outcome.}
-    \label{tab:diatrend_fold_primary_effect}
+    \caption{DiaTrend fold-level prediction performance for TBR$_2$.}
+    \label{tab:diatrend_fold_tbr2_effect}
     \begin{tabular}{cccc}
         \toprule
         \textbf{Fold}
@@ -149,10 +276,12 @@ First, the difference between the fully balanced and normalized configurations w
     \end{tabular}
 \end{table}
 
-Full balancing produced a positive improvement in every cross-validation fold, with values that range from \(47.54\) to \(79.62\) percentage points. Moreover, all 15 individual method--fold comparisons ~\ref{app:experimental_results} were positive, which suggests that this effect is also consistent across balancing methods. The five observations used in the statistical test are therefore:
+Full balancing produced a positive improvement in every cross-validation fold, with values that range from \(47.54\) to \(79.62\) percentage points. Moreover, all 15 individual method--fold comparisons were positive, which suggests that this effect is also consistent across balancing methods.
+
+The five observations used in the statistical test are therefore:
 
 \begin{equation}
-d_f
+d_{f,\mathrm{TBR_2}}
 \in
 \{
 47.54,\,
@@ -167,14 +296,14 @@ d_f
 Their mean and standard deviation were:
 
 \begin{equation}
-\overline{d}
+\overline{d}_{\mathrm{TBR_2}}
 =
 63.75
 \text{ pp},
 \end{equation}
 
 \begin{equation}
-s_d
+s_{d,\mathrm{TBR_2}}
 =
 12.33
 \text{ pp}.
@@ -183,7 +312,7 @@ s_d
 Applying the one-sided paired Student's \(t\)-test defined in Section~\ref{subsec:statistical_hypotheses} produced the following statistic:
 
 \begin{equation}
-t
+t_{\mathrm{TBR_2}}
 =
 \frac{63.75}{12.33/\sqrt{5}}
 =
@@ -193,7 +322,7 @@ t
 With \(n-1=4\) degrees of freedom, the corresponding one-sided \(p\)-value was:
 
 \begin{equation}
-p
+p_{\mathrm{TBR_2}}
 =
 0.00016.
 \end{equation}
@@ -201,27 +330,121 @@ p
 Since:
 
 \begin{equation}
-p < \alpha
+p_{\mathrm{TBR_2}} < \alpha
 \qquad
 (0.00016 < 0.01),
 \end{equation}
 
-the null hypothesis defined in Equation~\ref{eq:null_hypothesis_tbr2} can be be rejected for DiaTrend with a considerable degree of confidence.
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can be rejected for TBR$_2$ in DiaTrend, with a considerable degree of confidence.
 
 Additionally, this statistical significance is accompanied by a substantial effect magnitude. Across the five folds, full balancing increased \(AB_{\mathrm{TBR_2}}\) by an average of \(63.75\) percentage points: the mean value increased from \(3.16\%\) under the normalized baseline to \(66.91\%\) under full balancing.
 
+\paragraph{TBR$_1$ analysis.}
+
+Table~\ref{tab:diatrend_fold_tbr1_effect} presents the corresponding fold-level results for TBR$_1$.
+
+\begin{table}[htbp]
+\centering
+\caption{DiaTrend fold-level prediction performance for TBR$_1$.}
+\label{tab:diatrend_fold_tbr1_effect}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Fold}
+& \textbf{Normalized A+B}
+& \textbf{Full A+B}
+& $\boldsymbol{\Delta}$ \textbf{A+B} \\
+\midrule
+1 & 0.71\% & 54.53\% & +53.81 pp \\
+2 & 1.53\% & 66.77\% & +65.24 pp \\
+3 & 1.96\% & 68.60\% & +66.64 pp \\
+4 & 1.39\% & 73.88\% & +72.48 pp \\
+5 & 1.89\% & 76.60\% & +74.71 pp \\
+\midrule
+\textbf{Mean}
+& \textbf{1.50\%}
+& \textbf{68.07\%}
+& \textbf{+66.58 pp} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Full balancing produced a positive improvement in every cross-validation fold, with values ranging from 53.81 to 74.71 percentage points. Moreover, all 15 individual method--fold comparisons were positive, which suggests that this effect is also consistent across balancing methods.
+
+The five observations used in the statistical test were:
+
+\begin{equation}
+d_{f,\mathrm{TBR_1}}
+\in
+\{
+53.81,
+65.24,
+66.64,
+72.48,
+74.71
+\}
+\text{ pp}.
+\end{equation}
+
+Their mean and standard deviation were:
+
+\begin{equation}
+\overline{d}_{\mathrm{TBR_1}}
+=
+66.58
+\text{ pp},
+\end{equation}
+
+\begin{equation}
+s_{d,\mathrm{TBR_1}}
+=
+8.15
+\text{ pp}.
+\end{equation}
+
+Applying the same one-sided paired Student's $t$-test produced:
+
+\begin{equation}
+t_{\mathrm{TBR_1}}
+=
+\frac{66.58}{8.15/\sqrt{5}}
+=
+18.26.
+\end{equation}
+
+With $n-1=4$ degrees of freedom, the corresponding one-sided $p$-value was:
+
+\begin{equation}
+p_{\mathrm{TBR_1}}
+=
+2.64 \times 10^{-5}.
+\end{equation}
+
+Since:
+
+\begin{equation}
+p_{\mathrm{TBR_1}} < \alpha
+\qquad
+(2.64 \times 10^{-5} < 0.01),
+\end{equation}
+
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can be rejected for TBR$_1$ in DiaTrend, with a considerable degree of confidence.
+
+Additionally, this statistical significance is accompanied by a substantial effect magnitude. Across the five folds, full balancing increased $AB_{\mathrm{TBR_1}}$ by an average of 66.58 percentage points: the mean value increased from 1.50\% under the normalized baseline to 68.07\% under full balancing.
+
+\paragraph{Interpretation}
+
 The improvement was also consistent across the complete experimental configuration. Every fold showed a positive mean difference, and every individual comparison involving random resampling, SMOTER, or SMOGN favoured full balancing. Consequently, the result does not appear to depend on a particular balancing method or cross-validation partition.
 
-Therefore, the primary statistical result supports the study hypothesis for DiaTrend: \textbf{increasing the representation of rare glycemic ranges through full balancing produces a statistically significant and clinically substantial improvement in the proportion of acceptable predictions in severe hypoglycemia}. The remaining secondary outcomes must subsequently determine whether this benefit is accompanied by acceptable changes in the other glycemic ranges.
+Therefore, the primary confirmatory statistical results support the study hypothesis for DiaTrend: \textbf{increasing the representation of rare glycemic ranges through full balancing produces statistically significant and substantial improvements in the proportion of clinically acceptable predictions in both severe hypoglycemia (TBR$_2$) and hypoglycemia (TBR$_1$)}. The remaining secondary outcomes must subsequently determine whether these benefits are accompanied by acceptable changes in numerical performance, global performance, and the other glycemic ranges.
 
 \subsection{Secondary Outcomes}
 \label{subsec:diatrend_secondary_outcomes}
 
-Together with the primary statistical analysis, a secondary analyses was performed to study the impact of balancing in the rest of regression and clinical metrics. A single statistical test, narrowed to a very particular although critical metric, should not be considered enough to determine the full effect.
+Together with the primary statistical analysis, a secondary analyses was performed to study the impact of balancing in the rest of regression and clinical metrics. The confirmatory statistical analyses, although focused on the two hypoglycemic ranges, should not be considered enough to determine the full effect.
 
 \begin{quote}
 \small
-\textit{\textbf{Note.} The secondary analysis uses the aggregate results obtained after combining the predictions from all folds for each experimental configuration. Consequently, the aggregate percentages reported in this subsection do not necessarily coincide exactly with the unweighted mean of the five fold-level percentages used in the previous statistical test. In any case, full results can be checked in Appendix~\ref{app:experimental_results}. Considering the large number of experiments and the corresponding performance metrics, for the scope if this secondary analysis, results are presented mostly summarized through their mean and descriptive standard deviation. Also, the normalized configuration remains the reference for interpreting the changes introduced by semi and full-balancing.}
+\textit{\textbf{Note.} The secondary analysis uses the aggregate results obtained after combining the predictions from all folds for each experimental configuration. Consequently, the aggregate percentages reported in this subsection do not necessarily coincide exactly with the unweighted mean of the five fold-level percentages used in the previous statistical tests. In any case, full results can be checked in Appendix~\ref{app:experimental_results}. Considering the large number of experiments and the corresponding performance metrics, for the scope if this secondary analysis, results are presented \textbf{mostly summarized} through their mean and descriptive standard deviation. Also, the normalized configuration remains the reference for interpreting the changes introduced by semi and full-balancing.}
 \end{quote}
 
 \subsubsection{Influence of the Balancing Method}
@@ -276,7 +499,7 @@ Compared with the differences between target distributions, the variability acro
 
 The only considerable "method-related" variability was found in the normalized hypoglycemic results, where the model is actually known to perform poorly. But even in this case, the difference between methods remained considerably smaller than the improvements obtained by changing the balancing intensity.
 
-These results do not necessarily prove that the three methods are equivalent, since no formal statistically test was performed. However, they clearly show that the selected target distribution -- or balancing intensity -- has a much higher influence in the predictive performance than the particular oversampling method.
+These results do not necessarily prove that the three methods are equivalent, since no formal statistical test was performed. However, they clearly show that the selected target distribution -- or balancing intensity -- has a much higher influence in the predictive performance than the particular oversampling method.
 
 \subsubsection{Effect of Balancing Intensity in Hypoglycemia}
 \label{subsubsec:diatrend_hypoglycemia}
@@ -317,13 +540,13 @@ The hypoglycemic results -- which proved to have the most substantial improvemen
     }
 \end{table}
 
-Table~\ref{tab:diatrend_hypoglycemia} summarizes some critical metrics for TBR for each of the balancing targets. Normalized target is presented as a reference. Zones B and C contained no predictions in these ranges, so A+B is equivalent to Zone A.
+Table~\ref{tab:diatrend_hypoglycemia} summarizes some critical metrics for TBR for each of the balancing targets. Normalized target is presented as a reference. \textbf{Zones B and C contained no predictions in these ranges, so A+B is equivalent to Zone A.}
 
-Semi-balancing resulted in a substantial intermediate improvement, relative to the normalized baseline: TBR$_2$ RMSE decreased by \(13.13\) mg/dL and A+B increased by \(31.99\%\); In TBR$_1$, RMSE decreased by \(9.41\) mg/dL and and A+B increased by \(27.39\%\). These clinical gains were mainly produced by a redistribution from Zone D into Zone A.
+Semi-balancing resulted in a substantial intermediate improvement, relative to the normalized baseline: TBR$_2$ RMSE decreased by \(13.13\) mg/dL and A+B increased by \(31.99\) percentage points; In TBR$_1$, RMSE decreased by \(9.41\) mg/dL and and A+B increased by \(27.39\) percentage points. These clinical gains were mainly produced by a redistribution from Zone D into Zone A.
 
-Full balancing intensified this effect: TBR$_2$ RMSE decreased by \(23.40\) mg/dL and A+B increased by \(68.93\%\); In TBR$_1$, RMSE decreased by \(17.07\) mg/dL and and A+B increased by \(68.75\%\). The redistribution from Zone D into Zone A was also similarly pronounced.
+Full balancing intensified this effect: TBR$_2$ RMSE decreased by \(23.40\) mg/dL and A+B increased by \(68.93\) percentage points. In TBR$_1$, RMSE decreased by \(17.07\) mg/dL and and A+B increased by \(68.75\) percentage points. The redistribution from Zone D into Zone A was also similarly pronounced.
 
-Semi-balancing therefore provided a valid intermediate response, and full balancing produced a substantially larger improvement in both numerical accuracy and clinical acceptability. While not formally proven with the corresponding statistical test, these results suggest that the predictive performance improves progressively as the degree of balancing increases -- at least up to a fully symmetrical distribution.
+Semi-balancing therefore provided a valid intermediate response, and full balancing produced a substantially larger improvement in both numerical accuracy and clinical acceptability. While not formally proven with a corresponding statistical test, these results suggest that the predictive performance improves progressively as the degree of balancing increases -- at least up to a fully symmetrical distribution.
 
 \begin{equation}
 \label{eq:ordered_hypothesis_conjecture}
@@ -380,7 +603,7 @@ The main cost of semi-balancing appeared in TIR, where RMSE increased by \(3.30\
 
 Full balancing introduced a more pronounced numerical trade-off. Global RMSE increased by \(3.23\) mg/dL and MAE by \(1.97\) mg/dL, relative to the normalized baseline. Nevertheless, global A+B increased by \(0.86\) percentage points.
 
-The largest numerical deterioration of full balancing appeared in TIR, where RMSE was increased by \(9.10\) mg/dL and MAE by \(6.85\) mg/dL. Nevertheless, IR A+B decreased by only \(0.49\) percentage points and remained at \(99.01\%\). Moreover, no TIR predictions entered Zones D or E.
+The largest numerical deterioration of full balancing appeared in TIR, where RMSE was increased by \(9.10\) mg/dL and MAE by \(6.85\) mg/dL. Nevertheless, TIR A+B decreased by only \(0.49\) percentage points and remained at \(99.01\%\). Moreover, no TIR predictions entered Zones D or E.
 
 The deterioration, both in TIR and globally, was therefore primarily numerical rather than
 clinical: while predictions in this ranges became less precise, they remained almost entirely
@@ -467,9 +690,9 @@ These Clarke Error Grids are consistent with the quantitative analysis. They sup
 \subsection{DiaTrend Summary}
 \label{subsec:diatrend_summary}
 
-The primary statistical analysis rejected the null hypothesis for DiaTrend. Using the fold-level analysis, full balancing increased \(AB_{\mathrm{TBR_2}}\) by an average of \(63.75\) percentage points relative to the normalized baseline, with a one-sided \(p\)-value of \(0.00016\).
+The confirmatory statistical analyses rejected the null hypothesis for both hypoglycemic ranges in DiaTrend. Using the fold-level analysis, full balancing increased \(AB_{\mathrm{TBR_2}}\) by an average of \(63.75\) percentage points relative to the normalized baseline, with a one-sided \(p\)-value of \(0.00016\). For TBR$_1$, the corresponding mean improvement was \(66.58\) percentage points, with a one-sided \(p\)-value of \(2.64 \times 10^{-5}\).
 
-The aggregate secondary results support this conclusion. When predictions from all folds were combined, mean TBR$_2$ A+B across methods increased from \(3.74\%\) under normalized balancing to \(72.68\%\) under full balancing. TBR$_1$ A+B similarly increased from \(1.60\%\) to \(70.35\%\). These improvements were accompanied by substantial reductions in RMSE, MAE, and Zone D.
+The aggregate secondary results support these conclusions. When predictions from all folds were combined, mean TBR$_2$ A+B across methods increased from \(3.74\%\) under normalized balancing to \(72.68\%\) under full balancing. TBR$_1$ A+B similarly increased from \(1.60\%\) to \(70.35\%\). These improvements were accompanied by substantial reductions in RMSE, MAE, and Zone D.
 
 The balancing target was found to have a much greater influence on predictive behaviour than the selected resampling method. Random resampling, SMOTER, and SMOGN produced closely aligned aggregate results under the same target distribution, although formal equivalence between them was not tested.
 
@@ -492,12 +715,16 @@ Overall, full balancing is considered the most beneficial DiaTrend configuration
 \subsection{Primary Statistical Test}
 \label{subsec:replacebg_primary_analysis}
 
-The same statistical analysis defined in Section~\ref{sec:statistical_analysis} was also performed for REPLACE-BG. The resulting values are presented in Table~\ref{tab:replacebg_fold_primary_effect} and constitute the five observations used in the paired Student's \(t\)-test.
+The same statistical analysis defined in Section~\ref{sec:statistical_analysis} was also performed for REPLACE-BG.
+
+\paragraph{TBR$_2$ analysis.}
+
+Table~\ref{tab:replacebg_fold_tbr2_effect} presents the fold-level results for severe hypoglycemia.
 
 \begin{table}[htbp]
     \centering
-    \caption{REPLACE-BG fold-level prediction performance for the primary clinical outcome.}
-    \label{tab:replacebg_fold_primary_effect}
+    \caption{REPLACE-BG fold-level prediction performance for TBR$_2$.}
+    \label{tab:replacebg_fold_tbr2_effect}
     \begin{tabular}{cccc}
         \toprule
         \textbf{Fold}
@@ -521,10 +748,10 @@ The same statistical analysis defined in Section~\ref{sec:statistical_analysis} 
 
 Full balancing produced a positive improvement in every fold, with fold-level differences ranging from \(73.54\) to \(78.96\) percentage points. Additionally, all 15 individual method--fold comparisons were positive, with improvements ranging from \(72.72\) to \(80.08\) percentage points.
 
-Therefore, the five observations used in the statistical test were:
+The five observations used in the statistical are therefore:
 
 \begin{equation}
-d_f
+d_{f,\mathrm{TBR_2}}
 \in
 \{
 78.96,\,
@@ -539,14 +766,14 @@ d_f
 Their mean and standard deviation were:
 
 \begin{equation}
-\overline{d}
+\overline{d}_{\mathrm{TBR_2}}
 =
 76.81
 \text{ pp},
 \end{equation}
 
 \begin{equation}
-s_d
+s_{d,\mathrm{TBR_2}}
 =
 2.20
 \text{ pp}.
@@ -555,7 +782,7 @@ s_d
 Applying the one-sided paired Student's \(t\)-test produced the following statistic:
 
 \begin{equation}
-t
+t_{\mathrm{TBR_2}}
 =
 \frac{76.81}{2.20/\sqrt{5}}
 =
@@ -565,7 +792,7 @@ t
 With \(n-1=4\) degrees of freedom, the corresponding one-sided \(p\)-value was:
 
 \begin{equation}
-p
+p_{\mathrm{TBR_2}}
 =
 8.00 \times 10^{-8}.
 \end{equation}
@@ -573,14 +800,112 @@ p
 Since:
 
 \begin{equation}
-p < \alpha
+p_{\mathrm{TBR_2}} < \alpha
 \qquad
 (8.00 \times 10^{-8} < 0.01),
 \end{equation}
 
-the null hypothesis defined in Equation~\ref{eq:null_hypothesis_tbr2} can be rejected for REPLACE-BG.
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can be rejected for REPLACE-BG.
 
 The statistical significance is also accompanied by a substantial and highly consistent effect magnitude. Mean \(AB_{\mathrm{TBR_2}}\) increased from approximately \(0.01\%\) under normalized balancing to \(76.82\%\) under full balancing. Therefore, the REPLACE-BG results support the primary study hypothesis and show an even more consistent fold-level effect than that observed for DiaTrend.
+
+\paragraph{TBR$_1$ analysis.}
+
+Table~\ref{tab:replacebg_fold_tbr1_effect} presents the corresponding fold-level results for TBR$_1$.
+
+\begin{table}[htbp]
+\centering
+\caption{REPLACE-BG fold-level prediction performance for TBR$_1$.}
+\label{tab:replacebg_fold_tbr1_effect}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Fold}
+& \textbf{Normalized A+B}
+& \textbf{Full A+B}
+& $\boldsymbol{\Delta}$ \textbf{A+B} \\
+\midrule
+1 & 0.48\% & 80.27\% & +79.79 pp \\
+2 & 0.01\% & 78.90\% & +78.89 pp \\
+3 & 0.68\% & 77.63\% & +76.94 pp \\
+4 & 0.08\% & 78.16\% & +78.07 pp \\
+5 & 0.38\% & 77.39\% & +77.01 pp \\
+\midrule
+\textbf{Mean}
+& \textbf{0.33\%}
+& \textbf{78.47\%}
+& \textbf{+78.14 pp} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Full balancing produced a positive improvement in every cross-validation fold, with improvements ranging from 76.94 to 79.79 percentage points. Moreover, all 15 individual method--fold comparisons were positive, which suggests that this effect is also consistent across balancing methods.
+
+The five observations used in the statistical test were:
+
+\begin{equation}
+d_{f,\mathrm{TBR_1}}
+\in
+\{
+79.79,
+78.89,
+76.94,
+78.07,
+77.01
+\}
+\text{ pp}.
+\end{equation}
+
+Their mean and standard deviation were:
+
+\begin{equation}
+\overline{d}_{\mathrm{TBR_1}}
+=
+78.14
+\text{ pp},
+\end{equation}
+
+\begin{equation}
+s_{d,\mathrm{TBR_1}}
+=
+1.22
+\text{ pp}.
+\end{equation}
+
+Applying the same one-sided paired Student's $t$-test produced:
+
+\begin{equation}
+t_{\mathrm{TBR_1}}
+=
+\frac{78.14}{1.22/\sqrt{5}}
+=
+142.69.
+\end{equation}
+
+With $n-1=4$ degrees of freedom, the corresponding one-sided $p$-value was:
+
+\begin{equation}
+p_{\mathrm{TBR_1}}
+=
+7.24 \times 10^{-9}.
+\end{equation}
+
+Since:
+
+\begin{equation}
+p_{\mathrm{TBR_1}} < \alpha
+\qquad
+(7.24 \times 10^{-9} < 0.01),
+\end{equation}
+
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can be rejected for TBR$_1$, with a considerable degree of confidence.
+
+Additionally, this statistical significance is accompanied by a substantial effect magnitude. Across the five folds, full balancing increased $AB_{\mathrm{TBR_1}}$ by an average of 78.14 percentage points: the mean value increased from 0.33\% under the normalized distribution to 78.47\% under full balancing.
+
+\paragraph{Interpretation}
+
+One more, for REPLACE-BG, the improvement was consistent across the complete experimental configuration. Every fold showed a positive mean difference, and every individual comparison involving random resampling, SMOTER, or SMOGN favoured full balancing. Consequently, the result does not appear to depend on a particular balancing method or cross-validation partition.
+
+Therefore, the primary confirmatory statistical results support the study hypothesis also for REPLACE-BG. The remaining secondary outcomes must subsequently determine whether these benefits are accompanied by acceptable changes in numerical performance, global performance, and the other glycemic ranges.
 
 \subsection{Secondary Outcomes}
 \label{subsec:replacebg_secondary_outcomes}
@@ -849,19 +1174,20 @@ represent a uniform deterioration across the complete glucose spectrum. It is
 mainly associated with reduced numerical precision in TIR, together with a
 major improvement in the clinically critical hypoglycemic regions.
 
+\clearpage
+
 \subsection{REPLACE-BG Summary}
 \label{subsec:replacebg_summary}
 
-The primary statistical analysis rejected the null hypothesis for REPLACE-BG with a one-sided \(p\)-value of \(8.00 \times 10^{-8}\). The improvement was also positive in every fold and in all 15 method--fold comparisons.
+The confirmatory statistical analyses rejected the null hypothesis for both hypoglycemic ranges in REPLACE-BG. Using the fold-level analysis, full balancing increased \(AB_{\mathrm{TBR_2}}\) by an average of \(76.81\) percentage points relative to the normalized baseline, with a one-sided \(p\)-value of \(8.00 \times 10^{-8}\). For TBR$_1$, the corresponding mean improvement was \(78.14\) percentage points, with a one-sided \(p\)-value of \(7.24 \times 10^{-9}\).
 
-The aggregate results support this conclusion. Mean TBR$_2$ A+B increased from \(0.01\%\) under normalized balancing to \(76.89\%\) under full balancing, while TBR$_1$ A+B increased from \(0.33\%\) to \(78.49\%\). These improvements were accompanied by substantial reductions in RMSE,
-MAE, and Zone D.
+The aggregate secondary results support these conclusions. When predictions from all folds were combined, mean TBR$_2$ A+B across methods increased from \(0.01\%\) under normalized balancing to \(76.89\%\) under full balancing. TBR$_1$ A+B similarly increased from \(0.33\%\) to \(78.49\%\). These improvements were accompanied by substantial reductions in RMSE, MAE, and Zone D.
 
-The balancing target again had a much greater influence than the selected resampling method. Semi-balancing provided an effective intermediate configuration.
+As in Diatrend, the balancing target was found to have a much greater influence on predictive behaviour than the selected resampling method. Random resampling, SMOTER, and SMOGN produced closely aligned aggregate results under the same target distribution, although formal equivalence between them was not tested either.
 
-Full balancing produced the strongest improvements in TBR$_2$ and TBR$_1$. Its main cost was reduced numerical precision in TIR, although TIR A+B remained above \(99\%\) and no predictions entered Zones D or E. Severe hyperglycemia also improved, while moderate hyperglycemia presented a smaller localized deterioration.
+Semi-balancing provided a favourable intermediate response. It substantially improved both hypoglycemic ranges while preserving global RMSE and producing only a limited deterioration in TIR numerical accuracy.
 
-Overall, full balancing is considered the most beneficial REPLACE-BG configuration. Its increase in global and TIR numerical error is considerably outweighed by the magnitude, consistency, and clinical relevance of the improvements in the hypoglycemic ranges.
+Overall, full balancing is considered the most beneficial REPLACE-BG configuration. The moderate deterioration in global and TIR numerical accuracy is definitely outweighed by the magnitude and clinical relevance of the improvements obtained in TBR.
 
 % ============================================================
 % T1DIABETESGRANADA
@@ -878,12 +1204,14 @@ Overall, full balancing is considered the most beneficial REPLACE-BG configurati
 \subsection{Primary Statistical Test}
 \label{subsec:t1diabetesgranadaprimary_analysis}
 
-Table~\ref{tab:t1diabetesgranada_fold_primary_effect} presents the resulting five fold-level observations arise from the primary statistical analysis.
+\paragraph{TBR$_2$ analysis.}
+
+Table~\ref{tab:t1diabetesgranada_fold_tbr2_effect} presents the fold-level results for severe hypoglycemia.
 
 \begin{table}[htbp]
     \centering
-    \caption{T1DiabetesGranada fold-level prediction performance for the primary clinical outcome.}
-    \label{tab:t1diabetesgranada_fold_primary_effect}
+    \caption{T1DiabetesGranada fold-level prediction performance for TBR$_2$.}
+    \label{tab:t1diabetesgranada_fold_tbr2_effect}
     \begin{tabular}{cccc}
         \toprule
         \textbf{Fold}
@@ -910,7 +1238,7 @@ Full balancing produced a positive improvement in every fold, with fold-level di
 The five observations used in the statistical test were:
 
 \begin{equation}
-d_f
+d_{f,\mathrm{TBR_2}}
 \in
 \{
 76.39,\,
@@ -925,14 +1253,14 @@ d_f
 Their mean and standard deviation were:
 
 \begin{equation}
-\overline{d}
+\overline{d}_{\mathrm{TBR_2}}
 =
 75.93
 \text{ pp},
 \end{equation}
 
 \begin{equation}
-s_d
+s_{d,\mathrm{TBR_2}}
 =
 5.55
 \text{ pp}.
@@ -941,7 +1269,7 @@ s_d
 Applying the one-sided paired Student's \(t\)-test produced the following statistic:
 
 \begin{equation}
-t
+t_{\mathrm{TBR_2}}
 =
 \frac{75.93}{5.55/\sqrt{5}}
 =
@@ -952,7 +1280,7 @@ With \(n-1=4\) degrees of freedom, the corresponding one-sided
 \(p\)-value was:
 
 \begin{equation}
-p
+p_{\mathrm{TBR_2}}
 =
 3.40 \times 10^{-6}.
 \end{equation}
@@ -960,19 +1288,115 @@ p
 Since:
 
 \begin{equation}
-p < \alpha
+p_{\mathrm{TBR_2}} < \alpha
 \qquad
 (3.40 \times 10^{-6} < 0.01),
 \end{equation}
 
-the null hypothesis defined in Equation~\ref{eq:null_hypothesis_tbr2} can definitely be rejected for T1DiabetesGranada.
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can definitely be rejected for T1DiabetesGranada.
 
-Full balancing increased mean \(AB_{\mathrm{TBR_2}}\) from \(13.00\%\) to \(88.93\%\), corresponding to an average improvement of \(75.93\) percentage points. The magnitude and consistency of this effect support the primary study hypothesis for T1DiabetesGranada.
+\paragraph{TBR$_1$ analysis.}
+
+Table~\ref{tab:t1diabetesgranada_fold_tbr1_effect} presents the corresponding fold-level results for TBR$_1$.
+
+\begin{table}[htbp]
+\centering
+\caption{T1DiabetesGranada fold-level prediction performance for TBR$_1$.}
+\label{tab:t1diabetesgranada_fold_tbr1_effect}
+\begin{tabular}{cccc}
+\toprule
+\textbf{Fold}
+& \textbf{Normalized A+B}
+& \textbf{Full A+B}
+& $\boldsymbol{\Delta}$ \textbf{A+B} \\
+\midrule
+1 & 8.02\% & 79.32\% & +71.30 pp \\
+2 & 7.59\% & 77.35\% & +69.76 pp \\
+3 & 5.65\% & 81.30\% & +75.65 pp \\
+4 & 10.66\% & 78.45\% & +67.79 pp \\
+5 & 10.17\% & 79.05\% & +68.88 pp \\
+\midrule
+\textbf{Mean}
+& \textbf{8.42\%}
+& \textbf{79.09\%}
+& \textbf{+70.68 pp} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Full balancing produced a positive improvement in every cross-validation fold, with values ranging from 67.79 to 75.65 percentage points. Moreover, all five fold-level differences were clearly positive, indicating a highly consistent improvement across the cross-validation partitions.
+
+The five observations used in the statistical test were:
+
+\begin{equation}
+d_{f,\mathrm{TBR_1}}
+\in
+\{
+71.30,
+69.76,
+75.65,
+67.79,
+68.88
+\}
+\text{ pp}.
+\end{equation}
+
+Their mean and standard deviation were:
+
+\begin{equation}
+\overline{d}_{\mathrm{TBR_1}}
+=
+70.68
+\text{ pp},
+\end{equation}
+
+\begin{equation}
+s_{d,\mathrm{TBR_1}}
+=
+3.06
+\text{ pp}.
+\end{equation}
+
+Applying the same one-sided paired Student's $t$-test produced:
+
+\begin{equation}
+t_{\mathrm{TBR_1}}
+=
+\frac{70.68}{3.06/\sqrt{5}}
+=
+51.61.
+\end{equation}
+
+With $n-1=4$ degrees of freedom, the corresponding one-sided $p$-value was:
+
+\begin{equation}
+p_{\mathrm{TBR_1}}
+=
+4.22 \times 10^{-7}.
+\end{equation}
+
+Since:
+
+\begin{equation}
+p_{\mathrm{TBR_1}} < \alpha
+\qquad
+(4.22 \times 10^{-7} < 0.01),
+\end{equation}
+
+the null hypothesis defined in Equation~\ref{eq:null_hypothesis_hypo} can be rejected for TBR$_1$ in T1DiabetesGranada, with a considerable degree of confidence.
+
+Additionally, this statistical significance is accompanied by a substantial effect magnitude. Across the five folds, full balancing increased $AB_{\mathrm{TBR_1}}$ by an average of 70.68 percentage points: the mean value increased from 8.42\% under the normalized baseline to 79.09\% under full balancing.
+
+\paragraph{Interpretation}
+
+One again, for T1DiabetesGranada, and as in Diatrend and REPLACE-BG, the improvement was consistent across the complete experimental configuration. Every fold showed a positive mean difference, and every individual comparison involving random resampling, SMOTER, or SMOGN favoured full balancing. Consequently, the result does not appear to depend on a particular balancing method or cross-validation partition.
+
+Therefore, the primary confirmatory statistical results support the study hypothesis also for T1DiabetesGranada. The remaining secondary outcomes must subsequently determine whether these benefits are accompanied by acceptable changes in numerical performance, global performance, and the other glycemic ranges.
 
 \subsection{Secondary Outcomes}
 \label{subsec:t1diabetesgranadasecondary_outcomes}
 
-Apart from the primar statistical test, an additional numerical analysis was performed on different secondary outcomes also for T1DiabetesGranada.
+The secondary outcomes analysis follows the same procedure used for DiaTrend and REPLACE-BG datasets.
 
 \subsubsection{Influence of the Balancing Method}
 \label{subsubsec:t1diabetesgranadamethod_influence}
@@ -1225,10 +1649,12 @@ Figures~\ref{fig:t1diabetesgranada_clarke_normalized}, \ref{fig:t1diabetesgranad
 
 The grids support the same interpretation observed in the previous datasets.
 
+\clearpage
+
 \subsection{T1DiabetesGranada Summary}
 \label{subsec:t1diabetesgranadasummary}
 
-The primary statistical analysis rejected the null hypothesis for T1DiabetesGranada.
+The primary statistical analysis rejected the null hypothesis for T1DiabetesGranada. Using the fold-level analysis, full balancing increased \(AB_{\mathrm{TBR_2}}\) by an average of \(75.93\) percentage points relative to the normalized baseline, with a one-sided \(p\)-value of \(3.40 \times 10^{-6}\). For TBR$_1$, the corresponding mean improvement was \(70.68\) percentage points, with a one-sided \(p\)-value of \(4.22 \times 10^{-7}\).
 
 The aggregate results confirm the clinical magnitude of this effect. TBR$_2$ A+B increased from \(13.24\%\) under normalized balancing to \(88.87\%\) under full balancing, while TBR$_1$ A+B increased from \(8.47\%\) to \(79.06\%\).
 
@@ -1237,6 +1663,7 @@ The balancing method again had little descriptive influence compared with the se
 Full balancing reduced numerical precision in TIR, although TIR A+B remained above \(99\%\) and no predictions entered Zones D or E. Severe hyperglycemia also improved, while moderate hyperglycemia showed a smaller localized deterioration.
 
 Overall, full balancing is considered the most beneficial T1DiabetesGranada configuration. Its moderate numerical cost in global performance and TIR is definitely outweighed by the magnitude and clinical relevance of the improvements obtained in TBR.
+
 
 % ============================================================
 % CROSS-DATASET STATISTICAL SYNTHESIS
@@ -1248,89 +1675,146 @@ Overall, full balancing is considered the most beneficial T1DiabetesGranada conf
 \subsection{Comparison of the Primary Effects}
 \label{subsec:primary_effect_comparison}
 
-Table~\ref{tab:cross_dataset_primary_results} summarizes the primary statistical results across the three datasets.
+Table~\ref{tab:cross_dataset_primary_results} summarizes the primary statistical results across the three datasets and both hypoglycemic ranges.
 
 \begin{table}[htbp]
 \centering
-\caption{Cross-dataset comparison of the primary statistical outcome.}
+\caption{Cross-dataset comparison of the primary statistical outcomes.}
 \label{tab:cross_dataset_primary_results}
 \resizebox{\textwidth}{!}{%
-\begin{tabular}{lcccc}
+\begin{tabular}{llcccc}
 \toprule
 \textbf{Dataset}
-& $\boldsymbol{\overline{\Delta} AB_{\mathrm{TBR_2}}}$
+& \textbf{Range}
+& $\boldsymbol{\overline{\Delta} AB}$
 & $\boldsymbol{t}$
 & \textbf{$\boldsymbol{p}$-value}
 & \textbf{Decision} \\
 \midrule
+
 DiaTrend
+& TBR$_2$
 & $+63.75$ pp
 & $11.57$
 & $1.60 \times 10^{-4}$
 & Reject $H_0$ \\
 
+DiaTrend
+& TBR$_1$
+& $+66.58$ pp
+& $18.26$
+& $2.64 \times 10^{-5}$
+& Reject $H_0$ \\
+
+\midrule
+
 REPLACE-BG
+& TBR$_2$
 & $+76.81$ pp
 & $78.23$
 & $8.00 \times 10^{-8}$
 & Reject $H_0$ \\
 
+REPLACE-BG
+& TBR$_1$
+& $+78.14$ pp
+& $142.69$
+& $7.24 \times 10^{-9}$
+& Reject $H_0$ \\
+
+\midrule
+
 T1DiabetesGranada
+& TBR$_2$
 & $+75.93$ pp
 & $30.60$
 & $3.40 \times 10^{-6}$
 & Reject $H_0$ \\
+
+T1DiabetesGranada
+& TBR$_1$
+& $+70.68$ pp
+& $51.61$
+& $4.22 \times 10^{-7}$
+& Reject $H_0$ \\
+
 \bottomrule
 \end{tabular}%
 }
 \end{table}
 
-Full balancing produced a statistically significant improvement in all three datasets. The effects obtained for REPLACE-BG and T1DiabetesGranada were nearly identical, whereas DiaTrend showed a slightly smaller and more variable, although still substantial, improvement.
+Full balancing produced a statistically significant improvement in both hypoglycemic ranges across all three datasets. The effects obtained for REPLACE-BG and T1DiabetesGranada were generally larger and less variable, whereas DiaTrend showed slightly smaller, although still substantial, improvements.
 
 \subsection{Holm-Adjusted Statistical Results}
 \label{subsec:holm_adjusted_results}
 
-Since the primary hypothesis was evaluated independently in three datasets, the corresponding $p$-values were adjusted using the Holm procedure \cite{enwiki:1352765388}.
+Since the confirmatory hypothesis was evaluated for both hypoglycemic ranges across three datasets, the corresponding $p$-values were adjusted using the Holm procedure \cite{enwiki:1352765388}.
 
 \begin{table}[htbp]
 \centering
-\caption{Original and Holm-adjusted $p$-values for the primary outcome.}
+\caption{Original and Holm-adjusted $p$-values for the primary statistical outcomes.}
 \label{tab:holm_adjusted_primary_results}
-\begin{tabular}{lccc}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccc}
 \toprule
 \textbf{Dataset}
+& \textbf{Range}
 & \textbf{Original $p$-value}
 & \textbf{Holm-adjusted $p$-value}
 & \textbf{Decision} \\
 \midrule
+
 DiaTrend
+& TBR$_2$
 & $1.60 \times 10^{-4}$
 & $1.60 \times 10^{-4}$
+& Reject $H_0$ \\
+
+DiaTrend
+& TBR$_1$
+& $2.64 \times 10^{-5}$
+& $5.28 \times 10^{-5}$
+& Reject $H_0$ \\
+
+\midrule
+
+REPLACE-BG
+& TBR$_2$
+& $8.00 \times 10^{-8}$
+& $4.00 \times 10^{-7}$
 & Reject $H_0$ \\
 
 REPLACE-BG
-& $8.00 \times 10^{-8}$
-& $2.40 \times 10^{-7}$
+& TBR$_1$
+& $7.24 \times 10^{-9}$
+& $4.34 \times 10^{-8}$
+& Reject $H_0$ \\
+
+\midrule
+
+T1DiabetesGranada
+& TBR$_2$
+& $3.40 \times 10^{-6}$
+& $1.02 \times 10^{-5}$
 & Reject $H_0$ \\
 
 T1DiabetesGranada
-& $3.40 \times 10^{-6}$
-& $6.80 \times 10^{-6}$
+& TBR$_1$
+& $4.22 \times 10^{-7}$
+& $1.69 \times 10^{-6}$
 & Reject $H_0$ \\
+
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
-All adjusted $p$-values still remained below the predefined significance level of $\alpha = 0.01$. Therefore, the correction did not alter any of the dataset-specific conclusions.
+All adjusted $p$-values remained below the predefined significance level of $\alpha = 0.01$. Therefore, the correction did not alter any of the dataset- or range-specific conclusions.
 
-\subsection{Consistency of the Primary Outcome}
+\subsection{Consistency of the Primary Outcomes}
 \label{subsec:primary_outcome_consistency}
 
-The primary effect was therefore consistent across the three datasets: full balancing improved $AB_{\mathrm{TBR_2}}$ in every fold and in all individual method--fold comparisons. Apart from the slightly smaller effect observed in DiaTrend, the results were analogous and consistently supported the primary hypothesis.
-
-% ============================================================
-% CROSS-DATASET SECONDARY-OUTCOMES SYNTHESIS
-% ============================================================
+The effects were therefore consistent across the three datasets and both hypoglycemic ranges: full balancing improved $AB_{\mathrm{TBR_2}}$ and $AB_{\mathrm{TBR_1}}$ in every fold and in all individual method--fold comparisons. Apart from the slightly smaller improvements observed in DiaTrend, the results were analogous and consistently supported the study hypothesis.
 
 \section{Cross-Dataset Secondary-Outcomes Synthesis}
 \label{sec:cross_dataset_secondary_synthesis}
@@ -1357,7 +1841,7 @@ The main difference was observed in T1DiabetesGranada, where semi-balancing alre
 
 The global and TIR trade-offs were also analogous. Semi-balancing largely preserved global numerical accuracy, whereas full balancing increased global and TIR errors. This deterioration was largest in REPLACE-BG and smallest in T1DiabetesGranada.
 
-Despite the numerical deterioration, global A+B increased in every dataset. TIR A+B remained above (99\%), and no TIR predictions entered Zones D or E. Consequently, the cost of full balancing was predominantly numerical, while its global clinical performance remained stable or improved.
+Despite the numerical deterioration, global A+B increased in every dataset. TIR A+B remained above 99\%, and no TIR predictions entered Zones D or E. Consequently, the cost of full balancing was predominantly numerical, while its global clinical performance remained stable or improved.
 
 \subsection{Hyperglycemic Performance Across Datasets}
 \label{subsec:cross_dataset_hyperglycemia}

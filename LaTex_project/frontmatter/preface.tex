@@ -34,7 +34,7 @@ La predicción de la glucosa mediante el uso de modelos de Inteligencia Artifici
 
 Este Trabajo de Fin de Grado estudia el efecto de balancear los diferentes rangos glucémicos de un dataset, sobre el rendimiento de modelos de predicción de glucosa para personas con Diabetes Tipo 1. Se utilizan 3 datasets de MCG: DiaTrend, REPLACE-BG, y T1DiabetesGranada. Se aplica balanceo de manera híbrida: submuestreo de los rangos sobrerrepresentados y sobremuestreo de los infrarrepresentados. Se exploran tres distribuciones: balanceo uniforme, una referencia normalizada y semi-balanceo. Cada una de estas distribuciones objetivo se combina con tres métodos de sobremuestreo: aleatorio, SMOTER y SMOGN. La arquitectura, el entrenamiento y los conjuntos de validación y test no se modifican. El rendimiento conseguido se evalúa estadísticamente usando tanto métricas de regresión como medidas clínicas derivadas de Clarke Error Grid.
 
-Aplicando balanceo uniforme a todos los rangos se consiguen mejoras significativas en la proporción de predicciones que son clínicamente aceptables para la hipoglicemia severa, con aumentos de 63.75, 76.81, y 75.93 puntos porcentuales respectivamente para los 3 datasets. Aunque los errores de regresión aumentaron moderadamente a nivel global, las predicciones clínicamente aceptables permanecieron por encima del 99\%, sin que ninguna predicción adicional entrara en zonas peligrosas de la cuadrícula de Clarke. En resumen, este trabajo demuestra que, equilibrando la distribución de los rangos glucémicos, se puede mejorar sustancialmente la predicción en rangos minoritarios clínicamente críticos, manteniendo al mismo tiempo un elevado rendimiento clínico a nivel global.
+Aplicando balanceo uniforme a todos los rangos se consiguen mejoras significativas en la proporción de predicciones clínicamente aceptables tanto para la hipoglucemia severa como para la hipoglucemia. En TBR$_2$, los aumentos fueron de 63.75, 76.81 y 75.93 puntos porcentuales, respectivamente, para los tres datasets, observándose también mejoras significativas en TBR$_1$. Aunque los errores de regresión aumentaron moderadamente a nivel global, la aceptabilidad clínica global mejoró en los tres datasets. En TIR, las predicciones clínicamente aceptables permanecieron por encima del 99\%, sin que ninguna predicción entrara en las zonas D o E de la cuadrícula de Clarke. La hiperglucemia severa también mejoró, mientras que el balanceo completo produjo un pequeño deterioro localizado en la hiperglucemia moderada. En resumen, este trabajo demuestra que, equilibrando la distribución de los rangos glucémicos, se puede mejorar sustancialmente la predicción en rangos minoritarios clínicamente críticos, manteniendo al mismo tiempo un elevado rendimiento clínico a nivel global.
 
 \end{otherlanguage}
 
@@ -46,7 +46,7 @@ Aplicando balanceo uniforme a todos los rangos se consiguen mejoras significativ
 
 \begin{center}
     {\large\bfseries
-    Compensating for Glycemic Range Heterogeneity in Glucose Prediction
+    Compensating for Glycemic Ranges Heterogeneity in Glucose Prediction
     Models via Data Balancing
     \par}
 
@@ -72,7 +72,7 @@ Glucose prediction using AI models can support early and safe intervention of T1
 
 This Bachelor’s Thesis studies how balancing the different glycemic ranges affects glucose prediction models for T1D. It uses three CGM datasets: DiaTrend, REPLACE-BG, and T1DiabetesGranada. Balancing is approached hybridly: undersampling over-represented ranges and oversampling under-represented ones. Three distributions are explored: fully-balanced, normalized baseline, and semi-balancing. Each target distribution is combined with three oversampling methods: random resampling, SMOTER, and SMOGN. Predictive architecture, training pipeline, and validation and test sets remain unchanged. Performance is statistically assessed using both regression metrics and clinically meaningful measures derived from the Clarke Error Grid.
 
-Full balancing all the glycemic ranges significantly increased the proportion of clinically acceptable severe-hypoglycemia predictions, with mean improvements of 63.75, 76.81, and 75.93 percentage points across the three datasets. Although convential regression metrics moderately increased globally, clinical acceptability remained above 99\%, with no predictions entering dangerous Clarke zones. Overall, the study demonstrates that modifying the glycemic distribution of the training data can substantially improve prediction in clinically critical minority ranges while preserving strong global clinical performance.
+Full balancing of all glycemic ranges significantly increased the proportion of clinically acceptable predictions in both severe hypoglycemia and hypoglycemia. In TBR$_2$, the mean improvements were 63.75, 76.81, and 75.93 percentage points across the three datasets, with significant improvements also observed in TBR$_1$. Although conventional regression errors moderately increased globally, global clinical acceptability improved in all three datasets. In TIR, clinically acceptable predictions remained above 99\%, with no predictions entering Clarke Zones D or E. Severe hyperglycemia also improved, while full balancing introduced a small localized deterioration in moderate hyperglycemia. Overall, the study demonstrates that modifying the glycemic distribution of the training data can substantially improve prediction in clinically critical minority ranges while preserving strong global clinical performance.
 
 % =================================================
 % Repository authorization
@@ -102,7 +102,7 @@ Fdo.: Diego Santiago Ortiz
 \vspace{2cm}
 
 \begin{flushright}
-Granada, a \textbf{[día]} de \textbf{[mes]} de 2026.
+Granada, a \textbf{1} de \textbf{Septiembre} de 2026.
 \end{flushright}
 
 \end{otherlanguage}
@@ -123,13 +123,14 @@ Granada, a \textbf{[día]} de \textbf{[mes]} de 2026.
 
 D. \textbf{Oresti Baños Legrán}, profesor del Área de
 \textbf{Ingeniería de Sistemas y Automática} del Departamento de
-\textbf{Ingeniería de Sistemas y Automática} de la Universidad de Granada.
+\textbf{Ingeniería de Computadores, Automática y Robótica} de la Universidad de Granada.
 
 \vspace{0.5cm}
 
 Dña. \textbf{Claudia Villalonga Palliser}, profesora del Área de
 \textbf{Arquitectura y Tecnología de Computadores} del Departamento de
-\textbf{Arquitectura y Tecnología de Computadores} de la Universidad de Granada.
+\textbf{Ingeniería de Computadores,
+Automática y Robótica} de la Universidad de Granada.
 
 \vspace{1cm}
 
@@ -138,7 +139,7 @@ Dña. \textbf{Claudia Villalonga Palliser}, profesora del Área de
 \vspace{0.5cm}
 
 Que el presente trabajo, titulado
-\textit{\textbf{Compensating for Glycemic Range Heterogeneity in Glucose
+\textit{\textbf{Compensating for Glycemic Ranges Heterogeneity in Glucose
 Prediction Models via Data Balancing}}, ha sido realizado bajo su supervisión
 por \textbf{Diego Santiago Ortiz}, y autorizan su defensa ante el tribunal
 correspondiente.
@@ -146,7 +147,7 @@ correspondiente.
 \vspace{0.5cm}
 
 Y para que conste, expiden y firman el presente informe en Granada, a
-\textbf{[día]} de \textbf{[mes]} de 2026.
+\textbf{1} de \textbf{Septiembre} de 2026.
 
 \vspace{1cm}
 
@@ -177,4 +178,12 @@ Y para que conste, expiden y firman el presente informe en Granada, a
 \addcontentsline{toc}{chapter}{Acknowledgements}
 \thispagestyle{empty}
 
-Agradecimientos en español
+A mis padres, Rafa y Teo. Por enseñarme, con su ejemplo, el valor del esfuerzo. Por darme alas, y un refugio al que volver. Por darme más de lo que nunca podré devolver.
+
+A mi hermana, Inés. Por incondicional. Por ser casa. Por compartir el camino, incluso cuando cada uno seguía el suyo.
+
+A Paty. Por caminar a mi lado. Por ayudarme a ser mejor. Por enseñarme que las cosas importantes también se construyen con esfuerzo, paciencia y constancia.
+
+A todas las personas que, de una forma u otra, me han acompañado durante estos años. Este trabajo supone el cierre de una etapa importante de mi vida, y no habría sido la misma sin vosotros.
+
+Gracias.
